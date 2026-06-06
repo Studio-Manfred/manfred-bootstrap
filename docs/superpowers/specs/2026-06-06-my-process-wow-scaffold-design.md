@@ -39,7 +39,8 @@ Turn `my-process` into a **GitHub template repository** that holds three things:
 2. **Canonical files** — a runnable Vite SPA starter with the WoW baked in (single source
    of truth).
 3. **A distribution tool** — a dependency-free bootstrap script that stamps a new project
-   from the starter, or applies the portable WoW overlay to an existing repo.
+   from the starter, or applies the portable WoW overlay to an existing repo, and can
+   optionally provision the matching GitHub repo, Linear project, and Vercel project.
 
 The docs are written so the existing reveal.js deck can later be re-skinned from them
 without a rewrite.
@@ -55,6 +56,7 @@ without a rewrite.
 | Compounded knowledge home | `docs/knowledge/` (team-level, curated), distinct from `starter/knowledge/` (empty per-project flywheel template) |
 | Presentation | Docs now (mapped to the deck's spine); reveal.js deck update is a later pass |
 | Distribution | GitHub template repo + onboarding README |
+| External provisioning | Optional & interactive opt-in (default off): GitHub via `gh`, Vercel via `vercel` CLI, Linear via GraphQL + `LINEAR_API_KEY`; a missing tool/cred degrades gracefully to a printed step |
 
 ## 4. Architecture & repository layout
 
@@ -203,16 +205,23 @@ Usage:
 ```bash
 # Mode 1 — stamp a brand-new project from the full starter
 node scripts/bootstrap.mjs new --name acme-app --prefix STU --dir ../acme-app
+#   → after writing files + git init/commit, interactively offers to create the
+#     GitHub repo, Vercel project, and Linear project (each [y/N], default No)
 
 # Mode 2 — add the WoW overlay to an existing repo
 node scripts/bootstrap.mjs overlay --dir ../some-existing-repo --prefix STU
+
+# Non-interactive provisioning (e.g. scripted)
+node scripts/bootstrap.mjs new --name acme-app --prefix STU --dir ../acme-app \
+  --github --vercel --linear --linear-team STU --yes
 ```
 
 Behaviour & control flow:
 
-1. **Parse args** (`mode`, `--name`, `--prefix`, `--dir`, `--description`, `--dry-run`,
-   `--yes`, `--force`). Missing required values → interactive readline prompt, so it works
-   with or without flags.
+1. **Parse args** — file args (`mode`, `--name`, `--prefix`, `--dir`, `--description`,
+   `--dry-run`, `--yes`, `--force`) plus provisioning args (`--github`, `--vercel`,
+   `--linear`, `--no-provision`, `--public`, `--linear-team <key>`, `--linear-seed`).
+   Missing required values → interactive readline prompt, so it works with or without flags.
 2. **Resolve file list** — `new` = whole `starter/` tree; `overlay` = manifest `files[]`.
 3. **Collision check** — for each existing target file: in `overlay` mode prompt per-file
    `[s]kip / [o]verwrite / [d]iff`, default **skip**. `--yes` keeps the safe default;
@@ -220,9 +229,13 @@ Behaviour & control flow:
    are printed as a merge hint.
 4. **Placeholder swap** — replace `{{PROJECT_NAME}}`, `{{LINEAR_PREFIX}}`,
    `{{DESCRIPTION}}` across copied text files.
-5. **Report** — summary of files written/skipped, the package.json additions to make, and a
-   "do this next" checklist (install, set the GitHub Packages `.npmrc` token, create the
-   Linear project, push, set up Vercel).
+5. **Git init + first commit** (`new` mode only, unless target is already a repo) — needed
+   before GitHub/Vercel can attach.
+6. **Provision (optional)** — see §5.6. Default off; interactive opt-in per integration;
+   each degrades to a printed step when its tool/credential is absent. Never fails the run.
+7. **Report** — summary of files written/skipped, the package.json additions to make,
+   provisioning results, and a "do this next" checklist for anything not auto-provisioned
+   (install, set the GitHub Packages `.npmrc` token, push, etc.).
 
 Error handling:
 
@@ -232,9 +245,49 @@ Error handling:
   path (a test enforces this).
 - `--dry-run` prints the full plan and writes nothing.
 
-Deliberately **not** in the script (YAGNI): no Linear API calls, no `gh repo create`, no
-Vercel provisioning, no template engine. It copies files and swaps three tokens; everything
-external stays a printed checklist the human runs.
+Deliberately **not** in the script (YAGNI): no template engine, no dependency installation
+(`npm install` stays a printed step), and provisioning stops at *creating* the GitHub /
+Vercel / Linear resources — it does **not** manage Vercel env vars/secrets, GitHub branch
+protection, or Linear labels/cycles/webhooks. Those stay manual / checklist. The script
+keeps zero npm dependencies; it shells out to the `gh` and `vercel` CLIs and uses Node's
+built-in `fetch` for Linear.
+
+### 5.6 Optional provisioning (GitHub / Linear / Vercel)
+
+Runs as step 6 of the bootstrap, after files are written and (in `new` mode) the repo is
+git-initialised and committed. **Off by default, opt-in per integration, never fatal.**
+
+Per-integration decision logic (same shape for all three):
+1. **Enabled?** `--no-provision` → skip all. Else the integration runs if its flag
+   (`--github` / `--vercel` / `--linear`) is passed, or — when running interactively
+   (no `--yes`) — if the user answers `y` to its `[y/N]` prompt (default **No**). Under
+   `--yes` with no explicit flag, it is skipped (safe default).
+2. **Tool / credential present?** If not, print the exact manual fallback step and continue.
+3. **Run**, catch errors, print result. A failure prints a warning + the manual fallback and
+   does **not** abort the bootstrap (files already exist on disk).
+
+Order: **GitHub → Vercel → Linear** (Vercel git-connect needs the repo to exist first;
+Linear is independent).
+
+- **GitHub** — requires `gh` available and `gh auth status` OK.
+  Action: `gh repo create {{PROJECT_NAME}} --source=. --remote=origin --push` (private by
+  default; `--public` flips it). Skipped automatically if an `origin` remote already exists
+  (common in `overlay` mode) — prints a note instead.
+- **Vercel** — requires the `vercel` CLI available (and a prior `vercel login`).
+  Action: `vercel link --yes --project {{PROJECT_NAME}}` to create/link the project, then
+  `vercel git connect` to wire the GitHub remote for preview-per-PR. On failure, print the
+  dashboard steps.
+- **Linear** — requires `LINEAR_API_KEY` in the environment. Uses Node `fetch` against
+  `https://api.linear.app/graphql`:
+  1. Resolve the team whose `key` equals `{{LINEAR_PREFIX}}` (override with `--linear-team`).
+     Zero or multiple matches → print the manual step.
+  2. `projectCreate(input: { name: "{{PROJECT_NAME}}", teamIds: [<id>] })`.
+  3. If `--linear-seed` (or the interactive prompt is accepted), `issueCreate` a first
+     "Scaffold {{PROJECT_NAME}}" issue linked to the new project.
+  The key is read from the environment only — never written to disk, never echoed.
+
+`--dry-run` prints the planned provisioning actions (resolved commands / mutation names)
+without executing or calling out to any service.
 
 ## 6. Verification
 
@@ -244,6 +297,13 @@ external stays a printed checklist the human runs.
   placeholders into a temp dir; `overlay` copies only manifested files; existing files are
   skipped by default; `package.json` is never overwritten; `--dry-run` writes nothing;
   every path in `overlay.manifest.json` exists in `starter/` (the honesty check).
+- **Provisioning tests:** keep the side-effecting calls behind small pure builders
+  (`buildGithubCmd()`, `buildVercelCmds()`, `buildLinearMutation()`) and unit-test those
+  for correct commands/payloads + placeholder substitution. Test the gating logic:
+  default-off, `--no-provision` skips, missing tool/cred prints the fallback (inject the
+  tool-presence + run functions so no real network/CLI call happens), `--dry-run` executes
+  nothing. Live `gh`/`vercel`/Linear calls are **not** exercised in CI (they need real
+  auth) — this is noted, not silently skipped.
 - **Docs link-check (light):** confirm internal doc links resolve. No heavy tooling.
 
 ## 7. Distribution
@@ -269,7 +329,8 @@ rewrite. The 16-section master maps onto the 24 slides. (A dedicated slide-to-so
    `stack-and-conventions.md`, `using-this-repo.md`).
 2. Build the starter app and get it green (lint/typecheck/unit/coverage/e2e).
 3. Add the WoW files + `overlay.manifest.json`.
-4. Write `bootstrap.mjs` + `bootstrap.test.mjs`.
+4. Write `bootstrap.mjs` (file-copy + placeholder swap, then optional GitHub/Vercel/Linear
+   provisioning behind pure builders) + `bootstrap.test.mjs`.
 5. Distil `docs/knowledge/` (INDEX + gotchas + domain + procedural) from the repos.
 6. Write README + onboarding docs.
 7. `git init`, conventional commits, push; mark as template repo (manual).
@@ -277,7 +338,9 @@ rewrite. The 16-section master maps onto the 24 slides. (A dedicated slide-to-so
 ## 10. Out of scope (YAGNI)
 
 - The reveal.js deck edit itself (later pass).
-- Linear / Vercel / `gh` automation.
+- Provisioning *beyond creating* the resources: Vercel env vars/secrets, GitHub branch
+  protection, Linear labels/cycles/webhooks (stay manual / checklist).
+- `npm install` and any dependency installation (printed step, not run by the script).
 - A second Next.js starter variant.
 - Publishing the starter as an npm package.
 - `presentation-map.md`.
