@@ -26,6 +26,17 @@ export function swapPlaceholders(text, vars) {
   return text.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m))
 }
 
+// existsFn(targetRelPath) -> boolean. Pure decision; no IO.
+export function planCopy(files, existsFn, { force }) {
+  const plan = { write: [], skip: [], mergeHint: [] }
+  for (const f of files) {
+    if (f === 'package.json') { plan.mergeHint.push(f); continue }
+    if (existsFn(f) && !force) plan.skip.push(f)
+    else plan.write.push(f)
+  }
+  return plan
+}
+
 // walkFn() returns repo-relative paths under starter/. Injected for testability.
 export function resolveFileList(mode, manifest, walkFn) {
   if (mode === 'overlay') return [...manifest.files]
