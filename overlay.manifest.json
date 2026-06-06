@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "description": "Portable WoW overlay — drop into any repo, new or existing.",
+  "files": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "MEMORY.md",
+    "knowledge/INDEX.md",
+    "knowledge/ERRORS.md",
+    ".github/workflows/ci.yml",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    "eslint.config.js",
+    "vitest.config.ts",
+    "test/setup.ts",
+    "playwright.config.ts",
+    "e2e/a11y.spec.ts",
+    "scripts/coverage-ratchet.mjs",
+    "vercel.json"
+  ],
+  "placeholders": ["PROJECT_NAME", "LINEAR_PREFIX", "DESCRIPTION"],
+  "mergeHints": {
+    "package.json": "Add the devDeps + scripts printed by bootstrap; the script never overwrites an existing package.json."
+  }
+}
