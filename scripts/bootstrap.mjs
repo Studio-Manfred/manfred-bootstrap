@@ -22,6 +22,10 @@ export function parseArgs(argv) {
   return out
 }
 
+export function swapPlaceholders(text, vars) {
+  return text.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m))
+}
+
 async function main() {
   // wired in a later phase
 }
