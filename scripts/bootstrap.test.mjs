@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { parseArgs } from './bootstrap.mjs'
 import { swapPlaceholders } from './bootstrap.mjs'
+import { resolveFileList } from './bootstrap.mjs'
 
 test('parseArgs reads mode and flags', () => {
   const a = parseArgs(['new', '--name', 'acme', '--prefix', 'STU', '--dir', '../acme'])
@@ -29,4 +30,14 @@ test('swapPlaceholders replaces all tokens', () => {
 
 test('swapPlaceholders leaves unknown tokens untouched', () => {
   assert.equal(swapPlaceholders('{{UNKNOWN}}', { PROJECT_NAME: 'x' }), '{{UNKNOWN}}')
+})
+
+test('resolveFileList(overlay) returns manifest files', () => {
+  const manifest = { files: ['AGENTS.md', 'vercel.json'] }
+  assert.deepEqual(resolveFileList('overlay', manifest, () => ['ignored']), ['AGENTS.md', 'vercel.json'])
+})
+
+test('resolveFileList(new) returns the full walked tree', () => {
+  const walk = () => ['package.json', 'src/main.tsx', 'AGENTS.md']
+  assert.deepEqual(resolveFileList('new', { files: ['AGENTS.md'] }, walk), ['package.json', 'src/main.tsx', 'AGENTS.md'])
 })

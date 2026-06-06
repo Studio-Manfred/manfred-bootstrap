@@ -26,6 +26,13 @@ export function swapPlaceholders(text, vars) {
   return text.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m))
 }
 
+// walkFn() returns repo-relative paths under starter/. Injected for testability.
+export function resolveFileList(mode, manifest, walkFn) {
+  if (mode === 'overlay') return [...manifest.files]
+  if (mode === 'new') return walkFn()
+  throw new Error(`Unknown mode: ${mode}`)
+}
+
 async function main() {
   // wired in a later phase
 }
