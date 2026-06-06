@@ -6,8 +6,20 @@ versioned like a product.
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-06-06
+
 ### Added
-- Initial template: ways-of-working docs, compounded knowledge base, runnable
-  Vite SPA starter with the WoW baked in, portable overlay manifest, and a
-  dependency-free bootstrap script with optional GitHub/Linear/Vercel
-  provisioning.
+- `docs/` — ways-of-working overview, full WoW reference, stack-and-conventions,
+  superpowers-workflow, using-this-repo guide, and a structured knowledge base
+  (`knowledge/INDEX.md`, domain, procedural, gotchas, errors).
+- `starter/` — runnable Vite + React + TypeScript SPA with CI, Playwright E2E,
+  axe accessibility checks, coverage ratchet, and private design-system
+  reference via GitHub Packages.
+- `overlay.manifest.json` — declares the portable WoW file set that can be
+  dropped onto any existing repo.
+- `scripts/bootstrap.mjs` — dependency-free bootstrap tool; supports `new` and
+  `overlay` modes with optional `--github`, `--vercel`, and `--linear`
+  provisioning flags.
+- `scripts/bootstrap.test.mjs` — node:test suite for the bootstrap script.
+- `README.md` — front-door onboarding guide with repo map and quickstart.
+- `docs/HANDOFF.md` — manual post-bootstrap steps for a human operator.
