@@ -45,10 +45,12 @@ export function resolveFileList(mode, manifest, walkFn) {
   throw new Error(`Unknown mode: ${mode}`)
 }
 
-export function planCopy(files, existsFn, { force }) {
+export function planCopy(files, existsFn, { force, mode }) {
   const plan = { write: [], skip: [], mergeHint: [] }
   for (const f of files) {
-    if (f === 'package.json') { plan.mergeHint.push(f); continue }
+    // Only protect an existing package.json when overlaying onto an existing
+    // repo. In `new` mode the target is empty, so package.json must be written.
+    if (f === 'package.json' && mode === 'overlay') { plan.mergeHint.push(f); continue }
     if (existsFn(f) && !force) plan.skip.push(f)
     else plan.write.push(f)
   }
@@ -216,7 +218,7 @@ async function main() {
       return
     }
 
-    const plan = planCopy(files, (rel) => existsSync(join(targetDir, rel)), { force: !!args.force })
+    const plan = planCopy(files, (rel) => existsSync(join(targetDir, rel)), { force: !!args.force, mode: args.mode })
 
     if (args.mode === 'overlay' && !args.yes && !args.force && !dry) {
       for (const f of [...plan.skip]) {

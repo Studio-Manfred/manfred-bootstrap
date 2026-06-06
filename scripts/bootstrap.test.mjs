@@ -44,19 +44,25 @@ test('resolveFileList(new) returns the full walked tree', () => {
   assert.deepEqual(resolveFileList('new', { files: ['AGENTS.md'] }, walk), ['package.json', 'src/main.tsx', 'AGENTS.md'])
 })
 
-test('planCopy skips existing files by default, never plans package.json overwrite', () => {
+test('planCopy(overlay) skips existing files by default, never overwrites package.json', () => {
   const exists = (p) => ['CLAUDE.md', 'package.json'].includes(p)
-  const plan = planCopy(['AGENTS.md', 'CLAUDE.md', 'package.json'], exists, { force: false })
+  const plan = planCopy(['AGENTS.md', 'CLAUDE.md', 'package.json'], exists, { force: false, mode: 'overlay' })
   assert.deepEqual(plan.write, ['AGENTS.md'])
   assert.deepEqual(plan.skip, ['CLAUDE.md'])
   assert.deepEqual(plan.mergeHint, ['package.json'])
 })
 
-test('planCopy with force overwrites existing (except package.json)', () => {
+test('planCopy(overlay) with force overwrites existing but still protects package.json', () => {
   const exists = (p) => ['CLAUDE.md', 'package.json'].includes(p)
-  const plan = planCopy(['CLAUDE.md', 'package.json'], exists, { force: true })
+  const plan = planCopy(['CLAUDE.md', 'package.json'], exists, { force: true, mode: 'overlay' })
   assert.deepEqual(plan.write, ['CLAUDE.md'])
   assert.deepEqual(plan.mergeHint, ['package.json'])
+})
+
+test('planCopy(new) writes package.json into an empty target', () => {
+  const plan = planCopy(['package.json', 'AGENTS.md'], () => false, { force: false, mode: 'new' })
+  assert.deepEqual(plan.write, ['package.json', 'AGENTS.md'])
+  assert.deepEqual(plan.mergeHint, [])
 })
 
 test('every overlay.manifest.json path exists in starter/', () => {
