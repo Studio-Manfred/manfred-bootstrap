@@ -81,7 +81,7 @@ export function buildLinearMutation(vars, teamId) {
 export async function shouldProvision(name, args, askFn) {
   if (args.noProvision) return false
   if (args[name] === true) return true
-  if (args.yes) return false // safe default in non-interactive runs
+  if (args.yes) return false // not explicitly requested above → skip in non-interactive mode
   const ans = await askFn(`Create ${name} resource for this project? [y/N] `)
   return /^y(es)?$/i.test((ans || '').trim())
 }
@@ -112,9 +112,11 @@ function run(bin, args, opts = {}) {
 async function linearGraphQL(key, query, variables) {
   const res = await fetch('https://api.linear.app/graphql', {
     method: 'POST',
+    // Linear personal API keys go in the Authorization header verbatim (no "Bearer").
     headers: { 'Content-Type': 'application/json', Authorization: key },
     body: JSON.stringify({ query, variables }),
   })
+  if (!res.ok) throw new Error(`Linear API HTTP ${res.status} ${res.statusText}`)
   const json = await res.json()
   if (json.errors) throw new Error(json.errors.map((e) => e.message).join('; '))
   return json.data

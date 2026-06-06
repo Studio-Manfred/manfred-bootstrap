@@ -2,6 +2,7 @@
   "version": 1,
   "description": "Portable WoW overlay — drop into any repo, new or existing.",
   "files": [
+    ".gitignore",
     "AGENTS.md",
     "CLAUDE.md",
     "MEMORY.md",
