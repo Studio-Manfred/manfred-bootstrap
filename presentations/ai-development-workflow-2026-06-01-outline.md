@@ -1,12 +1,12 @@
 # Deck outline — How I build software with AI
 
 - **Engagement:** Workshop / training talk
-- **Date:** 2026-06-01
+- **Date:** 2026-06-01 (updated 2026-06-07 to reflect the `my-process` template repo)
 - **Audience:** External / clients (mixed technical depth)
-- **Goal:** Demystify how I actually work with AI — inform & show, no commitment expected. People leave understanding that AI-assisted development can be disciplined and trustworthy.
+- **Goal:** Demystify how I actually work with AI — inform & show, no commitment expected. People leave understanding that AI-assisted development can be disciplined and trustworthy — and that the whole process is a template they could adopt.
 - **Length / format:** 45–60 min, live, with a real worked-example walkthrough (STU-501)
 - **Deck:** reveal.js HTML — `presentations/ai-development-workflow-2026-06-01.html`
-- **Sources:** [docs/ai-development-workflow.md](../docs/ai-development-workflow.md) + [docs/ai-development-workflow-overview.md](../docs/ai-development-workflow-overview.md)
+- **Sources:** [docs/ways-of-working.md](../docs/ways-of-working.md) + [docs/ways-of-working-overview.md](../docs/ways-of-working-overview.md) (the generalized, project-agnostic write-up shipped in this template repo)
 
 ## Structure (Hook → Context → Journey → Solution → Evidence → Ask)
 
@@ -28,14 +28,15 @@
 | 14 | Solution | Security at the chokepoint | One guard + one test that can't regress |
 | 15 | Solution | Real infra before merge | Vercel preview per PR + CI gates |
 | 16 | Solution | Ratchets only tighten | Coverage up-only; warn→enforce; test.fail() |
-| 17 | Evidence | One real feature, start to finish | Set up the STU-501 walkthrough |
-| 18 | Evidence | Ticket → branch → red→green | The helper TDD in action |
-| 19 | Evidence | Proven by deletion | Swap old code back, watch 3 E2E tests go red |
-| 20 | Evidence | Green → merge → learn | 224 tests, ratchet, auto-close, memory note |
-| 21 | Evidence | When the review is clean, say clean | The security review that found nothing — and reported nothing |
-| 22 | Ask | Five things to take home | The transferable principles |
-| 23 | Ask | The human stays in control | Governance guardrails — what the AI must ask first |
-| 24 | Ask | Write your process where your AI reads it | The one thing to try this week + where the docs live |
+| 17 | Solution | The process is a repo you can clone | Starter + overlay + bootstrap; a new project is compliant on day one |
+| 18 | Evidence | One real feature, start to finish | Set up the STU-501 walkthrough |
+| 19 | Evidence | Ticket → branch → red→green | The helper TDD in action |
+| 20 | Evidence | Proven by deletion | Swap old code back, watch 3 E2E tests go red |
+| 21 | Evidence | Green → merge → learn | 224 tests, ratchet, auto-close, memory note |
+| 22 | Evidence | When the review is clean, say clean | The security review that found nothing — and reported nothing |
+| 23 | Ask | Five things to take home | The transferable principles |
+| 24 | Ask | The human stays in control | Governance guardrails — what the AI must ask first |
+| 25 | Ask | Write your process where your AI reads it | The one thing to try this week + where the docs/template live |
 
 ## Voice pass notes
 - No marketing verbs (transform/empower/leverage/unlock/supercharge/drive/deliver value).
@@ -43,3 +44,8 @@
 - First slide is the hook, not a title card.
 - Last slide is the ask/takeaway, not "Thank you / Q&A".
 - Jargon (Linear, CI, TDD, RLS, Vercel) gets a half-line gloss for the external audience.
+
+## 2026-06-07 update — reflecting the `my-process` template repo
+- Added **slide 17 (Solution): "The process is a repo you can clone"** — the way-of-working now ships as a GitHub template: a runnable Vite SPA *starter*, a portable *overlay* for existing repos, and a dependency-free `bootstrap.mjs` that stamps a new project and can optionally create the Linear project, GitHub repo and Vercel project (opt-in, default off).
+- Closing slide now points at the generalized docs (`docs/ways-of-working.md` + `…-overview.md`) and `bootstrap.mjs` instead of the old intranet-specific path.
+- The narrative (STU-501 worked example, the three files, the pyramid) is unchanged — those practices are now described project-agnostically in the source docs.

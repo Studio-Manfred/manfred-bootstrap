@@ -462,7 +462,27 @@
       </aside>
     </section>
 
-    <!-- 17 · EVIDENCE -->
+    <!-- 17 · SOLUTION -->
+    <section>
+      <p class="kicker">Make it repeatable</p>
+      <h2>The process is a repo you can clone</h2>
+      <p>Every discipline so far lives in one <strong>template repo</strong> — so a new project starts compliant on day one, not after a week of wiring.</p>
+      <div class="grid3" style="margin-top:0.5em">
+        <div class="card"><h3>Starter</h3>A runnable app with the three files, CI, tests, accessibility and the design system already wired.</div>
+        <div class="card"><h3>Overlay</h3>The same process files, dropped into an <em>existing</em> repo — no rewrite.</div>
+        <div class="card"><h3>Bootstrap</h3>One command stamps a new project — and, only if I say yes, opens its tracker, repo and deploy.</div>
+      </div>
+      <div class="flow" style="font-size:0.6em; margin-top:0.6em">
+        <b>bootstrap</b> new --name acme --prefix STU&nbsp; → project &nbsp;+&nbsp; 🎫 Linear &nbsp;·&nbsp; 🐙 GitHub &nbsp;·&nbsp; ▲ Vercel
+      </div>
+      <aside class="notes">
+        The payoff of writing the process down is that it becomes portable. I packaged the whole way-of-working into a template: a runnable starter, a portable overlay for repos that already exist, and a dependency-free bootstrap script.
+        "new" stamps a fresh project from the starter; if I opt in, it also creates the matching Linear project, GitHub repo and Vercel project — each off by default and asks first. "overlay" drops the process files into an existing repo without touching its package.json.
+        For a client room: this is what makes it a practice, not a one-off — every project the team starts inherits the same discipline for free.
+      </aside>
+    </section>
+
+    <!-- 18 · EVIDENCE -->
     <section data-auto-animate>
       <p class="kicker">Live walkthrough</p>
       <h1>One real feature,<br/>start to finish.</h1>
@@ -473,7 +493,7 @@
       </aside>
     </section>
 
-    <!-- 18 · EVIDENCE -->
+    <!-- 19 · EVIDENCE -->
     <section>
       <p class="kicker">STU-501 · the loop in action</p>
       <h3>Ticket → branch → 🔴 → 🟢</h3>
@@ -492,7 +512,7 @@ export function nextActiveIndex(current, key, length) {
       </aside>
     </section>
 
-    <!-- 19 · EVIDENCE -->
+    <!-- 20 · EVIDENCE -->
     <section>
       <p class="kicker">STU-501 · proving the test is real</p>
       <h2>Proven by deletion</h2>
@@ -505,7 +525,7 @@ export function nextActiveIndex(current, key, length) {
       </aside>
     </section>
 
-    <!-- 20 · EVIDENCE -->
+    <!-- 21 · EVIDENCE -->
     <section>
       <p class="kicker">STU-501 · close the loop</p>
       <h2>Green → merge → learn</h2>
@@ -520,7 +540,7 @@ export function nextActiveIndex(current, key, length) {
       </aside>
     </section>
 
-    <!-- 21 · EVIDENCE -->
+    <!-- 22 · EVIDENCE -->
     <section>
       <p class="kicker">Trust cuts both ways</p>
       <h2>When the review is clean, it says clean</h2>
@@ -533,7 +553,7 @@ export function nextActiveIndex(current, key, length) {
       </aside>
     </section>
 
-    <!-- 22 · ASK -->
+    <!-- 23 · ASK -->
     <section>
       <p class="kicker">If you take five things home</p>
       <ol>
@@ -549,7 +569,7 @@ export function nextActiveIndex(current, key, length) {
       </aside>
     </section>
 
-    <!-- 23 · ASK -->
+    <!-- 24 · ASK -->
     <section>
       <p class="kicker">The human stays in control</p>
       <h2>What the AI must ask before it acts</h2>
@@ -564,12 +584,12 @@ export function nextActiveIndex(current, key, length) {
       </aside>
     </section>
 
-    <!-- 24 · ASK / CLOSE -->
+    <!-- 25 · ASK / CLOSE -->
     <section data-auto-animate>
       <p class="kicker">The one thing to try this week</p>
       <h1>Write your process<br/>where your <span class="accent">AI reads it.</span></h1>
       <p class="lead" style="margin-top:0.5em">Start with one file: your definition of done. Add a learning every time something bites you.</p>
-      <p class="muted" style="font-size:0.74em; margin-top:0.5em">The full write-up: <code>docs/ai-development-workflow.md</code> · one-pager: <code>…-overview.md</code></p>
+      <p class="muted" style="font-size:0.74em; margin-top:0.5em">It ships as a template you can clone — full write-up <code>docs/ways-of-working.md</code> · one-pager <code>…-overview.md</code> · <code>bootstrap.mjs</code> to start a fresh project.</p>
       <aside class="notes">
         Close on the ask, not "thank you." For this room the ask is an experiment: write down your own definition of done where your assistant can read it, and keep a running learnings file.
         Then open the floor — but the deck ends on the takeaway, so the last thing on screen is the action, not a thank-you card.
