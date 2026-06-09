@@ -99,7 +99,14 @@ Do not import the entire package with a default import. Named imports enable tre
 
 ### Storybook and MCP server
 
-The design system ships a live Storybook for browsing components and a MCP server for querying component APIs from Claude Code. Use both to understand what is available before building a custom component.
+The design system ships a live Storybook for browsing components and an MCP server for querying component APIs from Claude Code. Use it to understand what is available before building a custom component.
+
+Two MCP endpoints — **prefer local, fall back to the published one:**
+
+- **Local** (`http://localhost:6006/mcp`) — full toolset; only available when the design-system repo's Storybook is running (`npm run storybook` in that checkout).
+- **Published** (`https://main--6a26cfd37771192ff26832bf.chromatic.com/mcp`) — Chromatic-hosted, public, always current with `main`; **docs toolset only** (`list-all-documentation`, `get-documentation`, `get-documentation-for-story`). Use this when you don't have the DS Storybook running — the common case when you're only *consuming* the package.
+
+For visual browsing, the public Storybook is at <https://studio-manfred.github.io/manfred-design-system/>.
 
 ---
 
