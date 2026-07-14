@@ -17,23 +17,39 @@ overrides via CSS `@theme` blocks.
 
 ---
 
-## Design-system install returns 401
+## Design-system install fails (401 local/Vercel, 403 CI)
 
-**Symptom:** `npm install` (or `pnpm add`) of `@studio-manfred/manfred-design-system`
-fails with a 401 from `npm.pkg.github.com`.
-**Cause:** `GITHUB_TOKEN` is missing, lacks `read:packages` scope, or has expired.
-A leaked/shared PAT also triggers this once it is rotated.
-**Fix:** Supply a token with `read:packages`:
+Every new repo consuming `@studio-manfred/manfred-design-system` hits these in
+sequence — treat them as a setup checklist, not incidents. Three surfaces, three fixes:
+
+**Local — 401 from `npm.pkg.github.com`.**
+`GITHUB_TOKEN` is missing, lacks `read:packages` scope, or has expired (a rotated
+leaked/shared PAT also triggers this). Supply a token with `read:packages`:
 ```bash
 export GITHUB_TOKEN=$(gh auth token)
 ```
 The `.npmrc` (or `.pnpmrc`) must carry the `@studio-manfred:registry` line pointing at
-`npm.pkg.github.com` with `${GITHUB_TOKEN}` interpolated. In CI, the built-in
-`GITHUB_TOKEN` cannot read packages from other repos — grant this repo Read access in
-the design-system package's Settings → Manage Actions access. Rotate any PAT that was
-shared or leaked.
+`npm.pkg.github.com` with `${GITHUB_TOKEN}` interpolated.
 
-**Seen in:** manfred-crm (2026-05-11, STU-related), manfred-analytics (CI 403).
+**GitHub Actions — first `npm ci` fails `403 permission_denied: read_package`.**
+The workflow's built-in `GITHUB_TOKEN` can only read the private package if the package
+grants the repo access. Fix is UI-only, no API: Studio-Manfred org → Packages →
+`manfred-design-system` → Package settings → **Manage Actions access** → add the repo
+with **read** role.
+
+**Vercel — every build fails `npm install` with `401 Unauthorized`.**
+Vercel has no GitHub token at all. Add a `GITHUB_TOKEN` env var (PAT scoped to
+**read:packages** only) in all three environments:
+```bash
+vercel env add GITHUB_TOKEN production   # repeat for preview + development
+```
+
+The bootstrap script prints the CI and Vercel steps in its "Next steps" output; the
+canonical walkthrough lives in `docs/stack-and-conventions.md` → Design System
+connection.
+
+**Seen in:** manfred-crm (2026-05-11, STU-related), manfred-analytics (CI 403),
+manfred-workshops PR #1 (2026-07-09/10, both CI 403 and Vercel 401 — STU-645).
 
 ---
 

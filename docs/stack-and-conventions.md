@@ -80,6 +80,21 @@ npm install
 
 Or add the export to your `~/.zshrc` / `~/.bashrc` so it is available in every session.
 
+### New-repo access checklist (CI + Vercel)
+
+Every new repo that consumes the design system hits two access failures on its first CI run and first Vercel deploy unless these are done up front (both bitten on manfred-workshops PR #1, 2026-07-09/10):
+
+1. **GitHub Actions — grant the repo read access to the package.** The workflow's built-in `GITHUB_TOKEN` can only read the private package if the package explicitly grants the repo access. Until then, `npm ci` fails with `403 permission_denied: read_package`. Fix is UI-only, no API: Studio-Manfred org → Packages → `manfred-design-system` → Package settings → **Manage Actions access** → add the new repo with **read** role.
+2. **Vercel — provide a `GITHUB_TOKEN` env var.** Vercel builds have no GitHub token at all, so every build fails `npm install` with `401 Unauthorized`. Create a PAT scoped to **read:packages** only and add it to all three environments:
+
+   ```bash
+   vercel env add GITHUB_TOKEN production
+   vercel env add GITHUB_TOKEN preview
+   vercel env add GITHUB_TOKEN development
+   ```
+
+The bootstrap script prints both steps in its "Next steps" output; this section is the canonical reference. See also [knowledge/gotchas.md](./knowledge/gotchas.md).
+
 ### Importing the design system
 
 Import the styles once at the app root — in `src/index.css`:

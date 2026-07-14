@@ -30,7 +30,10 @@ flat config with `jsx-a11y`. Hosted on Vercel.
 2. Branch off `main`: `feat/{{LINEAR_PREFIX}}-NNN-short-description`.
 3. Write the failing test first (when the TDD trigger list applies).
 4. Implement until green locally.
-5. Update docs in the SAME PR (`CLAUDE.md` / `README.md` / `MEMORY.md` / `knowledge/ERRORS.md`).
+5. Update docs in the SAME PR (`CLAUDE.md` / `README.md` / `CHANGELOG.md` / `MEMORY.md` / `knowledge/ERRORS.md`).
+   Changelog discipline: merge new entries into the **existing** `### Added/Changed/Fixed`
+   heading under `[Unreleased]` — never prepend a new heading block (repeated prepends
+   silently create duplicate headings).
 6. Conventional commit naming the ticket: `feat(scope): summary ({{LINEAR_PREFIX}}-NNN)`.
 7. Open a PR with the template filled in, including `Closes {{LINEAR_PREFIX}}-NNN`.
 8. Wait for CI; iterate on red checks.
@@ -45,6 +48,11 @@ flat config with `jsx-a11y`. Hosted on Vercel.
 - **Two regression-locking patterns:**
   - `test.fail()` / `it.fails()` ships a regression spec before the fix lands; the fix PR removes the marker.
   - warn-only-with-flag ratchet (axe via `AXE_ENFORCE`; `jsx-a11y` rules): each fix promotes one rule warn→error.
+- **Visual verification for UI changes:** write a **throwaway Playwright spec** that drives
+  the real preview build (`playwright.config.ts`'s `webServer` already builds + previews),
+  screenshots the affected component, and gets eyeballed/shared — then delete the spec
+  before committing. Cheap, real-render verification without polluting the suite. This is
+  the sanctioned way to confirm a layout/visual change actually looks right.
 
 ## Accessibility (non-negotiable)
 Semantic HTML first, ARIA only to fill gaps, full keyboard support. `jsx-a11y` + the axe

@@ -177,12 +177,18 @@ async function provision(name, args, askFn, dry, vars, targetDir) {
 }
 
 function printNextSteps(mode, vars, targetDir) {
+  let n = 0
+  const step = (text) => console.log(`${++n}. ${text}`)
   console.log('\n=== Next steps ===')
-  console.log(`1. cd ${targetDir}`)
-  console.log('2. Provide a GitHub token with read:packages:  export GITHUB_TOKEN=$(gh auth token)')
-  console.log('3. npm install')
-  if (mode === 'new') console.log('4. Push to GitHub, set up Vercel, and create the Linear project if not auto-provisioned.')
-  console.log('5. Edit CLAUDE.md project specifics + README.')
+  step(`cd ${targetDir}`)
+  step('Provide a GitHub token with read:packages:  export GITHUB_TOKEN=$(gh auth token)')
+  step('npm install')
+  if (mode === 'new') step('Push to GitHub, set up Vercel, and create the Linear project if not auto-provisioned.')
+  console.log('\n--- Design-system access (skipping these fails the first CI run and every Vercel build) ---')
+  step('Grant CI read access to the private package (GitHub UI, no API): Studio-Manfred org -> Packages -> manfred-design-system -> Package settings -> Manage Actions access -> add this repo (read). Without it, `npm ci` in Actions fails with `403 permission_denied: read_package`.')
+  step('Give Vercel a token for the private registry: `vercel env add GITHUB_TOKEN production` (repeat for preview + development) with a PAT scoped to read:packages only. Without it, every Vercel build fails `npm install` with `401 Unauthorized`.')
+  console.log('')
+  step('Edit CLAUDE.md project specifics + README.')
 }
 
 async function main() {

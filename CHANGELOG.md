@@ -6,6 +6,23 @@ versioned like a product.
 
 ## [Unreleased]
 
+### Added
+- Design-system access checklist for new DS-consuming repos (STU-645): package
+  "Manage Actions access" grant for CI and Vercel `GITHUB_TOKEN` env var, printed
+  by `bootstrap.mjs` next-steps and documented in `docs/stack-and-conventions.md`
+  and `docs/knowledge/gotchas.md`.
+- `starter/knowledge/ui-patterns.md` — seeded UI patterns from manfred-workshops
+  (clickable card via stretched link, card footer with actions, DS icon-gap
+  stopgap) (STU-652).
+- Seeded stack gotchas in `starter/knowledge/ERRORS.md`: TanStack Query v5
+  `mutationFn` phantom 2nd argument, PGlite + parallel Vitest hook timeouts
+  (STU-652).
+
+### Changed
+- `starter/AGENTS.md`: changelog entries must merge into the existing heading
+  under `[Unreleased]`; documented the throwaway-Playwright-spec pattern as the
+  sanctioned visual verification for UI changes (STU-652).
+
 ## [0.1.0] - 2026-06-06
 
 ### Added

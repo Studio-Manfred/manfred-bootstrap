@@ -8,6 +8,8 @@ base at `my-process/docs/knowledge/`.
 
 ### Domain
 <!-- What things are: product context, APIs, naming, team decisions. -->
+- [ui-patterns.md](ui-patterns.md) — seeded UI construction patterns (clickable cards,
+  card footers with actions, DS icon-gap stopgap).
 
 ### Procedural
 <!-- How to do things: deploy steps, test commands, review flows. -->

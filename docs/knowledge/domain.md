@@ -10,7 +10,7 @@ The single source of UI truth for all projects.
 
 - **Package:** `@studio-manfred/manfred-design-system` — published to GitHub Packages
   (`npm.pkg.github.com`). Requires a token with `read:packages`; see
-  [gotchas.md](gotchas.md#design-system-install-returns-401).
+  [gotchas.md](gotchas.md#design-system-install-fails-401-localvercel-403-ci).
 - **Contents:** components (built on Radix UI), design tokens, global CSS reset. Tokens
   and theme live here — do not re-declare them per project.
 - **Storybook:** live at the design system's Vercel deployment. The canonical reference
