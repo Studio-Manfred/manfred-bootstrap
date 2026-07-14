@@ -3,6 +3,25 @@
 Session log for the `my-process` template repo itself (meta — the starter ships its
 own `starter/MEMORY.md` template). Newest first.
 
+## 2026-07-14 — STU-645 + STU-652 learnings folded in · committed, not pushed
+
+- **Shipped (branch `docs/stu-645-652-bootstrap-learnings`, off
+  `docs/mcp-published-fallback`):** DS-access checklist (CI Manage-Actions-access
+  grant + Vercel `GITHUB_TOKEN`) in `bootstrap.mjs` next-steps,
+  `stack-and-conventions.md`, and `knowledge/gotchas.md` (existing 401 entry
+  expanded to three surfaces — anchor updated in `domain.md`). Starter gains:
+  changelog-merge discipline + throwaway-Playwright visual-verification pattern in
+  `AGENTS.md`, seeded TanStack Query v5 / PGlite gotchas in `knowledge/ERRORS.md`,
+  and new `knowledge/ui-patterns.md` (added to `overlay.manifest.json`, now 16
+  files). 19/19 bootstrap tests green.
+- **Decision:** TanStack/PGlite gotchas seeded in the *starter*, not
+  `docs/knowledge/gotchas.md` — the cross-repo base requires ≥2 repos; these have
+  one sighting (workshops).
+- **Next pickup:** push branch + open PR with `Closes STU-645` / `Closes STU-652`
+  (base branch `docs/mcp-published-fallback` is itself unmerged — merge that first
+  or PR the stack). DS `IconName` gaps (`lock`, `grip-vertical`, `copy`, `trash`)
+  still need a ticket in `manfred-design-system`.
+
 ## 2026-06-06 — Initial build · shipped
 
 - **Shipped:** Full template built and pushed to
