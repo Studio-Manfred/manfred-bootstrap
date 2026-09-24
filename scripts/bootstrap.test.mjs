@@ -216,3 +216,14 @@ test('top-level .claude/agents/*.md matches starter/.claude/agents/*.md byte-for
       `.claude/agents/${role}.md differs between top-level and starter — copies drifted`)
   }
 })
+
+test('starter/AGENTS.md router lists every role by lowercase filename', () => {
+  const agents = readFileSync(new URL('../starter/AGENTS.md', import.meta.url), 'utf8')
+  const rolesHeadingIdx = agents.indexOf('## Roles')
+  assert.ok(rolesHeadingIdx >= 0, "starter/AGENTS.md missing '## Roles' section")
+  const rolesSection = agents.slice(rolesHeadingIdx)
+  for (const role of AGENT_ROLES) {
+    assert.match(rolesSection, new RegExp(`\\b${role}\\b`),
+      `AGENTS.md Roles section does not name '${role}'`)
+  }
+})
