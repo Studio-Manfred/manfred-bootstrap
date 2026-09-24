@@ -187,6 +187,8 @@ function printNextSteps(mode, vars, targetDir) {
   console.log('\n--- Design-system access (skipping these fails the first CI run and every Vercel build) ---')
   step('Grant CI read access to the private package (GitHub UI, no API): Studio-Manfred org -> Packages -> manfred-design-system -> Package settings -> Manage Actions access -> add this repo (read). Without it, `npm ci` in Actions fails with `403 permission_denied: read_package`.')
   step('Give Vercel a token for the private registry: `vercel env add GITHUB_TOKEN production` (repeat for preview + development) with a PAT scoped to read:packages only. Without it, every Vercel build fails `npm install` with `401 Unauthorized`.')
+  console.log('\n--- Role-based agents ---')
+  step('Eight named roles ship at `.claude/agents/<role>.md`, each bound to a specific Claude model (Fable / Opus / Sonnet / Haiku). Claude Code enforces the binding when you dispatch by `subagent_type`. See `knowledge/roles.md` and `AGENTS.md` for the router.')
   console.log('')
   step('Edit CLAUDE.md project specifics + README.')
 }

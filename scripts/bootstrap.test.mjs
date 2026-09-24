@@ -227,3 +227,16 @@ test('starter/AGENTS.md router lists every role by lowercase filename', () => {
       `AGENTS.md Roles section does not name '${role}'`)
   }
 })
+
+test('bootstrap new next-steps section mentions role files at .claude/agents/', () => {
+  const script = fileURLToPath(new URL('./bootstrap.mjs', import.meta.url))
+  const r = spawnSync('node', [script, 'new', '--name', 'tmp-role-hint', '--prefix', 'STU',
+    '--dir', '/tmp/__mp_role_hint_should_not_exist__', '--description', 'x', '--dry-run', '--yes'],
+    { encoding: 'utf8' })
+  assert.equal(r.status, 0, `bootstrap dry-run failed: ${r.stderr}`)
+  const nextStepsIdx = r.stdout.indexOf('=== Next steps ===')
+  assert.ok(nextStepsIdx >= 0, 'next-steps section missing from dry-run output')
+  const nextSteps = r.stdout.slice(nextStepsIdx)
+  assert.match(nextSteps, /\.claude\/agents\//,
+    'next-steps output missing pointer to .claude/agents/ role files (spec §11)')
+})

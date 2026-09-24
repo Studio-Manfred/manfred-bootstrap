@@ -6,7 +6,7 @@ Manfred's engineering way-of-working, plus a runnable scaffold every project sta
 
 ## What this is
 
-A GitHub template repository that ships three things:
+A GitHub template repository that ships four things:
 
 1. **Documented way-of-working (WoW)** — the decisions, conventions, and rituals that govern every Manfred project, living in `docs/`.
 2. **Runnable Vite SPA starter** — a production-ready React + TypeScript app in `starter/` with the WoW already baked in: CI, Playwright E2E, axe accessibility checks, coverage ratchet, Linear-prefixed branches, and a private design-system reference.
