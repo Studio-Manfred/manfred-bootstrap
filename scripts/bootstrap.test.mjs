@@ -204,3 +204,15 @@ test('planCopy(overlay) skips a pre-existing agent file by default', () => {
   assert.deepEqual(plan.write, ['.claude/agents/builder.md'])
   assert.deepEqual(plan.skip, ['.claude/agents/tester.md'])
 })
+
+test('top-level .claude/agents/*.md matches starter/.claude/agents/*.md byte-for-byte', () => {
+  for (const role of AGENT_ROLES) {
+    const topAbs = new URL(`../.claude/agents/${role}.md`, import.meta.url)
+    const starterAbs = new URL(`../starter/.claude/agents/${role}.md`, import.meta.url)
+    assert.ok(existsSync(topAbs), `missing top-level .claude/agents/${role}.md`)
+    const top = readFileSync(topAbs)
+    const starter = readFileSync(starterAbs)
+    assert.ok(top.equals(starter),
+      `.claude/agents/${role}.md differs between top-level and starter — copies drifted`)
+  }
+})
