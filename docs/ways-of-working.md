@@ -365,3 +365,46 @@ This is the end-to-end loop, battle-tested across dozens of PRs:
 12. **Save learnings** to MEMORY and knowledge.
 
 The discipline is boring on purpose — boring is what makes AI output trustworthy at speed.
+
+## 16. The eight roles
+
+Every agent in the Manfred workflow acts in one of eight named roles.
+Each role is bound to a specific Claude model via
+`.claude/agents/<role>.md` frontmatter, enforced by the Claude Code
+harness when subagents are dispatched.
+
+### The four buckets
+
+- **Narrative** (strategist, analyst, designer) → **Fable**. Voice,
+  framing, and tone matter more than raw reasoning; the outputs are
+  documents people read and remember.
+- **Rigor** (architect, tester) → **Opus**. Adversarial reasoning about
+  correctness. A missed bug or bad architectural decision costs weeks;
+  the model premium pays for itself.
+- **Workhorse / tool-fluent** (builder, release-manager) → **Sonnet**.
+  Volume-heavy implementation or careful multi-step tool handling. The
+  industry-workhorse coding model with excellent quality per token.
+- **Mechanical** (documenter) → **Haiku**. High-throughput, low-judgment
+  doc passes. Fast and cheap.
+
+### Router
+
+| Task | Role | Model |
+|---|---|---|
+| Framing outcomes | strategist | Fable |
+| Turning strategy into a spec | analyst | Fable |
+| UX / IA / tone of voice | designer | Fable |
+| Technical design, plan | architect | Opus |
+| Implementing a plan task | builder | Sonnet |
+| Failing tests, verification, behavioural review | tester | Opus |
+| CHANGELOG / MEMORY / knowledge / release notes | documenter | Haiku |
+| Merge, deploy, smoke, rollback | release-manager | Sonnet |
+
+### Wear the hat vs. dispatch
+
+Dispatch a subagent when the task holds a plan-task's worth of context,
+when the role's model differs from your session's, or when you want
+parallelism. Wear the hat yourself for single-edit doc passes, two-line
+fixes, or interactive skills that dialogue with the human.
+
+See `starter/knowledge/roles.md` for the full role definitions.

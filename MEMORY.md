@@ -3,6 +3,27 @@
 Session log for the `my-process` template repo itself (meta — the starter ships its
 own `starter/MEMORY.md` template). Newest first.
 
+## 2026-09-24 — STU-917 role-based agents shipped
+
+- **Shipped (branch `feat/STU-917-role-based-agents`):** eight named roles
+  (strategist, analyst, designer, architect, builder, tester, documenter,
+  release-manager) bound to Claude models via `.claude/agents/*.md`
+  frontmatter (Fable / Opus / Sonnet / Haiku). Convention at
+  `starter/knowledge/roles.md`, router in `starter/AGENTS.md`. Overlay
+  manifest 16 → 25 files. Top-level `.claude/agents/` byte-identical to
+  the starter copy (test-enforced). Bootstrap test suite 19 → 26 assertions.
+- **Decisions:** enforcement is Option C (harness-enforced `.claude/agents/*.md`
+  + human-readable `knowledge/roles.md`); `tools:` frontmatter omitted for
+  now (open access, follow-up ticket to lock down); Analyst on Fable
+  (narrative specs) not Sonnet; per-heading `**Role:** ...` tags in
+  `docs/superpowers-workflow.md` deferred — the Roles table at the top
+  of that file already maps every step.
+- **Next pickup:** open PR with `Closes STU-917`; watch CI; run
+  `/finishing-a-development-branch` on merge. Then file follow-up tickets:
+  (1) lock down `tools:` per role; (2) harness-level test that verifies
+  the 4 model IDs are still accepted; (3) evaluate single-source-of-truth
+  refactor for the two agent-file copies.
+
 ## 2026-07-14 — STU-645 + STU-652 learnings folded in · committed, not pushed
 
 - **Shipped (branch `docs/stu-645-652-bootstrap-learnings`, off

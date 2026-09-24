@@ -17,6 +17,13 @@ versioned like a product.
 - Seeded stack gotchas in `starter/knowledge/ERRORS.md`: TanStack Query v5
   `mutationFn` phantom 2nd argument, PGlite + parallel Vitest hook timeouts
   (STU-652).
+- **Role-based agents (STU-917).** Eight named roles (strategist, analyst,
+  designer, architect, builder, tester, documenter, release-manager) shipped
+  as `.claude/agents/*.md` files with per-role Claude model bindings
+  (Fable / Opus / Sonnet / Haiku). Convention doc at `starter/knowledge/roles.md`;
+  router in `starter/AGENTS.md`. Distributed via the overlay manifest
+  (16 → 25 files). Top-level `.claude/agents/` mirrors the starter copy
+  byte-for-byte (test-enforced).
 
 ### Changed
 - `starter/AGENTS.md`: changelog entries must merge into the existing heading

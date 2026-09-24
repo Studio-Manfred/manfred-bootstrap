@@ -6,6 +6,27 @@ For the full per-feature rhythm see [ways-of-working.md](./ways-of-working.md#15
 
 ---
 
+## Roles
+
+Every step below is owned by one of eight roles, each backed by a specific
+Claude model. See `starter/knowledge/roles.md` for full definitions and
+`starter/AGENTS.md` for the router.
+
+| Task | Role | Model |
+|---|---|---|
+| Framing outcomes | strategist | Fable |
+| Turning strategy into a spec | analyst | Fable |
+| UX / IA / tone of voice | designer | Fable |
+| Technical design, plan | architect | Opus |
+| Implementing a plan task | builder | Sonnet |
+| Failing tests, verification, behavioural review | tester | Opus |
+| CHANGELOG / MEMORY / knowledge / release notes | documenter | Haiku |
+| Merge, deploy, smoke, rollback | release-manager | Sonnet |
+
+Under each step heading below, the owning role is named on the first line.
+
+---
+
 ## The chain
 
 ### 1. `/brainstorming` — hard gate before any code
