@@ -122,3 +122,62 @@ test('CLI dry-run for `new` writes nothing and prints a plan', () => {
   assert.match(r.stdout, /dry-run|plan/i)
   assert.equal(existsSync('/tmp/__mp_dryrun_should_not_exist__'), false)
 })
+
+// ─── Role-based agents (STU-917) ──────────────────────────────────────────
+// Helper + constants used by every role test below.
+
+const AGENT_ROLES = [
+  'strategist', 'analyst', 'designer', 'architect',
+  'builder', 'tester', 'documenter', 'release-manager',
+]
+const ALLOWED_MODELS = ['opus', 'sonnet', 'haiku', 'fable']
+
+function readFrontmatter(path) {
+  const src = readFileSync(path, 'utf8')
+  const match = src.match(/^---\n([\s\S]*?)\n---/)
+  if (!match) return null
+  const fm = {}
+  for (const line of match[1].split('\n')) {
+    if (!line.includes(':')) continue
+    const idx = line.indexOf(':')
+    const key = line.slice(0, idx).trim()
+    const value = line.slice(idx + 1).trim()
+    fm[key] = value
+  }
+  return fm
+}
+
+test('every role file exists at starter/.claude/agents/ with required frontmatter keys', () => {
+  for (const role of AGENT_ROLES) {
+    const abs = new URL(`../starter/.claude/agents/${role}.md`, import.meta.url)
+    assert.ok(existsSync(abs), `missing starter/.claude/agents/${role}.md`)
+    const fm = readFrontmatter(abs)
+    assert.ok(fm, `no frontmatter in ${role}.md`)
+    for (const key of ['name', 'description', 'model']) {
+      assert.ok(fm[key] && fm[key].length > 0,
+        `frontmatter key '${key}' missing or empty in ${role}.md`)
+    }
+    assert.equal(fm.name, role, `name mismatch in ${role}.md`)
+  }
+})
+
+test('every role file binds a model in the allowed lowercase set', () => {
+  for (const role of AGENT_ROLES) {
+    const abs = new URL(`../starter/.claude/agents/${role}.md`, import.meta.url)
+    const fm = readFrontmatter(abs)
+    assert.ok(ALLOWED_MODELS.includes(fm.model),
+      `${role}.md has model='${fm.model}' (case-sensitive; allowed: ${ALLOWED_MODELS.join(', ')})`)
+  }
+})
+
+test('bootstrap new --dry-run plan lists every .claude/agents/<role>.md', () => {
+  const script = fileURLToPath(new URL('./bootstrap.mjs', import.meta.url))
+  const r = spawnSync('node', [script, 'new', '--name', 'tmp-role-check', '--prefix', 'STU',
+    '--dir', '/tmp/__mp_role_check_should_not_exist__', '--description', 'x', '--dry-run', '--yes'],
+    { encoding: 'utf8' })
+  assert.equal(r.status, 0, `bootstrap dry-run failed: ${r.stderr}`)
+  for (const role of AGENT_ROLES) {
+    assert.match(r.stdout, new RegExp(`\\.claude/agents/${role}\\.md`),
+      `dry-run plan missing .claude/agents/${role}.md — dot-directory dropped by the walker?`)
+  }
+})
