@@ -181,3 +181,26 @@ test('bootstrap new --dry-run plan lists every .claude/agents/<role>.md', () => 
       `dry-run plan missing .claude/agents/${role}.md — dot-directory dropped by the walker?`)
   }
 })
+
+test('manifest lists every role agent file and knowledge/roles.md', () => {
+  const manifest = JSON.parse(readFileSync(new URL('../overlay.manifest.json', import.meta.url)))
+  for (const role of AGENT_ROLES) {
+    assert.ok(manifest.files.includes(`.claude/agents/${role}.md`),
+      `manifest missing .claude/agents/${role}.md`)
+  }
+  assert.ok(manifest.files.includes('knowledge/roles.md'),
+    'manifest missing knowledge/roles.md')
+  assert.equal(manifest.files.length, 25,
+    `manifest expected 25 files, got ${manifest.files.length}`)
+})
+
+test('planCopy(overlay) skips a pre-existing agent file by default', () => {
+  const exists = (p) => p === '.claude/agents/tester.md'
+  const plan = planCopy(
+    ['.claude/agents/tester.md', '.claude/agents/builder.md'],
+    exists,
+    { force: false, mode: 'overlay' },
+  )
+  assert.deepEqual(plan.write, ['.claude/agents/builder.md'])
+  assert.deepEqual(plan.skip, ['.claude/agents/tester.md'])
+})
