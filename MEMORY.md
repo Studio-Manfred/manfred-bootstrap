@@ -3,6 +3,28 @@
 Session log for the `my-process` template repo itself (meta — the starter ships its
 own `starter/MEMORY.md` template). Newest first.
 
+## 2026-09-29 — STU-977 DS-first convention shipped
+
+- **Shipped (branch `feat/STU-977-ds-first-convention`):** designer role
+  checks DS first via a 4-part workflow-step embedded in its system
+  prompt (spec §6.1); release-manager picks up done stubs via a grep on
+  every `@studio-manfred/*` update (spec §6.4). knowledge/roles.md and
+  AGENTS.md updated to match; four workflow docs propagated. Content-lint
+  tests guard the load-bearing markers ("Check the design system first",
+  `_ds-stubs/`, `TODO(STU-`, `npm update.*@studio-manfred`). Suite
+  27 → 29.
+- **Decisions:** stub-and-continue is the default (block only when DS
+  behavior is on the critical path); stub dir is `src/components/_ds-stubs/`
+  verbatim; Linear inbox is Studio Manfred team, "Design System" project
+  (P-STU-1). Ledger ruling: added prose "TODO(STU-NNN)" alongside the
+  shell-escaped grep pattern so the test matches the literal form and
+  the file reads naturally.
+- **Next pickup:** STU-978 (blocked-by-this-one; DS repo installs role
+  system via overlay + adds `ds-designer` role file). Then rollout
+  tickets for existing consumer repos (whiteboard already has the role
+  files; needs an overlay pass to pick up updated designer.md +
+  release-manager.md).
+
 ## 2026-09-24 — STU-917 role-based agents shipped
 
 - **Shipped (branch `feat/STU-917-role-based-agents`):** eight named roles

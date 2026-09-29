@@ -408,3 +408,7 @@ parallelism. Wear the hat yourself for single-edit doc passes, two-line
 fixes, or interactive skills that dialogue with the human.
 
 See `starter/knowledge/roles.md` for the full role definitions.
+
+### Design system handoff
+
+The `designer` role first checks `manfred-design-system` for coverage before building any new UI. When the DS lacks a component, the designer files a ticket in the Studio Manfred team's "Design System" Linear project and stubs locally under `src/components/_ds-stubs/<Name>.tsx` with a `TODO(STU-NNN)` marker. The `ds-designer` role in the DS repo (Opus) picks up the ticket, designs the API, writes failing tests, and hands off implementation to `builder`. On the next `npm update @studio-manfred/*`, `release-manager` greps for stub markers and opens follow-up PRs to swap done stubs. Full design: `docs/superpowers/specs/2026-09-29-ds-handoff-design.md`.
