@@ -261,4 +261,6 @@ test('release-manager.md prompts the DS-stub pickup step', () => {
     'release-manager.md missing the TODO(STU-...) grep marker for stub pickup (spec §6.4)')
   assert.match(body, /npm update.*@studio-manfred/,
     'release-manager.md missing the npm-update trigger for the pickup step')
+  assert.match(body, /_ds-stubs\//,
+    'release-manager.md missing the stub-directory naming (spec §6.3) — pickup step must name the exact dir it grep-scans')
 })
