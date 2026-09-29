@@ -51,7 +51,7 @@ Each step feeds the next; the loop closes by writing what was learned back into 
 | Security | Sanitiser chokepoint · input validation · no secrets in client · `/security-review` adversarial agents |
 | Tracker | Linear (`{{LINEAR_PREFIX}}-NNN` anchor, auto-close via PR body) |
 | Knowledge | AGENTS.md → CLAUDE.md → MEMORY.md → knowledge/ + docs/knowledge/ |
-| Roles | Eight named roles, each on a specific Claude model (Fable / Opus / Sonnet / Haiku). See `knowledge/roles.md`. |
+| Roles | Eight named roles, each on a specific Claude model (Fable / Opus / Sonnet / Haiku). Consumer `designer` checks the DS first; `release-manager` picks up done stubs on `npm update`. See `knowledge/roles.md`. |
 
 ---
 

@@ -25,6 +25,8 @@ Claude model. See `starter/knowledge/roles.md` for full definitions and
 
 Under each step heading below, the owning role is named on the first line.
 
+The `designer` role's workflow includes a **design-system-first** step (check the DS for coverage before building UI; file a Studio Manfred "Design System" Linear ticket if absent; stub locally under `src/components/_ds-stubs/`). The `release-manager` role's loop-close includes a **stub-pickup** step that grep-scans for `TODO(STU-NNN)` markers on every `@studio-manfred/*` update. See the starter's `knowledge/roles.md` for the full role definitions.
+
 ---
 
 ## The chain
