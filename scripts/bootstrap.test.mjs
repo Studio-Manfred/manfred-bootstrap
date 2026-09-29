@@ -240,3 +240,16 @@ test('bootstrap new next-steps section mentions role files at .claude/agents/', 
   assert.match(nextSteps, /\.claude\/agents\//,
     'next-steps output missing pointer to .claude/agents/ role files (spec §11)')
 })
+
+// ─── DS-first convention (STU-977) ─────────────────────────────────────────
+
+test('designer.md prompts the DS-first workflow-step', () => {
+  const abs = new URL('../starter/.claude/agents/designer.md', import.meta.url)
+  const body = readFileSync(abs, 'utf8')
+  assert.match(body, /Check the design system first/,
+    'designer.md missing the DS-first step-1 marker (spec §6.1)')
+  assert.match(body, /_ds-stubs\//,
+    'designer.md missing the stub-directory naming (spec §6.3)')
+  assert.match(body, /Design System.*Linear project/,
+    'designer.md missing the ticket-filing pointer (spec §6.2)')
+})
