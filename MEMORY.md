@@ -25,6 +25,62 @@ own `starter/MEMORY.md` template). Newest first.
   files; needs an overlay pass to pick up updated designer.md +
   release-manager.md).
 
+## 2026-09-29 — DS-first pattern proven end-to-end · shipped
+
+Long continuous session. Everything from STU-977 to STU-980's actual
+feature merged, across three repos:
+
+- **manfred-bootstrap PR #3 (STU-977):** DS-first workflow-step in
+  `designer` + `release-manager` roles.
+- **manfred-design-system PR #95 (STU-978):** role system + `ds-designer`
+  (Opus) installed.
+- **manfred-whiteboard PR #24 (STU-981):** rollout of STU-977 to
+  whiteboard.
+- **manfred-design-system PR #96 → #99 (STU-979):** `ColorPicker` built
+  by a `ds-designer` subagent (Opus dispatched via `claude` fallback,
+  see gotchas.md), shipped as v0.37.1 after v0.37.0 tripped
+  `build-manifest.mjs`'s top-level-export rule.
+- **manfred-whiteboard PR #23 (STU-980):** stub retired, DS import wired
+  into the pen toolbar and drawing path. 752/752 tests pass.
+
+**Elapsed:** ~2.5 hours from first ticket filed to feature merged.
+
+**Rulings ledgered along the way:**
+
+- STU-977 Task 2: prose "TODO(STU-NNN)" alongside the shell-escaped grep
+  pattern in `release-manager.md` — the content-lint regex matches the
+  literal form; the escaped form belongs inside the fenced grep command.
+- STU-977 Task 6: dropped per-heading `**Role:** …` tags in
+  `docs/superpowers-workflow.md` — the top-of-file Roles table maps
+  every step and the ten inline annotations were cost without leverage.
+- STU-977 fix pass: added `_ds-stubs/` assertion to release-manager's
+  content-lint test (re-graded Important — load-bearing invariant across
+  the DS-first design).
+- STU-979 fix pass: dropped direct `axe-core` import from ColorPicker's
+  unit tests (matches DS Storybook a11y-addon convention).
+- v0.37.1 patch: moved `DEFAULT_COLOR_PICKER_PALETTE` out of the
+  top-level barrel to satisfy `build-manifest.mjs`.
+
+**Two live-fire lessons captured (docs/knowledge/):**
+
+- `^0.x.y` semver on 0-major dependencies is a MINOR range, not a MAJOR
+  one — see gotchas.md.
+- Cross-repo `subagent_type` registration is scoped to the session's
+  rooted cwd — see procedural.md and gotchas.md.
+
+**Follow-ups already on the board:** STU-920 (`tools:` lock-down, due
+2026-10-15), STU-921 (harness model-availability test, due 2026-10-01),
+STU-922 (bootstrap test hardening, due 2026-10-08), STU-923
+(single-source-of-truth refactor for role files, due 2026-11-23).
+
+**Suggested new follow-ups:**
+
+- Whiteboard: Playwright coverage of the pen-options bar (axe + click
+  through).
+- Whiteboard: `allowCustom` hex on the pen `ColorPicker` for power users.
+- DS: postbuild `build-manifest.mjs` `ajv/dist/2020` failure
+  (pre-existing environmental, unrelated to this work).
+
 ## 2026-09-24 — STU-917 role-based agents shipped
 
 - **Shipped (branch `feat/STU-917-role-based-agents`):** eight named roles

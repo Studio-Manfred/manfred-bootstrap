@@ -4,6 +4,42 @@ Cross-repo how-tos. Follow these consistently; deviations need a documented reas
 
 ---
 
+## Dispatching a role subagent across repos
+
+When a session rooted in one repo needs to dispatch a role that lives in a
+peer repo's `.claude/agents/` (e.g. `ds-designer` in `manfred-design-system`
+from a bootstrap-rooted session), the target `subagent_type` is not
+registered by the harness — `.claude/agents/*.md` scanning is scoped to the
+current repo's tree.
+
+**Pattern:** dispatch through `claude` with the role's system prompt inlined
+and its model set explicitly. The role's frontmatter tells you which model:
+
+```typescript
+// Read manfred-design-system/.claude/agents/ds-designer.md
+// Frontmatter: `model: opus`
+Agent({
+  subagent_type: "claude",
+  model: "opus",
+  prompt: `You are the **DS Designer** on the Manfred design system ...
+    // rest of the role's body verbatim, plus task-specific context ...`,
+})
+```
+
+The role's system prompt IS its identity. Inlining it produces the same
+behaviour as native dispatch; only the harness convenience of naming the
+subagent_type is lost.
+
+**When to prefer this over cd'ing:** always, unless you're planning to stay
+in the peer repo for a while. Switching cwd changes registration, breaks
+git-branch context (you may end up on the wrong branch), and mid-session
+cwd switching interacts poorly with `Bash`'s cwd-reset behaviour. Inlined
+dispatch is the smaller footprint.
+
+**Sighting:** STU-979 (2026-09-29), see gotchas.md.
+
+---
+
 ## Deploy to Vercel
 
 1. Open a PR from a feature branch — Vercel auto-creates a preview deployment.
