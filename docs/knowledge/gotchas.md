@@ -5,6 +5,47 @@ from a per-project `knowledge/ERRORS.md` after appearing in at least two repos.
 
 ---
 
+## `^0.x.y` on 0-major dependencies is a MINOR range, not a MAJOR range
+
+**Symptom:** A consumer pinned to `"@studio-manfred/manfred-design-system": "^0.22.0"` doesn't pick up a new DS release (0.23.0, 0.37.0, …) on `npm install` or `npm update`.
+
+**Cause:** npm's `^` behavior differs by major version. For versions with major `0`, `^` pins the MINOR segment, not the major one. So `^0.22.0` resolves to `>=0.22.0 <0.23.0`, NOT `>=0.22.0 <1.0.0` as many assume.
+
+**Fix:** When the DS ships a new minor, consumers must explicitly bump their dep range: `"^0.22.0"` → `"^0.37.0"` (or whichever the target is). Alternatives:
+- `~0.22.0` — same as `^0.x.y`; no advantage
+- `>=0.22.0 <1.0.0` — permissive but drops semver's implicit "0-major isn't stable" signal
+- **Best practice:** keep the `^0.x.y` pin AND bump explicitly per DS release. The `release-manager` role's stub-pickup step (STU-977) is the natural moment to do it — you're already touching the dep to unblock a stub swap.
+
+**Sightings:** STU-980 (whiteboard) needed `^0.22.0` → `^0.37.1` to pick up ColorPicker in DS 0.37.1. Graduate on the next sighting.
+
+---
+
+## Cross-repo `subagent_type` registration is scoped to the session's rooted cwd
+
+**Symptom:** `Agent({subagent_type: "ds-designer", …})` returns "Agent type 'ds-designer' not found" even though `manfred-design-system/.claude/agents/ds-designer.md` exists on disk, because the session's cwd is a different repo (e.g. `manfred-bootstrap`).
+
+**Cause:** Claude Code's harness scans `.claude/agents/*.md` from the CURRENT repo's tree to populate the dispatchable `subagent_type` list. Peer-repo `.claude/` directories are not included.
+
+**Fix (workaround):** Use the general-purpose `claude` subagent type with the target role's system prompt inlined and its model set explicitly:
+
+```typescript
+Agent({
+  subagent_type: "claude",
+  model: "opus", // whatever the role's frontmatter specifies
+  prompt: `You are the **DS Designer** ...
+    // paste the role's system prompt verbatim here
+    ...`,
+})
+```
+
+Real cost: small — role prompts are short (< 400 lines) so inlining is cheap. But harness-enforced model binding is bypassed; `model:` must be set explicitly on the `Agent` call.
+
+**Follow-up:** STU-923 (single-source-of-truth refactor for `.claude/agents/*.md`) may make this moot by consolidating role files to one canonical location.
+
+**Sighting:** STU-979 (2026-09-29). `ds-designer` registered in `manfred-design-system/.claude/agents/ds-designer.md`; a session rooted in `manfred-bootstrap` couldn't dispatch it. Fell back to `claude`+Opus+inlined prompt; ColorPicker still shipped correctly.
+
+---
+
 ## Tailwind v4 is not v3
 
 **Symptom:** `tailwind.config.js`, `@tailwind base/components/utilities` directives, or
