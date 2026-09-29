@@ -253,3 +253,12 @@ test('designer.md prompts the DS-first workflow-step', () => {
   assert.match(body, /Design System.*Linear project/,
     'designer.md missing the ticket-filing pointer (spec §6.2)')
 })
+
+test('release-manager.md prompts the DS-stub pickup step', () => {
+  const abs = new URL('../starter/.claude/agents/release-manager.md', import.meta.url)
+  const body = readFileSync(abs, 'utf8')
+  assert.match(body, /TODO\(STU-/,
+    'release-manager.md missing the TODO(STU-...) grep marker for stub pickup (spec §6.4)')
+  assert.match(body, /npm update.*@studio-manfred/,
+    'release-manager.md missing the npm-update trigger for the pickup step')
+})
