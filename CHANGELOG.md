@@ -24,6 +24,14 @@ versioned like a product.
   router in `starter/AGENTS.md`. Distributed via the overlay manifest
   (16 → 25 files). Top-level `.claude/agents/` mirrors the starter copy
   byte-for-byte (test-enforced).
+- **DS-first convention (STU-977).** Consumer `designer` role now checks
+  `manfred-design-system` for coverage before building UI, files a ticket
+  in the Studio Manfred "Design System" Linear project when the DS lacks
+  a component, and stubs locally under `src/components/_ds-stubs/` with a
+  `TODO(STU-NNN)` marker. `release-manager` role now greps for those
+  markers on `npm update @studio-manfred/*` and opens swap-PRs when the
+  DS ticket closes. Companion ticket STU-978 adds the receiving
+  `ds-designer` role in the DS repo.
 
 ### Changed
 - `starter/AGENTS.md`: changelog entries must merge into the existing heading
