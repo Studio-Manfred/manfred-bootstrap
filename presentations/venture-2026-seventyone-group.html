@@ -1,0 +1,1065 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A fourth chair at the SeventyOne table? — Venture scoping, Fall 2026</title>
+<meta name="description" content="A modern deck for the SeventyOne Group founder discussion: whether the AI-first product ops venture that grew out of Studio Manfred belongs inside the group as a fourth firm." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+
+<style>
+/* ==================================================================
+   Custom theme — dark-first editorial, brand accents per firm.
+   No reveal.js theme is imported; this replaces it entirely.
+   ================================================================== */
+
+:root {
+  /* Neutrals — dark theme base */
+  --ink:        #0a0a0f;   /* background */
+  --ink-2:      #14141a;   /* raised surfaces */
+  --paper:      #f4f3ec;   /* primary text */
+  --paper-2:    #b4b4b9;   /* muted */
+  --paper-3:    #7c7c82;   /* subtle */
+  --rule:       #2e2e34;
+
+  /* Brand palette — one accent per firm */
+  --manfred:      #5653f0;  /* Studio Manfred (Business Blue, lightened for dark bg) */
+  --manfred-glow: rgba(86, 83, 240, 0.15);
+  --seventyone:   #6c6cf5;  /* SeventyOne Consulting (indigo family, distinct hue) */
+  --seventyone-glow: rgba(108, 108, 245, 0.14);
+  --mather:       #f0a15a;  /* Mather Studio (warm amber — talent + hand-picked) */
+  --mather-glow:  rgba(240, 161, 90, 0.18);
+  --venture:      #c8ea45;  /* the unnamed fourth firm (electric, unowned yet) */
+  --venture-glow: rgba(200, 234, 69, 0.18);
+
+  /* Semantic */
+  --success: #4ade80;
+  --warn:    #fbbf24;
+  --danger:  #f87171;
+
+  /* Typography */
+  --font-display: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-body:    'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Reveal.js container overrides */
+.reveal {
+  font-family: var(--font-body);
+  font-size: 26px;
+  color: var(--paper);
+  background: var(--ink);
+  font-feature-settings: 'ss01', 'cv01', 'cv11';
+  letter-spacing: -0.005em;
+  line-height: 1.55;
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides section {
+  padding: 3rem 4rem;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Typography */
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: var(--font-display);
+  color: var(--paper);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-transform: none;
+  margin: 0 0 0.4em;
+}
+
+.reveal h1 { font-size: 3.4em; font-weight: 700; letter-spacing: -0.03em; }
+.reveal h2 { font-size: 2.1em; }
+.reveal h3 { font-size: 1.4em; color: var(--paper-2); font-weight: 500; }
+.reveal h4 { font-size: 1.05em; color: var(--paper-3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.reveal p { margin: 0 0 0.8em; font-size: 1em; color: var(--paper); }
+.reveal .muted { color: var(--paper-2); }
+.reveal .subtle { color: var(--paper-3); font-size: 0.85em; }
+.reveal .lead { font-size: 1.3em; color: var(--paper); line-height: 1.4; }
+
+.reveal strong { color: var(--paper); font-weight: 600; }
+.reveal em { font-style: italic; color: var(--paper-2); }
+.reveal code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--ink-2);
+  color: var(--paper);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
+}
+
+.reveal a { color: var(--manfred); text-decoration: none; border-bottom: 1px dotted var(--manfred); }
+.reveal a:hover { color: var(--paper); border-bottom-color: var(--paper); }
+
+/* Lists */
+.reveal ul, .reveal ol { margin: 0 0 1em; padding-left: 1.4em; }
+.reveal li { margin: 0.35em 0; line-height: 1.5; }
+.reveal ul { list-style: none; padding-left: 0; }
+.reveal ul li { position: relative; padding-left: 1.4em; }
+.reveal ul li::before {
+  content: "";
+  position: absolute; left: 0; top: 0.7em;
+  width: 6px; height: 6px;
+  background: currentColor;
+  opacity: 0.4;
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+
+/* Tables */
+.reveal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85em;
+  margin: 1em 0;
+}
+.reveal th, .reveal td {
+  padding: 0.6em 0.9em;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+.reveal th {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--paper-3);
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom-color: var(--paper-3);
+}
+
+/* Layout primitives */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.6rem; align-items: start; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.2rem; align-items: start; }
+
+/* Cards */
+.card {
+  background: var(--ink-2);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+  transition: border-color 200ms ease, transform 200ms ease;
+}
+.card h3, .card h4 { margin-top: 0; }
+.card .card-label {
+  font-family: var(--font-display);
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--paper-3);
+  margin-bottom: 0.5em;
+  display: block;
+}
+.card--manfred     { border-color: var(--manfred);    box-shadow: 0 0 40px -20px var(--manfred-glow); }
+.card--seventyone  { border-color: var(--seventyone); box-shadow: 0 0 40px -20px var(--seventyone-glow); }
+.card--mather      { border-color: var(--mather);     box-shadow: 0 0 40px -20px var(--mather-glow); }
+.card--venture     { border-color: var(--venture);    box-shadow: 0 0 40px -20px var(--venture-glow); }
+
+.card--manfred    .card-label { color: var(--manfred); }
+.card--seventyone .card-label { color: var(--seventyone); }
+.card--mather     .card-label { color: var(--mather); }
+.card--venture    .card-label { color: var(--venture); }
+
+/* Brand chip */
+.chip {
+  display: inline-block;
+  padding: 0.2em 0.7em;
+  border-radius: 999px;
+  font-size: 0.72em;
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.chip--manfred    { background: var(--manfred-glow);    color: var(--manfred);    border: 1px solid var(--manfred); }
+.chip--seventyone { background: var(--seventyone-glow); color: var(--seventyone); border: 1px solid var(--seventyone); }
+.chip--mather     { background: var(--mather-glow);     color: var(--mather);     border: 1px solid var(--mather); }
+.chip--venture    { background: var(--venture-glow);    color: var(--venture);    border: 1px solid var(--venture); }
+
+/* Big stat blocks */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin: 1.5em 0; }
+.stat {
+  padding: 1.2rem 1.2rem;
+  border-left: 3px solid var(--manfred);
+  background: linear-gradient(90deg, var(--manfred-glow), transparent 40%);
+  border-radius: 0 8px 8px 0;
+}
+.stat .stat-value {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2em;
+  color: var(--paper);
+  line-height: 1;
+  margin-bottom: 0.4em;
+  letter-spacing: -0.03em;
+}
+.stat .stat-label {
+  font-size: 0.72em;
+  color: var(--paper-3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Horizontal bar chart utility */
+.bar-row { display: grid; grid-template-columns: 180px 1fr 60px; gap: 1rem; align-items: center; margin: 0.4em 0; }
+.bar-row .bar-label { font-size: 0.85em; color: var(--paper-2); }
+.bar-row .bar-track { height: 10px; background: var(--ink-2); border-radius: 999px; overflow: hidden; }
+.bar-row .bar-fill { height: 100%; border-radius: 999px; background: var(--manfred); transition: width 400ms ease; }
+.bar-row .bar-value { font-family: var(--font-mono); font-size: 0.8em; color: var(--paper-3); text-align: right; }
+
+/* Timeline */
+.timeline { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin: 2em 0; }
+.timeline .quarter {
+  padding: 0.9rem 1rem;
+  border-top: 3px solid var(--rule);
+  font-size: 0.85em;
+}
+.timeline .quarter h4 { margin: 0 0 0.4em; }
+.timeline .quarter.active { border-top-color: var(--venture); }
+.timeline .quarter.done { border-top-color: var(--manfred); }
+
+/* Section-title slides */
+.section-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 3rem 5rem !important;
+}
+.section-title .kicker {
+  font-family: var(--font-display);
+  font-size: 0.9em;
+  color: var(--paper-3);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1em;
+}
+.section-title h1 {
+  font-size: 4.5em;
+  line-height: 0.95;
+  margin: 0 0 0.4em;
+}
+.section-title .sub {
+  font-size: 1.3em;
+  color: var(--paper-2);
+  max-width: 60ch;
+  line-height: 1.4;
+}
+
+/* Cover slide */
+.cover {
+  background: radial-gradient(circle at 20% 30%, var(--manfred-glow), transparent 50%),
+              radial-gradient(circle at 80% 20%, var(--seventyone-glow), transparent 45%),
+              radial-gradient(circle at 60% 90%, var(--mather-glow), transparent 45%),
+              radial-gradient(circle at 30% 80%, var(--venture-glow), transparent 45%),
+              var(--ink);
+}
+.cover h1 {
+  font-size: 4.8em;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  max-width: 20ch;
+}
+.cover .kicker { color: var(--paper-2); font-weight: 400; }
+.cover .signature {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--paper-3);
+  margin-top: 2em;
+}
+.cover .brand-badges {
+  display: flex;
+  gap: 0.8em;
+  margin-top: 3em;
+}
+
+/* Rule with brand-color hint */
+.rule-manfred    { border-left: 3px solid var(--manfred);    padding-left: 1rem; }
+.rule-seventyone { border-left: 3px solid var(--seventyone); padding-left: 1rem; }
+.rule-mather     { border-left: 3px solid var(--mather);     padding-left: 1rem; }
+.rule-venture    { border-left: 3px solid var(--venture);    padding-left: 1rem; }
+
+/* Progressive fragments look cleaner */
+.reveal .fragment.fade-in-then-semi-out { opacity: 0; }
+.reveal .fragment.fade-in-then-semi-out.visible { opacity: 1; }
+
+/* Progress bar */
+.reveal .progress {
+  color: var(--manfred);
+  height: 3px;
+}
+
+/* Slide numbers */
+.reveal .slide-number {
+  background: transparent;
+  color: var(--paper-3);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  bottom: 20px;
+  right: 30px;
+}
+
+/* Speaker notes styling in the notes plugin — no impact on presentation, but the export looks better */
+
+/* Footer that appears on every slide except title */
+.footer {
+  position: absolute;
+  bottom: 20px;
+  left: 4rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--paper-3);
+  letter-spacing: 0.05em;
+}
+.footer .sep { margin: 0 0.6em; color: var(--rule); }
+
+/* Print / PDF export */
+@media print {
+  .reveal .slides section { padding: 2rem 3rem !important; height: 100vh; }
+  .footer { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================
+     Slide 1 — Cover
+     ============================================================ -->
+<section class="cover">
+  <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+    <p class="kicker">Venture scoping · September 2026</p>
+    <h1>A fourth chair at the SeventyOne table?</h1>
+    <p class="lead muted">An AI-first product ops venture, sketched for a group conversation.</p>
+    <div class="brand-badges">
+      <span class="chip chip--seventyone">SeventyOne Consulting</span>
+      <span class="chip chip--manfred">Studio Manfred</span>
+      <span class="chip chip--mather">Mather Studio</span>
+      <span class="chip chip--venture">Fourth firm?</span>
+    </div>
+    <p class="signature">Jens Wedin &nbsp;·&nbsp; Studio Manfred &nbsp;·&nbsp; 30 September 2026</p>
+  </div>
+  <aside class="notes">
+    Set the tone. This isn't a pitch. It's a shared exploration. I've done the desk research
+    and drafted a plan; the point of this deck is for the group to challenge and reshape it.
+    If the answer is "not inside SeventyOne," that's a valid outcome. What matters is that
+    we all see the opportunity clearly and decide together.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 2 — Why this conversation now
+     ============================================================ -->
+<section>
+  <h4>Section 01</h4>
+  <h2>Why this conversation, now.</h2>
+  <div class="grid-2" style="margin-top: 2em;">
+    <div>
+      <ul>
+        <li>Something new became real inside Studio Manfred — a methodology we've been building for two years just proved out at production scale.</li>
+        <li>The market shifted in Q3 2026 — the AI-tools layer consolidated into Big Tech; the <strong>process layer above the tools</strong> is wide open.</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li>We each hold complementary assets across the group. A fourth entity could combine them well.</li>
+        <li>The window is Fall 2026 → Q1 2027. After that, the position likely closes.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="subtle" style="margin-top: 2em;">Three drivers arriving at the same time. Any one alone wouldn't be enough.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 2 <span class="sep">/</span> Section 01 · Why now</div>
+  <aside class="notes">
+    Three drivers arriving at the same time. The evidence, the market, and the timing.
+    Any one alone wouldn't be enough. All three together is why we're having this conversation
+    now instead of in six months.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 3 — Where the three of us are today
+     ============================================================ -->
+<section>
+  <h4>Section 01</h4>
+  <h2>Where the three of us are today.</h2>
+  <div class="grid-3" style="margin-top: 1.5em;">
+    <div class="card card--seventyone">
+      <span class="card-label">SeventyOne Consulting</span>
+      <h3>Leadership + agile change</h3>
+      <p class="subtle">Enterprise change programmes. Buyer is exec teams. Reputation asset: agile transformation depth.</p>
+    </div>
+    <div class="card card--manfred">
+      <span class="card-label">Studio Manfred</span>
+      <h3>Product + design + AI methodology</h3>
+      <p class="subtle">Product / UX / service design. Product leadership. Buyer is product / design leaders. Reputation asset: rigour + brand.</p>
+    </div>
+    <div class="card card--mather">
+      <span class="card-label">Mather Studio</span>
+      <h3>Curated talent network</h3>
+      <p class="subtle">Top independent contractors. Buyer is CTOs / heads of product needing senior contractors. Reputation asset: trusted network.</p>
+    </div>
+  </div>
+  <p class="subtle" style="margin-top: 2em;">Three firms, three complementary specialisms, already collaborating informally as the SeventyOne Group.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 3</div>
+  <aside class="notes">
+    Each of us reaches a different buyer inside the same client organisations. That's the shape
+    of the asset. None of us alone would build the next thing as well as the three of us together.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 4 — Market shift (data-heavy)
+     ============================================================ -->
+<section>
+  <h4>Section 02 · Market</h4>
+  <h2>Q3 2026 rewrote the AI-tools market in one week.</h2>
+  <div class="stats" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="stat" style="border-left-color: var(--seventyone); background: linear-gradient(90deg, var(--seventyone-glow), transparent 40%);">
+      <span class="stat-value">$60B</span>
+      <span class="stat-label">SpaceX bought Cursor</span>
+    </div>
+    <div class="stat" style="border-left-color: var(--mather); background: linear-gradient(90deg, var(--mather-glow), transparent 40%);">
+      <span class="stat-value">$3B</span>
+      <span class="stat-label">OpenAI bought Windsurf</span>
+    </div>
+    <div class="stat" style="border-left-color: var(--venture); background: linear-gradient(90deg, var(--venture-glow), transparent 40%);">
+      <span class="stat-value">—</span>
+      <span class="stat-label">Google killed Gemini CLI</span>
+    </div>
+  </div>
+  <p class="lead" style="margin-top: 1.5em;">The tool layer belongs to Big Tech now.</p>
+  <p class="muted">The <strong>process layer</strong> above the tools — the way teams actually make AI work day-to-day — is wide open.</p>
+  <p class="subtle">Sources: Pinggy, OpenTools, ByteIota (all June–August 2026).</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 4 <span class="sep">/</span> Market</div>
+  <aside class="notes">
+    Every one of these numbers is public and dated. The pattern: money is there, technology
+    works, but the gap between pilot and production is a workflow / discipline / methodology
+    problem. That's exactly what SeventyOne Group already sells; the AI wrapper is the new packaging.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 5 — Enterprise buyer behaviour
+     ============================================================ -->
+<section>
+  <h4>Section 02 · Market</h4>
+  <h2>Enterprises bought AI. It didn't move their roadmap.</h2>
+  <div class="grid-2" style="margin-top: 1.5em; gap: 3rem;">
+    <div>
+      <div class="bar-row"><span class="bar-label">Enterprise AI spend YoY</span><div class="bar-track"><div class="bar-fill" style="width: 100%; background: var(--success);"></div></div><span class="bar-value">+108%</span></div>
+      <div class="bar-row"><span class="bar-label">Pilots abandoned after PoC</span><div class="bar-track"><div class="bar-fill" style="width: 50%; background: var(--danger);"></div></div><span class="bar-value">50%+</span></div>
+      <div class="bar-row"><span class="bar-label">2026 AI spend postponed to 2027</span><div class="bar-track"><div class="bar-fill" style="width: 25%; background: var(--warn);"></div></div><span class="bar-value">25%</span></div>
+      <div class="bar-row"><span class="bar-label">Enterprises with no AI budget owner</span><div class="bar-track"><div class="bar-fill" style="width: 22%; background: var(--warn);"></div></div><span class="bar-value">22%</span></div>
+      <div class="bar-row"><span class="bar-label">Name <em>"how we operate"</em> as #1 AI barrier</span><div class="bar-track"><div class="bar-fill" style="width: 22%; background: var(--manfred);"></div></div><span class="bar-value">22%</span></div>
+    </div>
+    <div>
+      <p class="lead">The gap is not technological. It's organisational.</p>
+      <p class="muted">CFOs arrived in 2026 asking for ROI. Half the pilots died. A quarter of budgets got frozen. Nobody's building the layer that closes the gap at scale.</p>
+      <p class="subtle" style="margin-top: 2em;">Sources: Publicis Sapient 2026 Global Enterprise AI Report; Gartner via Mavvrik; IBM; Beri.net.</p>
+    </div>
+  </div>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 5</div>
+  <aside class="notes">
+    The pilot-to-production gap is now a named boardroom problem — exactly what we sell into.
+    "Here's the process that turns your AI pilots into shipped product." Timing is good.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 6 — Sweden context
+     ============================================================ -->
+<section>
+  <h4>Section 02 · Market</h4>
+  <h2>Local context is unusually favourable.</h2>
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-value">3.0%</span>
+      <span class="stat-label">Sweden 2026 GDP forecast (raised)</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">105</span>
+      <span class="stat-label">Funded AI startups in Stockholm</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">$4.2B</span>
+      <span class="stat-label">Combined raised by top 60</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">$1T</span>
+      <span class="stat-label">Global VC 2026 (2× 2025)</span>
+    </div>
+  </div>
+  <div class="grid-2" style="margin-top: 2em; gap: 2rem;">
+    <p class="muted">Nordea + SEB call it "upswing." Rate-cut cycle underway. Swedish CEOs optimistic.</p>
+    <p class="muted">EQT Ventures, Creandum, Northzone, Luminar all write €500K–20M for exactly this space.</p>
+  </div>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 6 <span class="sep">/</span> Sweden</div>
+  <aside class="notes">
+    Sweden's GDP outlook is one of Europe's strongest for 2026. Local buyers have budget.
+    Warm-intro cycle is fast in Swedish. Local capital is actively deploying. This isn't a
+    market we have to travel to reach.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 7 — Section break: The opportunity
+     ============================================================ -->
+<section class="section-title" data-background-color="#0a0a0f">
+  <p class="kicker">Section 03</p>
+  <h1>The opportunity we see.</h1>
+  <p class="sub">A category that doesn't exist yet — but the market has just made room for it.</p>
+</section>
+
+<!-- ============================================================
+     Slide 8 — The pitch
+     ============================================================ -->
+<section>
+  <h4>Section 03 · Opportunity</h4>
+  <h2>AI product ops <em>as a service</em>.</h2>
+  <div class="rule-venture" style="margin: 1.5em 0; padding-left: 1.5rem;">
+    <p class="lead">Installed by embedded specialists. Retained through hybrid pricing. Evidenced with real ship-rate improvements.</p>
+  </div>
+  <p class="muted"><strong>Not</strong> another AI consultancy. <strong>Not</strong> another dev tool. The <strong>process + methodology + coaching</strong> layer that turns the AI investment enterprises already made into shipped product.</p>
+  <div class="grid-3" style="margin-top: 2em;">
+    <div><span class="chip chip--seventyone">SeventyOne</span><p class="subtle" style="margin-top: 0.6em;">The change-management practice enterprises already trust.</p></div>
+    <div><span class="chip chip--manfred">Manfred</span><p class="subtle" style="margin-top: 0.6em;">The AI-first methodology that just proved out end-to-end.</p></div>
+    <div><span class="chip chip--mather">Mather</span><p class="subtle" style="margin-top: 0.6em;">The talent pool that scales delivery without hiring risk.</p></div>
+  </div>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 8</div>
+  <aside class="notes">
+    Category naming is usually a bad idea because it costs years of evangelism — but only for
+    a company that doesn't already have distribution. SeventyOne Group already has distribution
+    to the right buyer. That's what makes it possible for us where it isn't possible for a solo founder.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 9 — Evidence: what Manfred built
+     ============================================================ -->
+<section>
+  <h4>Section 03 · Evidence</h4>
+  <h2>What Studio Manfred just built.</h2>
+  <div class="grid-2" style="margin-top: 1.5em; gap: 3rem;">
+    <div>
+      <span class="chip chip--manfred">manfred-bootstrap</span>
+      <p style="margin-top: 1em;">A full AI-first product-engineering system, dogfooded on live client-adjacent work:</p>
+      <ul>
+        <li>8 role-based agents — each bound to a specific Claude model (<code>strategist</code>, <code>analyst</code>, <code>designer</code>, <code>architect</code>, <code>builder</code>, <code>tester</code>, <code>documenter</code>, <code>release-manager</code>)</li>
+        <li>Design-system-first handoff pattern between consumer teams and specialists</li>
+        <li>Linear-as-join-key discipline — every ticket, spec, plan, PR, and ruling in git</li>
+      </ul>
+    </div>
+    <div class="card card--manfred">
+      <span class="card-label">Proof point · 2026-09-29</span>
+      <h3 style="font-size: 1.9em; line-height: 1.1;">Shipped a new DS component end-to-end in <strong style="color: var(--venture);">~2.5 hours</strong>.</h3>
+      <p class="subtle" style="margin-top: 1em;">Whiteboard shipped <code>ColorPicker</code> from "we need this" → merged to prod, using the pattern. Every step captured in git and Linear. Two API deviations, one broken release, one CSS import gotcha — all captured and recovered from.</p>
+    </div>
+  </div>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 9 <span class="sep">/</span> Evidence</div>
+  <aside class="notes">
+    This isn't slideware. It's a working system with production shipping evidence. I can walk
+    through the actual git log if useful. The methodology teaches; the toolchain enforces;
+    the ledger proves. Nobody else in Stockholm has this.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 10 — Where we are today (venture stage)
+     ============================================================ -->
+<section>
+  <h4>Section 03 · Where we are</h4>
+  <h2>Where the venture is today.</h2>
+  <div class="grid-2" style="margin-top: 1.5em; gap: 3rem;">
+    <div>
+      <h4 style="color: var(--success);">Ready</h4>
+      <ul>
+        <li>The methodology works. Proven internally last week.</li>
+        <li>Scoping is done — three options written up, Q4 experiment slate designed.</li>
+        <li>Legal + IP are the last unblocked items before Q4 pilots.</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color: var(--warn);">Waiting on</h4>
+      <ul>
+        <li>Commercial motion — no pilot signed, no case study published.</li>
+        <li>No entity yet — Studio Manfred AB is current home.</li>
+        <li>Founder-level questions in <code>open-questions.md</code>.</li>
+        <li>Group-structure questions — this slide.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="subtle" style="margin-top: 2em;">We're at the "commit to run the Q4 experiments" gate. Nothing irreversible has happened yet.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 10</div>
+  <aside class="notes">
+    Every decision from here is legible and reversible. That's the moment to bring in partners
+    for a structural conversation — before the entity forms and the choices harden.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 11 — Section break: Where do we want to be
+     ============================================================ -->
+<section class="section-title" data-background-color="#0a0a0f">
+  <p class="kicker">Section 04</p>
+  <h1>Where we want to be.</h1>
+  <p class="sub">Three coherent shapes at five years out. Not a menu — a story arc.</p>
+</section>
+
+<!-- ============================================================
+     Slide 12 — Five-year horizons per option
+     ============================================================ -->
+<section>
+  <h4>Section 04 · Vision</h4>
+  <h2>Three shapes. One story arc.</h2>
+  <table style="margin-top: 1.5em;">
+    <thead>
+      <tr><th>Option</th><th>Steady-state (2031)</th><th>Team</th><th>Capital story</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>A · Product ops as a service</strong> <br /><span class="subtle">(recommended wedge)</span></td>
+        <td>20–30 retainer clients<br />€3–6M ARR · ~70% GM</td>
+        <td>5–10</td>
+        <td>Bootstrap-viable. Optional €300–500K F&amp;F for velocity.</td>
+      </tr>
+      <tr>
+        <td><strong>B · Bootstrap as SaaS platform</strong> <br /><span class="subtle">(scale layer)</span></td>
+        <td>200–800 paying teams<br />€8–20M ARR</td>
+        <td>15–30</td>
+        <td>€1–3M seed in 2027 if signal is real.</td>
+      </tr>
+      <tr>
+        <td><strong>C · Methodology licensed</strong> <br /><span class="subtle">(flywheel)</span></td>
+        <td>Book + course + certification<br />€1–3M ARR · global reader footprint</td>
+        <td>3–5</td>
+        <td>Bootstrap-only. Runs from cohort revenue.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="muted" style="margin-top: 1.5em;"><strong>A → B → C is the arc.</strong> Wedge with A. Scale with B once A validates the toolchain. Legitimise both with C.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 12</div>
+  <aside class="notes">
+    These are three coherent shapes, not three separate businesses. Which one we lead with is
+    a strategic bet — and for the group, the answer is probably A because it plays best to
+    our combined strengths.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 13 — The Q4 experiment slate
+     ============================================================ -->
+<section>
+  <h4>Section 04 · Q4 experiments</h4>
+  <h2>Three parallel experiments in Oct–Dec. Total: ~95 hrs + €2.7K.</h2>
+  <div class="grid-3" style="margin-top: 1.5em;">
+    <div class="card card--manfred">
+      <span class="card-label">A1 · Pilot</span>
+      <h3>Deliver a paid pilot.</h3>
+      <p class="subtle">Landing page + 20-prospect outreach + 1–2 paid €5K pilots delivered by December.</p>
+      <p class="subtle" style="margin-top: 0.8em;"><strong>Green:</strong> pilot converts to retainer.</p>
+      <p style="font-family: var(--font-mono); font-size: 0.75em; color: var(--paper-3); margin-top: 0.8em;">~40 hrs · €2K</p>
+    </div>
+    <div class="card card--seventyone">
+      <span class="card-label">B1 · OSS + waitlist</span>
+      <h3>Public repo + landing.</h3>
+      <p class="subtle">Open-source <code>manfred-bootstrap</code>, launch waitlist for hosted platform, publish 5 essays + 2 HN launches.</p>
+      <p class="subtle" style="margin-top: 0.8em;"><strong>Green:</strong> 500+ stars, 400+ waitlist signups.</p>
+      <p style="font-family: var(--font-mono); font-size: 0.75em; color: var(--paper-3); margin-top: 0.8em;">~30 hrs · €500</p>
+    </div>
+    <div class="card card--mather">
+      <span class="card-label">C1 · Essays + cohort</span>
+      <h3>Write, list, take deposits.</h3>
+      <p class="subtle">6 essays + email list + €100-deposit Q1 2027 cohort call-to-action.</p>
+      <p class="subtle" style="margin-top: 0.8em;"><strong>Green:</strong> 30+ paid deposits, 1500+ subscribers.</p>
+      <p style="font-family: var(--font-mono); font-size: 0.75em; color: var(--paper-3); margin-top: 0.8em;">~25 hrs · €200</p>
+    </div>
+  </div>
+  <p class="subtle" style="margin-top: 2em;">Decision date: end of December. Read the signals. Pick the wedge. Form the entity in Q1 2027.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 13 <span class="sep">/</span> Q4 experiments</div>
+  <aside class="notes">
+    Ship all three at low cost and let the market vote. Whichever gets a green signal by end
+    of December is the one we scale in Q1. No guessing.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 14 — Section break: Where it fits in the group
+     ============================================================ -->
+<section class="section-title" data-background-color="#0a0a0f">
+  <p class="kicker">Section 05 · Structure</p>
+  <h1>Where does it fit in the group?</h1>
+  <p class="sub">Three plausible structures. My recommendation, and my backup.</p>
+</section>
+
+<!-- ============================================================
+     Slide 15 — The three structural options
+     ============================================================ -->
+<section>
+  <h4>Section 05 · Structure</h4>
+  <h2>Three plausible structures.</h2>
+  <div class="grid-3" style="margin-top: 1.5em;">
+    <div class="card card--venture">
+      <span class="card-label">Structure 1 · Inside</span>
+      <h3>Fourth firm.</h3>
+      <p class="subtle">New entity co-owned by the three firms + Jens as operating founder. Each firm contributes distinct capabilities.</p>
+      <p style="color: var(--venture); font-family: var(--font-display); margin-top: 1em; font-weight: 500;">My recommendation.</p>
+    </div>
+    <div class="card">
+      <span class="card-label">Structure 2 · Alongside</span>
+      <h3>Standalone peer.</h3>
+      <p class="subtle">Jens builds it standalone. Uses group brands + networks as go-to-market. Some upside sharing (advisor / referral fee), no shared IP.</p>
+      <p class="subtle" style="margin-top: 1em;">Backup if #1 doesn't work.</p>
+    </div>
+    <div class="card">
+      <span class="card-label">Structure 3 · Outside</span>
+      <h3>Clean spinout.</h3>
+      <p class="subtle">Jens leaves Studio Manfred to build it separately. Cleanest for investor optics. Heaviest personal risk. Loses group leverage.</p>
+      <p class="subtle" style="margin-top: 1em;">Last resort.</p>
+    </div>
+  </div>
+  <p class="muted" style="margin-top: 2em;"><strong>Structure 1</strong> — because the capabilities we each bring are genuinely complementary and none of us alone would build this as well as the three of us together.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 15</div>
+  <aside class="notes">
+    I have a real preference for structure 1 — but only if it works for everyone. This is the
+    slide where we should actually have the conversation, not just present it. Structure 3 is
+    my backup if structure 1 doesn't work for the group.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 16 — What each firm contributes
+     ============================================================ -->
+<section>
+  <h4>Section 05 · Structure</h4>
+  <h2>If we go inside — what each firm brings.</h2>
+  <div class="grid-3" style="margin-top: 1.5em;">
+    <div class="rule-seventyone">
+      <span class="chip chip--seventyone">SeventyOne</span>
+      <ul style="margin-top: 1em; padding-left: 0;">
+        <li>Change-management practice + enterprise client relationships</li>
+        <li>Org-transformation wrap around each AI implementation</li>
+        <li>Sales-cycle expertise for exec-level buyers</li>
+        <li>David + Håkan as strategic advisors / non-executive leadership</li>
+      </ul>
+    </div>
+    <div class="rule-manfred">
+      <span class="chip chip--manfred">Manfred</span>
+      <ul style="margin-top: 1em; padding-left: 0;">
+        <li>The <code>manfred-bootstrap</code> methodology, tools, role system</li>
+        <li>Jens as operating founder / practice lead</li>
+        <li>Design + product leadership on client engagements</li>
+        <li>The founding case study (STU-979 / STU-980)</li>
+      </ul>
+    </div>
+    <div class="rule-mather">
+      <span class="chip chip--mather">Mather</span>
+      <ul style="margin-top: 1em; padding-left: 0;">
+        <li>Talent pool for embed operators — scales delivery without hiring risk</li>
+        <li>Talent-brand credibility with senior contractors</li>
+        <li>Moa as delivery-side co-founder candidate</li>
+        <li>Contractor economics — variable cost matches variable revenue</li>
+      </ul>
+    </div>
+  </div>
+  <p class="subtle" style="margin-top: 2em;">None of these contributions requires anyone to change what they do today.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 16</div>
+  <aside class="notes">
+    Each contribution is an extension of what each firm already does well. No forced pivots.
+    That's usually the sign that a founding structure is well-shaped.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 17 — Equity + governance sketch
+     ============================================================ -->
+<section>
+  <h4>Section 05 · Structure</h4>
+  <h2>Equity + governance — a starting position, not a term sheet.</h2>
+  <table style="margin-top: 1.5em;">
+    <thead><tr><th>Party</th><th>Equity range</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip chip--manfred">Studio Manfred AB</span></td><td><strong>30–40%</strong></td><td>Founding IP + operating founder</td></tr>
+      <tr><td><span class="chip chip--seventyone">SeventyOne Consulting AB</span></td><td><strong>20–30%</strong></td><td>Strategic advisory + client channel</td></tr>
+      <tr><td><span class="chip chip--mather">Mather Studio</span></td><td><strong>20–30%</strong></td><td>Delivery talent + variable-cost engine</td></tr>
+      <tr><td><span class="chip chip--venture">Option pool</span></td><td><strong>10–20%</strong></td><td>Future hires + advisors</td></tr>
+    </tbody>
+  </table>
+  <div class="grid-2" style="margin-top: 2em; gap: 3rem;">
+    <div>
+      <h4>Governance</h4>
+      <p class="muted">Small board (one seat per firm + Jens). Operational decisions by Jens. Strategic by consensus. Deadlock-breaker TBD.</p>
+    </div>
+    <div>
+      <h4 style="color: var(--warn);">IP</h4>
+      <p class="muted">Shared-IP model needs a fractional-legal review — a <strong>known fundraising risk</strong> we're solving for, not hand-waving past.</p>
+    </div>
+  </div>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 17</div>
+  <aside class="notes">
+    The exact numbers are the least important thing on this slide. The principle — three firms
+    plus a founder plus an option pool — is what matters. If we agree on principle, a lawyer
+    works out the numbers.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 18 — Risks (from CHALLENGE-ME)
+     ============================================================ -->
+<section>
+  <h4>Section 06 · Risks</h4>
+  <h2>The risks we know about.</h2>
+  <p class="muted" style="margin-top: 1em;">We wrote a <code>CHALLENGE-ME.md</code> doc that argues <em>against</em> the venture. The strongest challenges:</p>
+  <div class="grid-2" style="margin-top: 1.5em; gap: 2.5rem;">
+    <ul>
+      <li>The 2.5-hour proof was in our own perfect environment, not a messy client codebase.</li>
+      <li>"AI product ops as a service" is a category we invented — market doesn't use this vocabulary yet.</li>
+      <li>The Manfred brand is Jens-shaped; founder-brand consultancies hit a ceiling.</li>
+    </ul>
+    <ul>
+      <li>Cursor + Windsurf now belong to Big Tech — a competing "team process layer" could arrive in 12 months.</li>
+      <li>Shared-IP model is a fundraising blocker if we ever want institutional capital.</li>
+      <li>25% of enterprise AI spend has been postponed to 2027 — Q4 pilot budgets may be tight.</li>
+    </ul>
+  </div>
+  <p class="subtle" style="margin-top: 2em;">We are not hiding these. They're in the docs. Ask questions.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 18 <span class="sep">/</span> Risks</div>
+  <aside class="notes">
+    Every risk here has an experiment or a decision that addresses it — but none is dismissable.
+    Full CHALLENGE-ME doc has 4 more sections and a pre-mortem.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 19 — What we're asking today
+     ============================================================ -->
+<section>
+  <h4>Section 07 · Asks</h4>
+  <h2>What we're asking today.</h2>
+  <div class="grid-3" style="margin-top: 1.5em;">
+    <div class="card card--seventyone">
+      <span class="card-label">David + Håkan</span>
+      <ul style="margin-top: 0.5em; padding-left: 0;">
+        <li>Read the docs before we meet again</li>
+        <li>Sanity-check the change-management sales-cycle assumptions</li>
+        <li>Decide: stake in a fourth firm, or referral relationship?</li>
+      </ul>
+    </div>
+    <div class="card card--mather">
+      <span class="card-label">Moa</span>
+      <ul style="margin-top: 0.5em; padding-left: 0;">
+        <li>Decide: Mather stake, or talent-partnership only?</li>
+        <li>Personally: appetite to be a delivery-side co-founder?</li>
+        <li>If yes: shape the delivery model with me</li>
+      </ul>
+    </div>
+    <div class="card card--manfred">
+      <span class="card-label">Jens (myself)</span>
+      <ul style="margin-top: 0.5em; padding-left: 0;">
+        <li>Answer the four founder-level questions before October</li>
+        <li>Run the Q4 experiments regardless of the group's answer</li>
+        <li>Report signal data end of December</li>
+      </ul>
+    </div>
+  </div>
+  <p class="subtle" style="margin-top: 2em;">Nobody is asked to commit today. Read the docs before the next conversation.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 19</div>
+  <aside class="notes">
+    Different asks for different roles. The one thing I need from everyone: read the docs
+    before we have the next conversation. This deck is a summary; the docs are the proposal.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 20 — What we ARE deciding today
+     ============================================================ -->
+<section>
+  <h4>Section 07 · Decisions</h4>
+  <h2>Today's conversation decides three small things.</h2>
+  <div style="margin-top: 2em;">
+    <div class="rule-venture" style="margin-bottom: 1.5em;">
+      <p class="lead">1. <strong>Yes / no / need more time</strong> — the Group joining as fourth-firm stakeholders.</p>
+    </div>
+    <div class="rule-venture" style="margin-bottom: 1.5em;">
+      <p class="lead">2. <strong>If yes</strong>: who leads which conversation between now and end of October.</p>
+    </div>
+    <div class="rule-venture">
+      <p class="lead">3. <strong>Who reads what by when</strong> — one of you as a fractional-legal intro, one as a warm client intro, etc.</p>
+    </div>
+  </div>
+  <p class="subtle" style="margin-top: 2em;">Small, concrete asks. The big questions defer. The small ones need answers before we can start Q4.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 20 <span class="sep">/</span> Decisions</div>
+  <aside class="notes">
+    The equity numbers can wait for the lawyer. The venture name can wait until we know if
+    we're doing this together. The three items on this slide are the whole ask.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 21 — Timeline
+     ============================================================ -->
+<section>
+  <h4>Section 07 · Timeline</h4>
+  <h2>The next 18 months.</h2>
+  <div class="timeline">
+    <div class="quarter active">
+      <h4>Oct 2026</h4>
+      <p class="subtle">Group decision on structure. Q4 experiments launch.</p>
+    </div>
+    <div class="quarter">
+      <h4>Nov 2026</h4>
+      <p class="subtle">Fractional-legal engagement. First pilot lands.</p>
+    </div>
+    <div class="quarter">
+      <h4>Dec 2026</h4>
+      <p class="subtle">Read Q4 signals. Pick the wedge. Draft entity structure.</p>
+    </div>
+    <div class="quarter">
+      <h4>Q1 2027</h4>
+      <p class="subtle">Entity formed. First paying retainer. Second operator commits.</p>
+    </div>
+    <div class="quarter">
+      <h4>Q2–Q4 2027</h4>
+      <p class="subtle">Scale the wedge. Second option starts as R&amp;D layer.</p>
+    </div>
+    <div class="quarter">
+      <h4>2028+</h4>
+      <p class="subtle">Steady state. Adjacent option contributes. Optional capital.</p>
+    </div>
+  </div>
+  <p class="subtle" style="margin-top: 2em;">If we haven't picked a wedge by end of Q1 2027, we've lost the window.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 21 <span class="sep">/</span> Timeline</div>
+  <aside class="notes">
+    Dates are guides, not commitments. Any of us can slow it down. The one hard constraint is
+    the Q1 2027 wedge decision — after that the market moves on.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 22 — What if not
+     ============================================================ -->
+<section>
+  <h4>Section 07 · Backstops</h4>
+  <h2>What happens if we don't do this together.</h2>
+  <div class="grid-3" style="margin-top: 1.5em;">
+    <div class="card">
+      <span class="card-label">Path 1</span>
+      <h3>Solo under Manfred</h3>
+      <p class="subtle">Jens runs Option A under Studio Manfred umbrella. Bootstrap-viable, slower ramp, loses group leverage.</p>
+    </div>
+    <div class="card">
+      <span class="card-label">Path 2</span>
+      <h3>Full spinout</h3>
+      <p class="subtle">New brand, new entity, cold start. Fastest for investor optics but heaviest personal risk.</p>
+    </div>
+    <div class="card">
+      <span class="card-label">Path 3</span>
+      <h3>Shelve it</h3>
+      <p class="subtle">Studio Manfred continues as a consultancy. The bootstrap stays a differentiator, not a product.</p>
+    </div>
+  </div>
+  <p class="muted" style="margin-top: 2em;"><strong>None of these are catastrophic.</strong> But paths 1 and 2 walk away from a genuine synergy. Path 3 walks away from an opportunity the market is actively creating.</p>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 22</div>
+  <aside class="notes">
+    I'm not trying to guilt anyone. If it's not the right shape for the group, that's a real
+    answer. I'm sharing the alternatives so the group's decision is well-informed.
+  </aside>
+</section>
+
+<!-- ============================================================
+     Slide 23 — The document set
+     ============================================================ -->
+<section>
+  <h4>Section 08 · Docs</h4>
+  <h2>The deck is the invitation. The docs are the proposal.</h2>
+  <div class="grid-2" style="margin-top: 1.5em; gap: 3rem;">
+    <div>
+      <h4>Read these (in order)</h4>
+      <ul>
+        <li><code>docs/venture/README.md</code> — front door</li>
+        <li><code>2026-09-30-option-a-*.md</code> — the recommended wedge</li>
+        <li><code>2026-09-30-q4-2026-plan.md</code> — experiment slate</li>
+        <li><code>2026-09-30-open-questions.md</code> — decisions we owe each other</li>
+        <li><code>2026-09-30-market-context.md</code> — the current landscape</li>
+        <li><code>CHALLENGE-ME.md</code> — the doc that argues against</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Total read time</h4>
+      <p class="lead" style="font-size: 2em;">~45 minutes.</p>
+      <p class="subtle">If you only read one, read the Q4 plan — it's the least sales-y and most decision-relevant.</p>
+      <h4 style="margin-top: 2em;">Where the docs live</h4>
+      <p class="muted"><code>github.com/Studio-Manfred/manfred-bootstrap</code> · branch <code>feat/STU-985-venture-scoping-docs</code></p>
+    </div>
+  </div>
+  <div class="footer">Fourth chair? <span class="sep">/</span> Slide 23 <span class="sep">/</span> Docs</div>
+</section>
+
+<!-- ============================================================
+     Slide 24 — Thank you / cover-back
+     ============================================================ -->
+<section class="cover">
+  <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+    <p class="kicker">Thank you.</p>
+    <h1 style="font-size: 3.6em;">Now the conversation.</h1>
+    <p class="lead muted" style="max-width: 50ch;">Nobody commits today. The point is to read the docs and come back with the version of this venture we'd all want to build together — or with the reasons we shouldn't.</p>
+    <div class="brand-badges">
+      <span class="chip chip--seventyone">SeventyOne</span>
+      <span class="chip chip--manfred">Manfred</span>
+      <span class="chip chip--mather">Mather</span>
+      <span class="chip chip--venture">Fourth firm?</span>
+    </div>
+    <p class="signature">Jens Wedin &nbsp;·&nbsp; jens@studiomanfred.com &nbsp;·&nbsp; 30 September 2026</p>
+  </div>
+  <aside class="notes">
+    Close. Reiterate: this is a beginning of a discussion, not a request for a decision. The
+    homework is to read the docs. If the answer is "not for us," name what would change your
+    mind — that ledgers as a challenge in CHALLENGE-ME.md.
+  </aside>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    controls: true,
+    controlsTutorial: false,
+    progress: true,
+    center: false,
+    transition: 'fade',
+    backgroundTransition: 'fade',
+    width: 1440,
+    height: 900,
+    margin: 0.02,
+    minScale: 0.3,
+    maxScale: 2.0,
+    plugins: [ RevealNotes ],
+  });
+</script>
+
+</body>
+</html>
