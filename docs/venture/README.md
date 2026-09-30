@@ -40,6 +40,9 @@ Each is a full write-up. Read the executive summary at the top of each; if it ho
 - **[SeventyOne Group founder deck](./2026-09-30-seventyone-group-deck.md)** _(discussion aid, not a pitch)_
   20-slide markdown deck for a ~60-minute conversation with David + Håkan (SeventyOne Consulting), Moa (Mather Studio), and Jens (Studio Manfred). Covers where each firm is today, what's changed in the market, the venture opportunity, the three plausible structures for where it fits in the Group, an equity/governance sketch, timeline, decision framework, and specific asks for each attendee. Includes presenter's-notes on running the discussion.
 
+- **[Ownership + revenue-model recommendations](./2026-10-01-ownership-and-revenue.md)** _(pre-lawyer conversation prep)_
+  Three recommended cap-table structures for the new venture: (A) Jens personal-founder + firm-shareholders (my preference); (B) all-personal cap table; (C) holding/operating two-tier for later. Plus revenue flows — retainer + pilot revenue routing, referral fees for client introductions, Mather-contractor billing pass-through, an IP-royalty licence back to Manfred/SeventyOne/Mather for methodology use on their own client work. Founder-equity mechanics, governance clauses, what Jens keeps + gives up, what the two Manfred co-owners actually receive, and what happens if the group says no. Companion for the SeventyOne meeting; needs Swedish AB-qualified legal review before anything signs.
+
 ## How they fit together
 
 They aren't mutually exclusive.
