@@ -25,6 +25,28 @@ own `starter/MEMORY.md` template). Newest first.
   files; needs an overlay pass to pick up updated designer.md +
   release-manager.md).
 
+## 2026-09-30 — Venture scoping (STU-985) · Fall 2026 → Q1 2027 · in progress
+
+Working session extending the 2026-09-29 DS-first proof into a venture proposal. The observation: `manfred-bootstrap` isn't just internal tooling — it's a methodology + toolchain + coaching stack that can be sold to small product-tech companies who bought AI dev tools but didn't get faster.
+
+Committed to `docs/venture/` (STU-985 branch `feat/STU-985-venture-scoping-docs`):
+
+- `README.md` — index + how-the-three-options-relate
+- `2026-09-30-option-a-product-ops-as-service.md` — embed + retainer wedge (recommended)
+- `2026-09-30-option-b-bootstrap-as-product.md` — SaaS platform scale layer
+- `2026-09-30-option-c-methodology-licensed.md` — book / course / certification flywheel
+
+Each covers: where we are today, vision, how we get there, customer needs, market (global / EU / SE / Stockholm), risks (desirability / feasibility / viability), what's needed to start, brand + marketing.
+
+**Research findings folded into the docs:**
+
+- Cursor $2B ARR + 70% Fortune 500 penetration; Cognition/Devin $492M ARR at $26B valuation
+- ~105 funded AI startups in Stockholm; local VCs (EQT, Creandum, Northzone, Luminar) write €500K–€20M for exactly this space
+- Enterprise adoption gap is organisational (22% cite "way we operate" as the primary AI barrier), not technological
+- Hybrid retainer pricing (base + variable per workflow) is the emerging norm for AI-services agencies
+
+**Next pickup:** four founder-level questions for Jens (see the STU-985 comment thread on the branch's PR body). Answers narrow the venture to a specific first experiment.
+
 ## 2026-09-29 — DS-first pattern proven end-to-end · shipped
 
 Long continuous session. Everything from STU-977 to STU-980's actual
