@@ -27,6 +27,14 @@ Each is a full write-up. Read the executive summary at the top of each; if it ho
 - **[Open questions](./2026-09-30-open-questions.md)** _(working list; every question has an owner)_
   Everything still waiting for a decision, a conversation, or a paid expert. Structured across founder / stakeholders / market / legal / brand / product / existential, with an "answer by" deadline against each. Distinct from the honest gaps — those close through experiments; open questions close through people. The last section lists the 5 that need to be answered before October ends.
 
+- **[Market context (end September 2026)](./2026-09-30-market-context.md)** _(dated snapshot, redo quarterly)_
+  Triangulation of where the global economy, VC market, Nordic economy, AI industry, and enterprise buyer behaviour sit right now, and what each means for our Q4 experiments. Key finding: the AI-tools layer consolidated into Big Tech in one week in June 2026 (SpaceX bought Cursor for $60B, OpenAI bought Windsurf for $3B), which closes some doors and opens others for the "process layer on top of AI tools" position we're aiming at.
+
+## Adversarial
+
+- **[CHALLENGE-ME](./CHALLENGE-ME.md)** _(the doc that argues against the venture)_
+  The strongest possible case against the current plan. Weakest links in the pitch, over-optimistic assumptions, business-model risks, ideology risks, alternatives we haven't considered, and a pre-mortem imagining four ways this fails by Q4 2028. Rules: every challenge is "believed until proven wrong," answers get ledgered in git, and unanswered challenges past 6 weeks are serious flags. Invited to be edited by anyone — investors and advisors specifically welcome to add their own challenges.
+
 ## How they fit together
 
 They aren't mutually exclusive.
