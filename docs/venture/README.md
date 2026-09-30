@@ -35,6 +35,11 @@ Each is a full write-up. Read the executive summary at the top of each; if it ho
 - **[CHALLENGE-ME](./CHALLENGE-ME.md)** _(the doc that argues against the venture)_
   The strongest possible case against the current plan. Weakest links in the pitch, over-optimistic assumptions, business-model risks, ideology risks, alternatives we haven't considered, and a pre-mortem imagining four ways this fails by Q4 2028. Rules: every challenge is "believed until proven wrong," answers get ledgered in git, and unanswered challenges past 6 weeks are serious flags. Invited to be edited by anyone — investors and advisors specifically welcome to add their own challenges.
 
+## For specific conversations
+
+- **[SeventyOne Group founder deck](./2026-09-30-seventyone-group-deck.md)** _(discussion aid, not a pitch)_
+  20-slide markdown deck for a ~60-minute conversation with David + Håkan (SeventyOne Consulting), Moa (Mather Studio), and Jens (Studio Manfred). Covers where each firm is today, what's changed in the market, the venture opportunity, the three plausible structures for where it fits in the Group, an equity/governance sketch, timeline, decision framework, and specific asks for each attendee. Includes presenter's-notes on running the discussion.
+
 ## How they fit together
 
 They aren't mutually exclusive.
