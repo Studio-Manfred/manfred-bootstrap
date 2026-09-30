@@ -19,6 +19,11 @@ Each is a full write-up. Read the executive summary at the top of each; if it ho
 3. **[Option C — The Manfred way, licensed](./2026-09-30-option-c-methodology-licensed.md)** _(thought-leadership follow-on)_
    Codify the WoW as books, courses, certifications. Author-brand play, similar to Shape Up (Basecamp), Team Topologies, or Accelerate. Small team, high margin, slow compound.
 
+## The Q4 2026 plan
+
+- **[The Q4 2026 plan — story arc, gaps, experiments](./2026-09-30-q4-2026-plan.md)** _(read this after the option docs)_
+  Ties the three options into a sequenced chronology, enumerates the 10 honest gaps and how each closes, and defines three concrete parallel experiments (one per option) with hypotheses, ship lists, success signals, cost caps, and kill criteria. Plus the Q1 2027 decision framework — how we read the signals to pick the wedge.
+
 ## How they fit together
 
 They aren't mutually exclusive.
