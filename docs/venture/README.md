@@ -24,6 +24,9 @@ Each is a full write-up. Read the executive summary at the top of each; if it ho
 - **[The Q4 2026 plan — story arc, gaps, experiments](./2026-09-30-q4-2026-plan.md)** _(read this after the option docs)_
   Ties the three options into a sequenced chronology, enumerates the 10 honest gaps and how each closes, and defines three concrete parallel experiments (one per option) with hypotheses, ship lists, success signals, cost caps, and kill criteria. Plus the Q1 2027 decision framework — how we read the signals to pick the wedge.
 
+- **[Open questions](./2026-09-30-open-questions.md)** _(working list; every question has an owner)_
+  Everything still waiting for a decision, a conversation, or a paid expert. Structured across founder / stakeholders / market / legal / brand / product / existential, with an "answer by" deadline against each. Distinct from the honest gaps — those close through experiments; open questions close through people. The last section lists the 5 that need to be answered before October ends.
+
 ## How they fit together
 
 They aren't mutually exclusive.
