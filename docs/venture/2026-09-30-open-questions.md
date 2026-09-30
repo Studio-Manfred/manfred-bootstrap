@@ -98,7 +98,21 @@ The uncomfortable ones. Not urgent but need honest sitting-with before Q1 2027.
 | E4 | **Personal risk tolerance** — how much of Jens's personal runway is on the table? What's the tripwire that says "stop"? | Jens | Before October (needed to size G9 realistically) |
 | E5 | **Family / partner sign-off** — every venture asks this eventually; better sooner | Jens | Before end of October |
 
-## 8. What's NOT on this list
+## 8. Deferred artifacts (explicit)
+
+Things I've said "let's do that later" about — captured here so the deferral is visible and doesn't quietly vanish.
+
+| # | Deferred artifact | Owner | Blocked by | Trigger to unblock |
+|---|---|---|---|---|
+| D1 | **Financial model** — P&L, cash flow, LTV/CAC per option; sensitivity analysis; personal-runway model | Jens (informed by fractional accountant) | F1 (ambition size) and F3 (capital preference) | Once F1 and F3 are answered, build a scenarios-based first pass (~4 hours) then hand to accountant for review |
+| D2 | **Investor deck** — pitch to VCs / angels / F&F, distinct from the SeventyOne Group discussion deck | Jens | Wedge choice (end of Q4 experiments) + F3 (capital preference) | Only builds if F3 = accelerated or seed. Build after Q1 2027 wedge pick. |
+| D3 | **Naming exercise** for a new brand | Jens + external branding help (2–4 hrs) | F4 (brand + entity decision) | Only builds if F4 = new brand. If chosen, needs domain + trademark availability check within 48 hours of shortlist. |
+| D4 | **PR #5 description rewrite** — the venture-scoping-docs PR has accumulated seven-plus commits and its body no longer reflects the shipped content | Jens (or auto-generated summary) | Nothing — just prioritization | Any time; low-friction 15-min task |
+| D5 | **Concrete follow-up tickets per Q4 experiment sub-task** (e.g. "draft A1 landing page copy", "shortlist C1 essay #1 topic") | Jens | Founder answers to F1–F4 (deferrals become more or less material depending on the wedge) | After F1–F4 answered, before October kickoff |
+
+**Rule:** if a deferred item stays deferred past the trigger event without being explicitly re-parked, flag it. Silent deferrals are how good ideas die.
+
+## 9. What's NOT on this list
 
 Deliberately excluded:
 
@@ -108,7 +122,7 @@ Deliberately excluded:
 
 If a question feels operational rather than strategic, it belongs in a follow-up Linear ticket, not this doc.
 
-## 9. How to close a question
+## 10. How to close a question
 
 When you answer one:
 
@@ -117,7 +131,7 @@ When you answer one:
 3. Ledger the ruling in the STU-985 comments so future collaborators see the reasoning
 4. If the answer created new questions, add them here with owner + deadline
 
-## 10. Immediate priorities (from the whole list)
+## 11. Immediate priorities (from the whole list)
 
 The five open questions that should be answered before October ends, in priority order:
 
