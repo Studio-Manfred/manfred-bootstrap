@@ -3,7 +3,7 @@
 **Status:** Approved for planning
 **Owner:** Jens Wedin
 **Date:** 2026-10-04
-**Linear:** STU-985 (adjacent; may spawn its own ticket)
+**Linear:** [STU-1035](https://linear.app/studio-manfred/issue/STU-1035) (related to STU-985)
 
 ---
 
@@ -147,7 +147,7 @@ Single-scroll home page, sticky anchor nav. Approx. 1500 words of content on hom
 | 5 | Path A — New project | `#new` | `node scripts/bootstrap.mjs new --name … --prefix STU --dir …` with flags table (`--github`, `--vercel`, `--linear`); what ships (CI, Playwright, axe, DS, 8 agents); first-ticket suggestion |
 | 6 | Path B — Existing project | `#existing` | `node scripts/bootstrap.mjs overlay --dir ../existing-repo --prefix STU`; what `overlay.manifest.json` ships vs starter-only; non-destructive note; conflict resolution tip |
 | 7 | Give Claude superpowers | `#claude` | Why (skills Claude uses while coding); 2-step install (`/plugin marketplace add Studio-Manfred/manfred-shared-knowledge` → `/plugin install …@manfred`); optional `install.sh` for home CLAUDE.md; CTA to `/plugins` |
-| 8 | Next steps | `#next` | Open Linear team · read `docs/ways-of-working-overview.md` + `docs/superpowers-workflow.md` · MEMORY.md convention · how to ask for help |
+| 8 | Next steps | `#next` | Open Linear team · read `docs/ways-of-working-overview.md` + `docs/superpowers-workflow.md` · MEMORY.md convention · ask for help in Slack `#tech-help` |
 
 ### `/plugins` subpage
 
@@ -257,7 +257,6 @@ Vercel's build injects its own token via project env; the GH Actions job uses th
 
 ## 14. Open questions
 
-- Should the site link to a Slack channel for help? If so, which one? (Default: `#manfred-eng`.) — ask Jens before shipping.
 - Does the DS currently export a `Tabs` component, or do we need `ToggleGroup`? — resolved in the first implementation task by reading the DS package.
 
 ## 15. Success check (post-ship)
