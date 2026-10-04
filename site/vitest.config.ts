@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [react()],
   resolve: { alias: { '@': path.resolve(__dirname, './src') } },
   test: {
+    // Node 25+ ships a global localStorage that shadows jsdom's; disable it in workers.
+    pool: 'forks',
+    poolOptions: { forks: { execArgv: ['--no-experimental-webstorage'] } },
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./test/setup.ts'],
