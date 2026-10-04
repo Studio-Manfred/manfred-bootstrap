@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MemoryRouter } from 'react-router-dom'
 import { ThemeToggle } from '../src/components/ThemeToggle'
 import { Home } from '../src/routes/Home'
 import { Plugins } from '../src/routes/Plugins'
@@ -49,7 +50,11 @@ test('reduced motion disables transition class', async () => {
 })
 
 test('main landmarks are programmatically focusable skip targets', () => {
-  const { container } = render(<Home />)
+  const { container } = render(
+    <MemoryRouter>
+      <Home />
+    </MemoryRouter>,
+  )
   expect(container.querySelector('main#main')).toHaveAttribute('tabindex', '-1')
   const r2 = render(<Plugins />)
   expect(r2.container.querySelector('main#main')).toHaveAttribute('tabindex', '-1')
