@@ -3,6 +3,14 @@
 Session log for the `my-process` template repo itself (meta — the starter ships its
 own `starter/MEMORY.md` template). Newest first.
 
+## 2026-10-05 — Onboarding site (STU-1035) landed on branch
+
+- Site lives at `site/` (Vite + React + TS), deploys to Vercel with Root Directory = `site`.
+- To update the plugin list: edit `site/src/content/plugins.ts`.
+- To add a home section: create `site/src/sections/<Name>.tsx` with `ANCHOR_ID`, add to `ANCHOR_ITEMS` in `Home.tsx`.
+- CI workflow: `.github/workflows/site.yml`. Set `GITHUB_TOKEN` in Vercel via `vercel env add GITHUB_TOKEN production` for the DS install.
+- PR: not yet opened — opens via `/finishing-a-development-branch` after the whole-branch review clears. MEMORY will be updated with the PR URL when it lands.
+
 ## 2026-09-29 — STU-977 DS-first convention shipped
 
 - **Shipped (branch `feat/STU-977-ds-first-convention`):** designer role
