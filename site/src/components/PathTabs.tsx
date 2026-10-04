@@ -62,7 +62,7 @@ export function PathTabs({ panels }: PathTabsProps) {
               tabIndex={isActive ? 0 : -1}
               onClick={() => select(t.value)}
               onKeyDown={onKeyDown}
-              className={`px-4 py-2 font-semibold border-b-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-border-focus)] ${isActive ? 'border-current' : 'border-transparent opacity-70'}`}
+              className={`px-4 py-2 font-semibold border-b-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-border-focus)] ${isActive ? 'border-current' : 'border-transparent opacity-70'}`}
             >
               {t.label}
             </button>

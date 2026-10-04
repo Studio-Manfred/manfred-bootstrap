@@ -46,7 +46,7 @@ export function AnchorNav({ items }: { items: AnchorNavItem[] }) {
             <a
               href={`#${it.id}`}
               aria-current={activeId === it.id ? 'location' : undefined}
-              className="rounded px-2 py-1 text-[var(--color-text-primary)] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-border-focus)] aria-[current=location]:font-semibold aria-[current=location]:underline"
+              className="rounded px-2 py-1 text-[var(--color-text-primary)] underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-border-focus)] aria-[current=location]:font-semibold aria-[current=location]:underline"
             >
               {it.label}
             </a>
