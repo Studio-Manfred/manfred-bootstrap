@@ -7,6 +7,7 @@ versioned like a product.
 ## [Unreleased]
 
 ### Added
+- Onboarding site at `/site/` — Vite + React + TS SPA with home + `/plugins` routes. See `docs/superpowers/specs/2026-10-04-onboarding-site-design.md`. (STU-1035)
 - Design-system access checklist for new DS-consuming repos (STU-645): package
   "Manage Actions access" grant for CI and Vercel `GITHUB_TOKEN` env var, printed
   by `bootstrap.mjs` next-steps and documented in `docs/stack-and-conventions.md`

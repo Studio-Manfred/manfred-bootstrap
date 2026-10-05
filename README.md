@@ -13,6 +13,8 @@ A GitHub template repository that ships four things:
 3. **Dependency-free bootstrap** — `scripts/bootstrap.mjs` stamps a new project from the full starter, or overlays just the WoW files onto an existing repo. Optionally provisions a GitHub repository, a Vercel project, and a Linear team in a single command.
 4. **Role-based agents** — eight named roles (strategist, analyst, designer, architect, builder, tester, documenter, release-manager), each backed by a specific Claude model via `.claude/agents/<role>.md`, shipped through the same overlay. Consumer projects check the design system first before building UI; the workflow is enforced by the `designer` role's system prompt.
 
+> **New here?** Start at the [onboarding site](site/) — it walks through `new`, `overlay`, and the Manfred Claude Code plugins.
+
 ---
 
 ## Get started — two ways
