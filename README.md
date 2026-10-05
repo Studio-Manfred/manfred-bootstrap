@@ -27,7 +27,13 @@ Click the green **Use this template** button at the top of this page, name your 
 
 ### b) Bootstrap script
 
-Run locally — no install required:
+Run it with one command (needs `git` and Node 20+; clones to a temp dir and cleans up):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Studio-Manfred/manfred-bootstrap/main/install.sh | bash -s -- new --name acme-app --prefix STU --dir ./acme-app --yes
+```
+
+Or run locally from a clone:
 
 ```bash
 # Stamp a brand-new project

@@ -1,5 +1,6 @@
 import { CommandBlock } from '../components/CommandBlock'
 import { Typography, VStack } from '@studio-manfred/manfred-design-system'
+import { INSTALL_URL, CLONE_PREFIX } from '../lib/install'
 
 export const ANCHOR_ID = 'new'
 
@@ -23,7 +24,7 @@ export default function NewProject() {
   return (
     <VStack as="section" gap={4} id={ANCHOR_ID} aria-labelledby={headingId} className="scroll-mt-32">
       <Typography variant="headline2" as="h2" id={headingId}>Path A — New project</Typography>
-      <CommandBlock command="node scripts/bootstrap.mjs new --name <project> --prefix STU --dir ../<project> --github --vercel --linear --linear-team STU --yes" />
+      <CommandBlock command={`${INSTALL_URL} | bash -s -- new --name <project> --prefix STU --dir ./<project> --github --vercel --linear --linear-team STU --yes`} />
       <table className="w-full border-collapse text-left">
         <caption className="sr-only">Provisioning flags</caption>
         <thead>
@@ -52,6 +53,8 @@ export default function NewProject() {
       <Typography variant="body">
         Open the project in Claude Code, create your first Linear ticket (prefix <code>STU-</code>), and go.
       </Typography>
+      <Typography variant="bodySmall">Prefer a local clone?</Typography>
+      <CommandBlock command={`${CLONE_PREFIX} new --name <project> --prefix STU --dir ../<project>`} />
     </VStack>
   )
 }
