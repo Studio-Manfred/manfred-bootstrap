@@ -2,8 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { ThemeToggle } from '../src/components/ThemeToggle'
-import { Home } from '../src/routes/Home'
-import { Plugins } from '../src/routes/Plugins'
+import { App } from '../src/App'
 
 beforeEach(() => {
   localStorage.clear()
@@ -49,13 +48,13 @@ test('reduced motion disables transition class', async () => {
   expect(document.documentElement).not.toHaveClass('theme-transition')
 })
 
-test('main landmarks are programmatically focusable skip targets', () => {
+test('the single main landmark is a programmatically focusable skip target', () => {
   const { container } = render(
     <MemoryRouter>
-      <Home />
+      <App />
     </MemoryRouter>,
   )
-  expect(container.querySelector('main#main')).toHaveAttribute('tabindex', '-1')
-  const r2 = render(<Plugins />)
-  expect(r2.container.querySelector('main#main')).toHaveAttribute('tabindex', '-1')
+  expect(container.querySelectorAll('main')).toHaveLength(1)
+  expect(container.querySelector('main')).toHaveAttribute('tabindex', '-1')
+  expect(screen.getByRole('link', { name: /skip to main content/i })).toBeInTheDocument()
 })

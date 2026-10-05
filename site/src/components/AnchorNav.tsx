@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Typography } from '@studio-manfred/manfred-design-system'
 
 export interface AnchorNavItem {
   id: string
@@ -38,7 +39,7 @@ export function AnchorNav({ items }: { items: AnchorNavItem[] }) {
   return (
     <nav
       aria-label="On this page"
-      className="sticky top-0 z-10 border-b border-[var(--color-border-default)] bg-[var(--color-surface-default)]"
+      className="sticky top-16 z-10 border-b border-[var(--color-border-default)] bg-[var(--color-surface-default)]"
     >
       <ul className="m-0 flex list-none flex-wrap gap-4 p-2">
         {items.map((it) => (
@@ -48,7 +49,9 @@ export function AnchorNav({ items }: { items: AnchorNavItem[] }) {
               aria-current={activeId === it.id ? 'location' : undefined}
               className="rounded px-2 py-1 text-[var(--color-text-primary)] underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-border-focus)] aria-[current=location]:font-semibold aria-[current=location]:underline"
             >
-              {it.label}
+              <Typography variant="label" as="span">
+                {it.label}
+              </Typography>
             </a>
           </li>
         ))}

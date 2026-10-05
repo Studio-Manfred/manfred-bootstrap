@@ -1,3 +1,4 @@
+import { VStack } from '@studio-manfred/manfred-design-system'
 import { AnchorNav } from '../components/AnchorNav'
 import { PathTabs } from '../components/PathTabs'
 import Hero from '../sections/Hero'
@@ -21,7 +22,7 @@ const ANCHOR_ITEMS = [
 
 export function Home() {
   return (
-    <main id="main" tabIndex={-1}>
+    <VStack gap={12}>
       <AnchorNav items={ANCHOR_ITEMS} />
       <Hero />
       <Why />
@@ -30,6 +31,6 @@ export function Home() {
       <PathTabs panels={{ new: <NewProject />, existing: <ExistingProject /> }} />
       <ClaudeSetup />
       <NextSteps />
-    </main>
+    </VStack>
   )
 }

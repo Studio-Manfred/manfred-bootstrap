@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Button } from '@studio-manfred/manfred-design-system'
 import {
   applyTheme,
   nextTheme,
@@ -37,13 +38,14 @@ export function ThemeToggle() {
 
   const next = nextTheme(theme)
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
+      size="sm"
       onClick={handleClick}
       aria-label={`Switch to ${LABELS[next]} theme`}
-      className="fixed right-4 top-4 z-40 rounded border border-[var(--color-border-default)] bg-[var(--color-surface-default)] px-3 py-1 text-sm text-[var(--color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-border-focus)]"
     >
       <span aria-hidden="true">Theme: {LABELS[theme]}</span>
-    </button>
+    </Button>
   )
 }
