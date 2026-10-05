@@ -1,3 +1,12 @@
+import {
+  Badge,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  HStack,
+} from '@studio-manfred/manfred-design-system'
 import type { Plugin } from '../content/plugins'
 import { CommandBlock } from './CommandBlock'
 
@@ -7,16 +16,18 @@ export interface PluginCardProps {
 
 export function PluginCard({ plugin }: PluginCardProps) {
   return (
-    <article
-      data-testid="plugin-card"
-      className="rounded border border-[var(--color-border-default)] bg-[var(--color-surface-default)] p-4 text-[var(--color-text-primary)]"
-    >
-      <h3 className="font-mono text-lg font-semibold">{plugin.slug}</h3>
-      <p className="mt-1">{plugin.pitch}</p>
-      <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-        {plugin.skills} skills · {plugin.commands} commands
-      </p>
-      <CommandBlock command={`/plugin install ${plugin.slug}@manfred`} />
-    </article>
+    <Card as="article" padding="md" data-testid="plugin-card">
+      <CardHeader>
+        <CardTitle className="font-mono">{plugin.slug}</CardTitle>
+        <CardDescription>{plugin.pitch}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <HStack gap={2} wrap>
+          <Badge variant="neutral">{plugin.skills} skills</Badge>
+          <Badge variant="neutral">{plugin.commands} commands</Badge>
+        </HStack>
+        <CommandBlock command={`/plugin install ${plugin.slug}@manfred`} />
+      </CardContent>
+    </Card>
   )
 }

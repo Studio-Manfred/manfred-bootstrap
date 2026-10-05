@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Button, Icon, Typography } from '@studio-manfred/manfred-design-system'
 
 type CopyState = 'idle' | 'copied' | 'fallback'
 
@@ -42,28 +43,35 @@ export function CommandBlock({ command, label }: CommandBlockProps) {
   return (
     <div className="my-4">
       {label && (
-        <p className="mb-1 text-sm text-[var(--color-text-secondary)]">{label}</p>
+        <Typography variant="bodySmall" className="mb-1">
+          {label}
+        </Typography>
       )}
       <div className="flex items-center gap-2 rounded border border-[var(--color-border-default)] bg-[var(--color-surface-default)] p-2">
         <code
           ref={codeRef}
-          className="flex-1 overflow-x-auto whitespace-pre font-mono text-sm text-[var(--color-text-primary)]"
+          className="min-w-0 flex-1 whitespace-pre-wrap break-all font-mono text-sm text-[var(--color-text-primary)]"
         >
           {command}
         </code>
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="sm"
           onClick={handleCopy}
           aria-label={label ? `Copy command: ${label}` : 'Copy command'}
-          className="shrink-0 rounded border border-[var(--color-border-default)] px-3 py-1 text-sm text-[var(--color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-border-focus)]"
+          className="shrink-0"
         >
-          <span aria-hidden="true">Copy</span>
-        </button>
+          <span aria-hidden="true" className="inline-flex items-center gap-1">
+            <Icon name={state === 'copied' ? 'check' : 'chevron-right'} size="sm" />
+            Copy
+          </span>
+        </Button>
       </div>
       {state === 'fallback' && (
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+        <Typography variant="bodySmall" className="mt-1">
           Press Cmd/Ctrl+C to copy
-        </p>
+        </Typography>
       )}
       <span aria-live="polite" aria-atomic="true" className="sr-only">
         {state === 'copied' ? 'Copied' : ''}

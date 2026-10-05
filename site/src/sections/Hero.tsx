@@ -1,28 +1,26 @@
-export const ANCHOR_ID = 'top'
+import { Button, Icon, HStack, Typography, VStack } from '@studio-manfred/manfred-design-system'
 
-const ctaBase =
-  'inline-block rounded px-4 py-2 font-semibold no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-border-focus)]'
+export const ANCHOR_ID = 'top'
 
 export default function Hero() {
   const headingId = 'hero-heading'
   return (
-    <section id={ANCHOR_ID} aria-labelledby={headingId} className="scroll-mt-16">
-      <h1 id={headingId}>Manfred bootstrap</h1>
-      <p>Stamp a Manfred project, hand it to Claude, and start shipping.</p>
-      <p className="flex flex-wrap gap-3">
-        <a
-          href="#new"
-          className={`${ctaBase} bg-[var(--color-text-primary)] text-[var(--color-surface-default)]`}
-        >
-          Start a new project
-        </a>
-        <a
-          href="#existing"
-          className={`${ctaBase} border border-[var(--color-border-default)] text-[var(--color-text-primary)]`}
-        >
-          Add to an existing repo
-        </a>
-      </p>
-    </section>
+    <VStack as="section" gap={6} id={ANCHOR_ID} aria-labelledby={headingId} className="scroll-mt-32 py-8">
+      <Typography variant="headline1" id={headingId}>
+        Manfred bootstrap
+      </Typography>
+      <Typography variant="large">Stamp a Manfred project, hand it to Claude, and start shipping.</Typography>
+      <HStack gap={3} wrap>
+        <Button asChild variant="brand" size="lg">
+          <a href="#new">
+            Start a new project
+            <Icon name="arrow-right" size="sm" />
+          </a>
+        </Button>
+        <Button asChild variant="outline" size="lg">
+          <a href="#existing">Add to an existing repo</a>
+        </Button>
+      </HStack>
+    </VStack>
   )
 }

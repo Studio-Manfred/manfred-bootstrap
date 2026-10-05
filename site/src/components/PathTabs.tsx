@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@studio-manfred/manfred-design-system'
 
 type PathValue = 'new' | 'existing'
 
@@ -17,7 +18,6 @@ export interface PathTabsProps {
 
 export function PathTabs({ panels }: PathTabsProps) {
   const [active, setActive] = useState<PathValue>(fromHash)
-  const refs = useRef<Record<PathValue, HTMLButtonElement | null>>({ new: null, existing: null })
 
   useEffect(() => {
     const onHash = () => setActive(fromHash())
@@ -25,63 +25,28 @@ export function PathTabs({ panels }: PathTabsProps) {
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
 
-  const select = (value: PathValue, focus = false) => {
-    setActive(value)
-    if (window.location.hash !== `#${value}`) window.location.hash = value
-    if (focus) refs.current[value]?.focus()
-  }
-
-  const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-    const index = TABS.findIndex((t) => t.value === active)
-    let next: number
-    if (e.key === 'ArrowRight') next = (index + 1) % TABS.length
-    else if (e.key === 'ArrowLeft') next = (index - 1 + TABS.length) % TABS.length
-    else if (e.key === 'Home') next = 0
-    else if (e.key === 'End') next = TABS.length - 1
-    else return
-    e.preventDefault()
-    select(TABS[next].value, true)
+  const select = (value: string) => {
+    const v = value as PathValue
+    setActive(v)
+    if (window.location.hash !== `#${v}`) window.location.hash = v
   }
 
   return (
-    <div>
-      <div role="tablist" aria-label="Project type" className="flex gap-2 border-b border-[var(--color-border-default)]">
-        {TABS.map((t) => {
-          const isActive = t.value === active
-          return (
-            <button
-              key={t.value}
-              ref={(el) => {
-                refs.current[t.value] = el
-              }}
-              type="button"
-              role="tab"
-              id={`tab-${t.value}`}
-              aria-selected={isActive}
-              aria-controls={`panel-${t.value}`}
-              tabIndex={isActive ? 0 : -1}
-              onClick={() => select(t.value)}
-              onKeyDown={onKeyDown}
-              className={`px-4 py-2 font-semibold border-b-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-border-focus)] ${isActive ? 'border-current' : 'border-transparent opacity-70'}`}
-            >
-              {t.label}
-            </button>
-          )
-        })}
-      </div>
+    <Tabs value={active} onValueChange={select}>
+      <TabsList aria-label="Project type">
+        {TABS.map((t) => (
+          <TabsTrigger key={t.value} value={t.value}>
+            {t.label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
       {TABS.map((t) => (
-        <div
-          key={t.value}
-          role="tabpanel"
-          id={`panel-${t.value}`}
-          aria-labelledby={`tab-${t.value}`}
-          hidden={t.value !== active}
-          className="pt-4"
-        >
+        // forceMount keeps both panels in the DOM; Radix does not hide force-mounted panels, so set `hidden` explicitly.
+        <TabsContent key={t.value} value={t.value} forceMount hidden={t.value !== active} className="pt-4">
           {panels[t.value]}
-        </div>
+        </TabsContent>
       ))}
-    </div>
+    </Tabs>
   )
 }
 

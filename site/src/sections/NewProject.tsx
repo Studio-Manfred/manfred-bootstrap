@@ -1,4 +1,5 @@
 import { CommandBlock } from '../components/CommandBlock'
+import { Typography, VStack } from '@studio-manfred/manfred-design-system'
 
 export const ANCHOR_ID = 'new'
 
@@ -20,37 +21,37 @@ const SHIPS = [
 export default function NewProject() {
   const headingId = 'new-heading'
   return (
-    <section id={ANCHOR_ID} aria-labelledby={headingId} className="scroll-mt-16">
-      <h2 id={headingId}>Path A — New project</h2>
+    <VStack as="section" gap={4} id={ANCHOR_ID} aria-labelledby={headingId} className="scroll-mt-32">
+      <Typography variant="headline2" as="h2" id={headingId}>Path A — New project</Typography>
       <CommandBlock command="node scripts/bootstrap.mjs new --name <project> --prefix STU --dir ../<project> --github --vercel --linear --linear-team STU --yes" />
-      <table>
+      <table className="w-full border-collapse text-left">
         <caption className="sr-only">Provisioning flags</caption>
         <thead>
           <tr>
-            <th scope="col">Flag</th>
-            <th scope="col">What it does</th>
+            <th scope="col" className="border-b border-[var(--border)] p-2">Flag</th>
+            <th scope="col" className="border-b border-[var(--border)] p-2">What it does</th>
           </tr>
         </thead>
         <tbody>
           {FLAGS.map((f) => (
             <tr key={f.flag}>
-              <th scope="row">
+              <th scope="row" className="border-b border-[var(--border)] p-2">
                 <code>{f.flag}</code>
               </th>
-              <td>{f.desc}</td>
+              <td className="border-b border-[var(--border)] p-2">{f.desc}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <h3>What ships</h3>
-      <ul>
+      <Typography variant="headline3" as="h3">What ships</Typography>
+      <ul className="list-disc space-y-1 pl-6">
         {SHIPS.map((s) => (
           <li key={s}>{s}</li>
         ))}
       </ul>
-      <p>
+      <Typography variant="body">
         Open the project in Claude Code, create your first Linear ticket (prefix <code>STU-</code>), and go.
-      </p>
-    </section>
+      </Typography>
+    </VStack>
   )
 }

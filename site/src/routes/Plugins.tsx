@@ -1,3 +1,4 @@
+import { Typography, VStack } from '@studio-manfred/manfred-design-system'
 import { PluginCard } from '../components/PluginCard'
 import { PLUGINS, type Plugin } from '../content/plugins'
 
@@ -9,12 +10,14 @@ const GROUPS: { slug: Plugin['group']; title: string }[] = [
 
 export function Plugins() {
   return (
-    <main id="main" tabIndex={-1}>
-      <h1>Plugins</h1>
-      <p>Install only what you need. Each plugin is one command.</p>
+    <VStack gap={8}>
+      <Typography variant="headline1">Plugins</Typography>
+      <Typography variant="large">Install only what you need. Each plugin is one command.</Typography>
       {GROUPS.map(({ slug, title }) => (
         <section key={slug} aria-labelledby={`group-${slug}`}>
-          <h2 id={`group-${slug}`}>{title}</h2>
+          <Typography variant="headline2" as="h2" id={`group-${slug}`} className="mb-4">
+            {title}
+          </Typography>
           <div className="grid gap-4 sm:grid-cols-2">
             {PLUGINS.filter((p) => p.group === slug).map((p) => (
               <PluginCard key={p.slug} plugin={p} />
@@ -22,6 +25,6 @@ export function Plugins() {
           </div>
         </section>
       ))}
-    </main>
+    </VStack>
   )
 }
