@@ -14,10 +14,18 @@ test('includes all expected slugs', () => {
   ]);
 });
 
-test('every plugin has pitch, skills count, commands count, group', () => {
+test('every plugin has pitch and group', () => {
   for (const p of PLUGINS) {
     expect(p.pitch.length).toBeGreaterThan(0);
-    expect(p.skills).toBeGreaterThan(0);
     expect(['design', 'engineering', 'knowledge']).toContain(p.group);
+  }
+});
+
+test('skills are kebab-case names and commands are slash-prefixed kebab-case', () => {
+  for (const p of PLUGINS) {
+    expect(Array.isArray(p.skills)).toBe(true);
+    expect(Array.isArray(p.commands)).toBe(true);
+    for (const s of p.skills) expect(s).toMatch(/^[a-z0-9-]+$/);
+    for (const c of p.commands) expect(c).toMatch(/^\/[a-z0-9-]+$/);
   }
 });
