@@ -10,6 +10,12 @@ versioned like a product.
 - Onboarding site now uses design-system components (PageShell/Header/Body/Footer, Typography, Button, Icon, Tabs, Card, Badge, Container, Stack, Logo, NavItem); removed custom SkipToContent. (STU-1037)
 
 ### Added
+- `install.sh` (also `scripts/install.sh`): curl-pipeable one-click installer that clones to a temp dir, runs `bootstrap.mjs`, and cleans up. Onboarding site gains an Examples section. (STU-1038)
+
+### Fixed
+- `bootstrap.mjs` now runs when invoked via a symlinked path (macOS `/var` -> `/private/var`).
+
+### Added (earlier)
 - Onboarding site at `/site/` — Vite + React + TS SPA with home + `/plugins` routes. See `docs/superpowers/specs/2026-10-04-onboarding-site-design.md`. (STU-1035)
 - Design-system access checklist for new DS-consuming repos (STU-645): package
   "Manage Actions access" grant for CI and Vercel `GITHUB_TOKEN` env var, printed

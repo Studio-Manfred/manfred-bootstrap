@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { fileURLToPath } from 'node:url'
+import { realpathSync } from 'node:fs'
 import {
   readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync,
 } from 'node:fs'
@@ -279,6 +280,14 @@ async function main() {
   }
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+// realpath both sides: macOS temp dirs live under /var -> /private/var symlinks.
+const isEntry = (() => {
+  try {
+    return !!process.argv[1] && realpathSync(fileURLToPath(import.meta.url)) === realpathSync(process.argv[1])
+  } catch {
+    return false
+  }
+})()
+if (isEntry) {
   main().catch((e) => { console.error(e); process.exit(1) })
 }
