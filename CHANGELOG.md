@@ -6,6 +6,9 @@ versioned like a product.
 
 ## [Unreleased]
 
+### Added (STU-1040)
+- Root `AGENTS.md` so AI assistants know how to run new/overlay/download via `install.sh`; `starter/CLAUDE.md` gains a "Spinning up related Manfred projects" cheatsheet; `manfred-dev` on the site lists `bootstrap-manfred-project` and `install-manfred-claude-skills`.
+
 ### Changed
 - Onboarding site now uses design-system components (PageShell/Header/Body/Footer, Typography, Button, Icon, Tabs, Card, Badge, Container, Stack, Logo, NavItem); removed custom SkipToContent. (STU-1037)
 

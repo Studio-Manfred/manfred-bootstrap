@@ -30,8 +30,8 @@ export const PLUGINS: Plugin[] = [
   },
   {
     slug: 'manfred-dev',
-    pitch: 'Ship Vite/React features with pre-merge QA and release flow.',
-    skills: ['test-my-code', 'deploy', 'release'],
+    pitch: 'Ship Vite/React features (pre-merge QA, deploy, release) and bootstrap new Manfred projects or install the plugin marketplace.',
+    skills: ['test-my-code', 'deploy', 'release', 'bootstrap-manfred-project', 'install-manfred-claude-skills'],
     commands: [],
     group: 'engineering',
   },
