@@ -6,8 +6,10 @@ versioned like a product.
 
 ## [Unreleased]
 
-### Added (STU-1040)
-- Root `AGENTS.md` so AI assistants know how to run new/overlay/download via `install.sh`; `starter/CLAUDE.md` gains a "Spinning up related Manfred projects" cheatsheet; `manfred-dev` on the site lists `bootstrap-manfred-project` and `install-manfred-claude-skills`.
+### Added (STU-1188)
+- Hero button "Let AI guide you" (third, outline) opens a modal (design-system `Dialog`): a real excerpt of the prompt, "Copy the prompt" (the button says "Copied", a status line inside the dialog says where to paste), and "Download Markdown version". The button has a local AI icon (`AiIcon`, a stub for the design-system icon `sparkles`, STU-1189). The site opens no app and has no `claude://` link.
+- `bootstrap-guide-context.md` is the same text as the copy button (instruction + guide snapshot), emitted at build by `vite-plugin-guide-context.ts`.
+- `site/src/content/guide.ts`: guide text moved out of the sections into one module. The sections, the snapshot (`lib/guide-context.ts`) and the prompt (`lib/claude-prompt.ts`) all read from it.
 
 ### Changed
 - Onboarding site now uses design-system components (PageShell/Header/Body/Footer, Typography, Button, Icon, Tabs, Card, Badge, Container, Stack, Logo, NavItem); removed custom SkipToContent. (STU-1037)

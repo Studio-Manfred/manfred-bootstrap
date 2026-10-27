@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { expect, test } from 'vitest'
 import { App } from '../src/App'
@@ -30,4 +30,12 @@ test('New and Existing share a single tablist', () => {
 test('NextSteps mentions #tech-help', () => {
   renderHome()
   expect(screen.getByText(/#tech-help/)).toBeInTheDocument()
+})
+
+test('the flag table explains the options the commands use', () => {
+  renderHome()
+  const table = screen.getByRole('table', { name: /command options/i, hidden: true })
+  for (const opt of ['--name', '--prefix', '--dir', '--linear-team', '--github', '--yes']) {
+    expect(within(table).getByRole('rowheader', { name: opt, hidden: true })).toBeInTheDocument()
+  }
 })

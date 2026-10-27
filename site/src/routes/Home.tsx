@@ -1,9 +1,11 @@
+import { useRef, useState, type MouseEvent } from 'react'
 import { VStack } from '@studio-manfred/manfred-design-system'
 import { AnchorNav } from '../components/AnchorNav'
 import { PathTabs } from '../components/PathTabs'
 import Hero from '../sections/Hero'
 import QuickStart, { ANCHOR_ID as START_ID } from '../sections/QuickStart'
 import Examples, { ANCHOR_ID as EXAMPLES_ID } from '../sections/Examples'
+import { ClaudeGuideDialog } from '../components/ClaudeGuideDialog'
 import Why, { ANCHOR_ID as WHY_ID } from '../sections/Why'
 import WhenToUse, { ANCHOR_ID as WHEN_ID } from '../sections/WhenToUse'
 import NewProject, { ANCHOR_ID as NEW_ID } from '../sections/NewProject'
@@ -23,10 +25,17 @@ const ANCHOR_ITEMS = [
 ]
 
 export function Home() {
+  const [guideOpen, setGuideOpen] = useState(false)
+  const openerRef = useRef<HTMLElement | null>(null)
+  const openGuide = (event: MouseEvent<HTMLElement>) => {
+    openerRef.current = event.currentTarget
+    setGuideOpen(true)
+  }
   return (
     <VStack gap={12}>
       <AnchorNav items={ANCHOR_ITEMS} />
-      <Hero />
+      <Hero onOpenGuide={openGuide} />
+      <ClaudeGuideDialog open={guideOpen} onOpenChange={setGuideOpen} openerRef={openerRef} />
       <Why />
       <WhenToUse />
       <QuickStart />
