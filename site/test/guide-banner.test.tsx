@@ -38,13 +38,17 @@ test('the hero has three buttons, the AI guide button last', () => {
   expect(buttons[0]).toHaveAccessibleName('Let AI guide you')
 })
 
-test('the banner is gone: only a one-line text link remains at #claude-guide', () => {
+test('there is no text link or #claude-guide section: the hero button is the only way in', () => {
   renderHome()
-  const section = document.getElementById('claude-guide') as HTMLElement
-  expect(section).toBeInTheDocument()
-  expect(within(section).getByText(/prefer a chat\?/i)).toBeInTheDocument()
-  expect(within(section).getByRole('button', { name: /open the ai guide/i })).toBeInTheDocument()
-  expect(within(section).queryByRole('heading')).toBeNull()
+  expect(screen.queryByText(/prefer a chat\?/i)).toBeNull()
+  expect(screen.queryByRole('button', { name: /open the ai guide/i })).toBeNull()
+  expect(document.getElementById('claude-guide')).toBeNull()
+})
+
+test('the hero button carries the AI icon', () => {
+  renderHome()
+  const button = screen.getByRole('button', { name: 'Let AI guide you' })
+  expect(button.querySelector('svg[data-icon="ai"]')).not.toBeNull()
 })
 
 test('no claude:// link and no unverified tool names anywhere in the dialog', async () => {
@@ -98,13 +102,6 @@ test('the close button closes the dialog and reopening resets the status', async
   await user.click(screen.getByRole('button', { name: 'Let AI guide you' }))
   const again = await screen.findByRole('dialog', { name: /let ai guide you/i })
   expect(within(again).getByRole('status')).toBeEmptyDOMElement()
-})
-
-test('the text link opens the same dialog', async () => {
-  const user = userEvent.setup()
-  renderHome()
-  await user.click(screen.getByRole('button', { name: /open the ai guide/i }))
-  expect(await screen.findByRole('dialog', { name: /let ai guide you/i })).toBeInTheDocument()
 })
 
 test('existing hero links and sections are unchanged', () => {

@@ -5,7 +5,6 @@ import { PathTabs } from '../components/PathTabs'
 import Hero from '../sections/Hero'
 import QuickStart, { ANCHOR_ID as START_ID } from '../sections/QuickStart'
 import Examples, { ANCHOR_ID as EXAMPLES_ID } from '../sections/Examples'
-import ClaudeGuideLink from '../sections/ClaudeGuideLink'
 import { ClaudeGuideDialog } from '../components/ClaudeGuideDialog'
 import Why, { ANCHOR_ID as WHY_ID } from '../sections/Why'
 import WhenToUse, { ANCHOR_ID as WHEN_ID } from '../sections/WhenToUse'
@@ -36,7 +35,6 @@ export function Home() {
     <VStack gap={12}>
       <AnchorNav items={ANCHOR_ITEMS} />
       <Hero onOpenGuide={openGuide} />
-      <ClaudeGuideLink onOpen={openGuide} />
       <ClaudeGuideDialog open={guideOpen} onOpenChange={setGuideOpen} openerRef={openerRef} />
       <Why />
       <WhenToUse />

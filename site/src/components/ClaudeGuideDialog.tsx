@@ -10,6 +10,7 @@ import {
   Typography,
   VStack,
 } from '@studio-manfred/manfred-design-system'
+import { AiIcon } from './AiIcon'
 import { GUIDE_CONTEXT_PATH } from '../content/guide'
 import { buildClaudePrompt, buildPromptExcerpt } from '../lib/claude-prompt'
 
@@ -21,15 +22,6 @@ const STATUS_TEXT: Record<Exclude<Status, 'idle'>, string> = {
 }
 
 const COPIED_MS = 3000
-
-// Decorative spark, hidden from screen readers.
-function Spark() {
-  return (
-    <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" />
-    </svg>
-  )
-}
 
 // Own component so its state resets each time the dialog closes and reopens.
 function GuideDialogBody() {
@@ -63,7 +55,7 @@ function GuideDialogBody() {
           as="p"
           className="flex items-center gap-2 uppercase tracking-wide text-[var(--color-text-brand)]"
         >
-          <Spark />
+          <AiIcon />
           Prefer a chat?
         </Typography>
         <DialogTitle>Let AI guide you</DialogTitle>
