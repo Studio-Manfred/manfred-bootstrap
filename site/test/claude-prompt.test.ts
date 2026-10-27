@@ -27,9 +27,17 @@ describe('buildClaudePrompt', () => {
     expect(prompt).toMatch(/INSTRUKTION TILL AI-ASSISTENTEN/)
   })
 
-  test('asks about goal, experience level and the kind of guidance wanted, one at a time', () => {
-    expect(prompt).toMatch(/Vad vill personen uppnå\?/)
-    expect(prompt).toMatch(/Hur erfaren är personen\?/)
+  test('opens by explaining the purpose, then offers options with short descriptions, not an open question', () => {
+    expect(prompt).toMatch(/syftet med Manfred Bootstrap/)
+    expect(prompt).toMatch(/Förstå Bootstrap: /)
+    expect(prompt).toMatch(/Starta ett nytt projekt: /)
+    expect(prompt).toMatch(/Lägga till i ett befintligt repo: /)
+    expect(prompt).not.toMatch(/Vad vill du få hjälp med:/)
+    expect(prompt).not.toMatch(/Vad vill du göra\?/)
+  })
+
+  test('asks for experience in concrete terms and for the kind of guidance wanted', () => {
+    expect(prompt).toMatch(/Hur van är du att sätta upp ett repo/)
     expect(prompt).toMatch(/Hur vill personen bli guidad\?/)
   })
 
