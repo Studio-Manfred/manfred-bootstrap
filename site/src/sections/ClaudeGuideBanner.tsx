@@ -1,17 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Button, Card, Icon, Typography, VStack } from '@studio-manfred/manfred-design-system'
 import { GUIDE_CONTEXT_PATH } from '../content/guide'
-import { buildClaudeDeepLink, buildClaudePrompt } from '../lib/claude-prompt'
+import { buildClaudePrompt } from '../lib/claude-prompt'
 
 export const ANCHOR_ID = 'claude-guide'
-export const CLAUDE_DOWNLOAD_URL = 'https://claude.ai/download'
 
-type Status = 'idle' | 'opened' | 'copied' | 'copy-failed'
+type Status = 'idle' | 'copied' | 'copy-failed'
 
 const STATUS_TEXT: Record<Exclude<Status, 'idle'>, string> = {
-  opened: 'Nothing happens? Claude Desktop must be installed.',
-  copied: 'Prompt copied. Paste it into a new chat in Claude.',
-  'copy-failed': 'Could not copy. Download the Markdown version and upload it to Claude instead.',
+  copied: 'Prompt copied. Paste it into any chat, for example Claude or ChatGPT, and send it.',
+  'copy-failed': 'Could not copy. Download the Markdown version and upload it to your chat instead.',
 }
 
 // Decorative spark, hidden from screen readers.
@@ -26,18 +24,7 @@ function Spark() {
 export default function ClaudeGuideBanner() {
   const headingId = 'claude-guide-heading'
   const prompt = useMemo(() => buildClaudePrompt(), [])
-  const href = useMemo(() => buildClaudeDeepLink(prompt), [prompt])
   const [status, setStatus] = useState<Status>('idle')
-  const timer = useRef<number | undefined>(undefined)
-
-  useEffect(() => () => window.clearTimeout(timer.current), [])
-
-  // The link opens Claude Desktop by itself; we only reveal the fallback help.
-  // Nothing is sent: Claude shows the prompt for the user to review.
-  function handleOpen() {
-    window.clearTimeout(timer.current)
-    setStatus('opened')
-  }
 
   async function handleCopy() {
     try {
@@ -59,49 +46,34 @@ export default function ClaudeGuideBanner() {
               Prefer a chat?
             </Typography>
             <Typography variant="headline3" as="h2" id={headingId}>
-              Let Claude guide you.
+              Let AI guide you.
             </Typography>
             <Typography variant="body">
-              Claude starts from the Bootstrap guide, finds your level and goal, and helps you onward — one question at
-              a time.
+              Copy one prompt, paste it into your chat assistant. It finds your level and goal and guides you, one
+              question at a time.
             </Typography>
-            <Typography variant="bodySmall" className="text-[var(--color-text-secondary)]">
+            <Typography variant="bodySmall" className="hidden text-[var(--color-text-secondary)] sm:block">
               All Bootstrap context comes from this guide.
             </Typography>
           </VStack>
-          <VStack gap={3} className="w-full items-stretch sm:w-auto sm:shrink-0 sm:items-end">
-            <Button asChild variant="brand" size="lg" className="w-full sm:w-auto">
-              <a href={href} onClick={handleOpen}>
-                Open in Claude Desktop
-                <Icon name="arrow-right" size="sm" />
-              </a>
+          <VStack gap={3} className="items-stretch sm:shrink-0 sm:items-end">
+            <Button type="button" variant="brand" size="lg" onClick={handleCopy} className="w-full sm:w-auto">
+              Copy the prompt
+              <Icon name={status === 'copied' ? 'check' : 'arrow-right'} size="sm" />
             </Button>
-            <div className="flex flex-wrap items-center gap-3 sm:justify-end">
-              <Button type="button" variant="outline" size="sm" onClick={handleCopy}>
-                Copy the prompt
-              </Button>
-              <Typography variant="bodySmall">
-                <a href={GUIDE_CONTEXT_PATH} download="bootstrap-guide-context.md">
-                  Download Markdown version
-                </a>
-              </Typography>
-            </div>
+            <Typography variant="bodySmall">
+              <a
+                href={GUIDE_CONTEXT_PATH}
+                download="bootstrap-guide-context.md"
+                className="inline-flex min-h-6 items-center rounded-sm py-2 text-[var(--color-text-brand)] underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 sm:py-0"
+              >
+                Download Markdown version
+              </a>
+            </Typography>
           </VStack>
         </div>
         <div role="status" aria-live="polite" aria-atomic="true" className="mt-4 empty:mt-0">
-          {status !== 'idle' && (
-            <Typography variant="bodySmall">
-              {STATUS_TEXT[status]}
-              {status === 'opened' && (
-                <>
-                  {' '}
-                  <a href={CLAUDE_DOWNLOAD_URL} target="_blank" rel="noreferrer">
-                    Download Claude Desktop
-                  </a>
-                </>
-              )}
-            </Typography>
-          )}
+          {status !== 'idle' && <Typography variant="bodySmall">{STATUS_TEXT[status]}</Typography>}
         </div>
       </Card>
     </section>

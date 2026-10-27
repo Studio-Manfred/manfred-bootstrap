@@ -7,11 +7,8 @@ versioned like a product.
 ## [Unreleased]
 
 ### Added (STU-1188)
-- Site banner "Let Claude guide you" under the hero: opens Claude Desktop via `claude://claude.ai/new?q=…` with a prefilled onboarding prompt (not auto-sent), with an always-visible copy-prompt button and a download link for `bootstrap-guide-context.md`.
-- `site/src/content/guide.ts`: guide text moved out of the sections into one module. The sections, the Markdown snapshot (`lib/guide-context.ts`, emitted at build by `vite-plugin-guide-context.ts`) and the Claude prompt (`lib/claude-prompt.ts`) all read from it.
-
-### Added (STU-1040)
-- Root `AGENTS.md` so AI assistants know how to run new/overlay/download via `install.sh`; `starter/CLAUDE.md` gains a "Spinning up related Manfred projects" cheatsheet; `manfred-dev` on the site lists `bootstrap-manfred-project` and `install-manfred-claude-skills`.
+- Site banner "Let AI guide you" under the hero. "Copy the prompt" copies a full onboarding prompt (the guide snapshot included) for any chat assistant, such as Claude or ChatGPT, and the status line says where to paste it. The banner opens no app. "Download Markdown version" serves `bootstrap-guide-context.md`.
+- `site/src/content/guide.ts`: guide text moved out of the sections into one module. The sections, the Markdown snapshot (`lib/guide-context.ts`, emitted at build by `vite-plugin-guide-context.ts`) and the prompt (`lib/claude-prompt.ts`) all read from it.
 
 ### Changed
 - Onboarding site now uses design-system components (PageShell/Header/Body/Footer, Typography, Button, Icon, Tabs, Card, Badge, Container, Stack, Logo, NavItem); removed custom SkipToContent. (STU-1037)

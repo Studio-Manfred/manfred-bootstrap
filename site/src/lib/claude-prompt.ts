@@ -1,8 +1,7 @@
 import { PLUGINS_URL, SITE_URL } from '../content/guide'
 import { buildGuideContext, type PluginDetail } from './guide-context'
 
-export const CLAUDE_DEEP_LINK_PREFIX = 'claude://claude.ai/new?q='
-/** Claude's limit is about 14 000 characters; stay below with margin. */
+/** Keeps the prompt well inside chat input limits (about 14 000 characters in Claude). */
 export const MAX_PROMPT_CHARS = 13_500
 
 export const PROMPT_TEMPLATE = `Du är en vänlig onboarding-guide för en anställd på Studio Manfred som ska komma igång med Manfred Bootstrap.
@@ -108,8 +107,4 @@ export function buildClaudePrompt({ maxChars = MAX_PROMPT_CHARS }: { maxChars?: 
     if (prompt.length < maxChars) return prompt
   }
   throw new Error(`Guide prompt does not fit in ${maxChars} characters`)
-}
-
-export function buildClaudeDeepLink(prompt: string): string {
-  return CLAUDE_DEEP_LINK_PREFIX + encodeURIComponent(prompt)
 }

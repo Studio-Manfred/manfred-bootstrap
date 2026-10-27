@@ -1,8 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import {
-  CLAUDE_DEEP_LINK_PREFIX,
   MAX_PROMPT_CHARS,
-  buildClaudeDeepLink,
   buildClaudePrompt,
 } from '../src/lib/claude-prompt'
 import { buildGuideContext } from '../src/lib/guide-context'
@@ -40,19 +38,5 @@ describe('buildClaudePrompt', () => {
 
   test('throws if even the smallest context does not fit', () => {
     expect(() => buildClaudePrompt({ maxChars: 500 })).toThrow()
-  })
-})
-
-describe('buildClaudeDeepLink', () => {
-  const prompt = buildClaudePrompt()
-  const link = buildClaudeDeepLink(prompt)
-
-  test('starts with the claude:// new-chat prefix', () => {
-    expect(link.startsWith('claude://claude.ai/new?q=')).toBe(true)
-    expect(CLAUDE_DEEP_LINK_PREFIX).toBe('claude://claude.ai/new?q=')
-  })
-
-  test('round-trips through decodeURIComponent', () => {
-    expect(decodeURIComponent(link.slice(CLAUDE_DEEP_LINK_PREFIX.length))).toBe(prompt)
   })
 })
