@@ -9,9 +9,9 @@ export const CLAUDE_DOWNLOAD_URL = 'https://claude.ai/download'
 type Status = 'idle' | 'opened' | 'copied' | 'copy-failed'
 
 const STATUS_TEXT: Record<Exclude<Status, 'idle'>, string> = {
-  opened: 'Händer inget? Claude Desktop behöver vara installerat.',
-  copied: 'Instruktionen är kopierad. Klistra in den i en ny chatt i Claude.',
-  'copy-failed': 'Kunde inte kopiera. Hämta Markdown-versionen istället och ladda upp den i Claude.',
+  opened: 'Nothing happens? Claude Desktop must be installed.',
+  copied: 'Prompt copied. Paste it into a new chat in Claude.',
+  'copy-failed': 'Could not copy. Download the Markdown version and upload it to Claude instead.',
 }
 
 // Decorative spark, hidden from screen readers.
@@ -56,50 +56,51 @@ export default function ClaudeGuideBanner() {
           <VStack gap={2} className="min-w-0 sm:max-w-xl">
             <Typography variant="label" className="flex items-center gap-2 uppercase tracking-wide text-[var(--color-text-brand)]">
               <Spark />
-              Hellre i chatformat?
+              Prefer a chat?
             </Typography>
             <Typography variant="headline3" as="h2" id={headingId}>
-              Låt Claude guida dig.
+              Let Claude guide you.
             </Typography>
             <Typography variant="body">
-              Claude utgår från Bootstrap-guiden, tar reda på din nivå och ditt mål och hjälper dig vidare — en fråga i
-              taget.
+              Claude starts from the Bootstrap guide, finds your level and goal, and helps you onward — one question at
+              a time.
             </Typography>
             <Typography variant="bodySmall" className="text-[var(--color-text-secondary)]">
-              All Bootstrap-kontext kommer från den här guiden.
+              All Bootstrap context comes from this guide.
             </Typography>
           </VStack>
           <VStack gap={3} className="w-full items-stretch sm:w-auto sm:shrink-0 sm:items-end">
             <Button asChild variant="brand" size="lg" className="w-full sm:w-auto">
               <a href={href} onClick={handleOpen}>
-                Öppna i Claude Desktop
+                Open in Claude Desktop
                 <Icon name="arrow-right" size="sm" />
               </a>
             </Button>
-            <Typography variant="bodySmall">
-              <a href={GUIDE_CONTEXT_PATH} download="bootstrap-guide-context.md">
-                Hämta Markdown-version
-              </a>
-            </Typography>
+            <div className="flex flex-wrap items-center gap-3 sm:justify-end">
+              <Button type="button" variant="outline" size="sm" onClick={handleCopy}>
+                Copy the prompt
+              </Button>
+              <Typography variant="bodySmall">
+                <a href={GUIDE_CONTEXT_PATH} download="bootstrap-guide-context.md">
+                  Download Markdown version
+                </a>
+              </Typography>
+            </div>
           </VStack>
         </div>
-        <div role="status" aria-live="polite" aria-atomic="true" className="mt-4">
+        <div role="status" aria-live="polite" aria-atomic="true" className="mt-4 empty:mt-0">
           {status !== 'idle' && (
-            <VStack gap={2}>
-              <Typography variant="bodySmall">{STATUS_TEXT[status]}</Typography>
-              {status !== 'copied' && (
-                <div className="flex flex-wrap items-center gap-3">
-                  <Button type="button" variant="outline" size="sm" onClick={handleCopy}>
-                    Kopiera instruktionen
-                  </Button>
-                  <Typography variant="bodySmall">
-                    <a href={CLAUDE_DOWNLOAD_URL} target="_blank" rel="noreferrer">
-                      Ladda ner Claude Desktop
-                    </a>
-                  </Typography>
-                </div>
+            <Typography variant="bodySmall">
+              {STATUS_TEXT[status]}
+              {status === 'opened' && (
+                <>
+                  {' '}
+                  <a href={CLAUDE_DOWNLOAD_URL} target="_blank" rel="noreferrer">
+                    Download Claude Desktop
+                  </a>
+                </>
               )}
-            </VStack>
+            </Typography>
           )}
         </div>
       </Card>
