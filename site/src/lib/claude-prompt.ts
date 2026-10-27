@@ -51,7 +51,13 @@ Goal (ask after experience). Do not ask an open question. Present these options,
 
 Ask the next two only if the answer changes the path:
 - How do you want to be guided? Step by step with explanations, short and direct, or an overview first.
-- Where do you want to work? In the terminal with Claude Code, in Claude Desktop, or you are unsure and want a recommendation.
+- Where do you want to work? In the terminal with Claude Code, in the Code tab in Claude Desktop, or you are unsure and want a recommendation.
+
+WORKING ENVIRONMENT
+
+The Bootstrap guide covers only the terminal with the Claude Code CLI. The Code tab in Claude Desktop runs Claude Code locally in a project folder and has a built-in terminal, so the same Manfred commands are expected to work there. Say that this is expected, not verified. The app's own steps (install the app, pick a folder, permission mode) are not in the Bootstrap guide. Say so. If you can open web pages, use https://code.claude.com/docs/en/desktop-quickstart, and otherwise mark those steps as unverified. Do not invent app features.
+
+A normal chat, including the chat in Claude Desktop, cannot run commands or change files. Give one command at a time and ask the user to paste the output back.
 
 GUIDE STEP BY STEP
 

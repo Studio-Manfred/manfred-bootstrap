@@ -14,8 +14,18 @@ describe('buildClaudePrompt', () => {
     expect(prompt).toContain(PLUGINS_URL)
   })
 
-  test('contains the generated guide context', () => {
-    expect(prompt).toContain(buildGuideContext())
+  test('contains the generated guide context (full or compact plugin list)', () => {
+    const full = buildGuideContext({ pluginDetail: 'full' })
+    const compact = buildGuideContext({ pluginDetail: 'compact' })
+    expect(prompt.includes(full) || prompt.includes(compact)).toBe(true)
+  })
+
+  test('explains the Code tab in Claude Desktop and what the guide does not cover', () => {
+    expect(prompt).toMatch(/Code tab in Claude Desktop/)
+    expect(prompt).toMatch(/https:\/\/code\.claude\.com\/docs\/en\/desktop-quickstart/)
+    expect(prompt).toMatch(/not in the Bootstrap guide/)
+    expect(prompt).toMatch(/cannot run commands/)
+    expect(prompt).toMatch(/expected, not verified/)
   })
 
   test('tells the chat to ask one question at a time', () => {
@@ -76,10 +86,14 @@ describe('buildClaudePrompt', () => {
     expect(prompt.length).toBeLessThan(MAX_PROMPT_CHARS)
   })
 
-  test('falls back to a compact plugin list when the full context does not fit', () => {
-    const tight = buildClaudePrompt({ maxChars: prompt.length - 1 })
-    expect(tight.length).toBeLessThan(prompt.length)
-    expect(tight).toContain(PLUGINS_URL)
+  test('uses the full plugin list when there is room, and the compact list when there is not', () => {
+    const full = buildClaudePrompt({ maxChars: 100_000 })
+    expect(full).toContain(PLUGINS_URL)
+    expect(full).toContain('skills:')
+    const compact = buildClaudePrompt({ maxChars: full.length - 1 })
+    expect(compact.length).toBeLessThan(full.length)
+    expect(compact).not.toContain('skills:')
+    expect(compact).toContain(PLUGINS_URL)
   })
 
   test('throws if even the smallest context does not fit', () => {
