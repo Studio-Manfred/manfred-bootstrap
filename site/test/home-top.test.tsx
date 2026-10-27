@@ -11,10 +11,10 @@ function renderHome() {
   )
 }
 
-test('Home renders Hero / Why / WhenToUse / QuickStart sections in order', () => {
+test('Home renders Hero / Claude banner / Why / WhenToUse / QuickStart sections in order', () => {
   renderHome()
   const h2s = screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)
-  expect(h2s.slice(0, 4)).toEqual(['Why this exists', 'When to use it', 'Quick start', 'Examples'])
+  expect(h2s.slice(0, 5)).toEqual(['Låt Claude guida dig.', 'Why this exists', 'When to use it', 'Quick start', 'Examples'])
   expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1)
 })
 

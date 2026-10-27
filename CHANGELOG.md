@@ -6,6 +6,10 @@ versioned like a product.
 
 ## [Unreleased]
 
+### Added (STU-1188)
+- Site banner "Låt Claude guida dig" under the hero: opens Claude Desktop via `claude://claude.ai/new?q=…` with a prefilled onboarding prompt (not auto-sent), with a copy-prompt fallback and a download link for `bootstrap-guide-context.md`.
+- `site/src/content/guide.ts`: guide text moved out of the sections into one module. The sections, the Markdown snapshot (`lib/guide-context.ts`, emitted at build by `vite-plugin-guide-context.ts`) and the Claude prompt (`lib/claude-prompt.ts`) all read from it.
+
 ### Added (STU-1040)
 - Root `AGENTS.md` so AI assistants know how to run new/overlay/download via `install.sh`; `starter/CLAUDE.md` gains a "Spinning up related Manfred projects" cheatsheet; `manfred-dev` on the site lists `bootstrap-manfred-project` and `install-manfred-claude-skills`.
 

@@ -4,6 +4,7 @@ import { PathTabs } from '../components/PathTabs'
 import Hero from '../sections/Hero'
 import QuickStart, { ANCHOR_ID as START_ID } from '../sections/QuickStart'
 import Examples, { ANCHOR_ID as EXAMPLES_ID } from '../sections/Examples'
+import ClaudeGuideBanner from '../sections/ClaudeGuideBanner'
 import Why, { ANCHOR_ID as WHY_ID } from '../sections/Why'
 import WhenToUse, { ANCHOR_ID as WHEN_ID } from '../sections/WhenToUse'
 import NewProject, { ANCHOR_ID as NEW_ID } from '../sections/NewProject'
@@ -27,6 +28,7 @@ export function Home() {
     <VStack gap={12}>
       <AnchorNav items={ANCHOR_ITEMS} />
       <Hero />
+      <ClaudeGuideBanner />
       <Why />
       <WhenToUse />
       <QuickStart />
