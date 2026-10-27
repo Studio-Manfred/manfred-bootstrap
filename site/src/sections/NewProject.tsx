@@ -1,7 +1,7 @@
 import { CommandBlock } from '../components/CommandBlock'
 import { Typography, VStack } from '@studio-manfred/manfred-design-system'
 import { Inline } from '../components/Inline'
-import { NEW_PROJECT } from '../content/guide'
+import { COMMAND_OPTIONS, NEW_PROJECT } from '../content/guide'
 
 export const ANCHOR_ID = 'new'
 
@@ -12,7 +12,7 @@ export default function NewProject() {
       <Typography variant="headline2" as="h2" id={headingId}>Path A — New project</Typography>
       <CommandBlock command={NEW_PROJECT.command} />
       <table className="w-full border-collapse text-left">
-        <caption className="sr-only">Provisioning flags</caption>
+        <caption className="sr-only">Command options</caption>
         <thead>
           <tr>
             <th scope="col" className="border-b border-[var(--border)] p-2">Flag</th>
@@ -20,12 +20,14 @@ export default function NewProject() {
           </tr>
         </thead>
         <tbody>
-          {NEW_PROJECT.flags.map((f) => (
+          {[...COMMAND_OPTIONS, ...NEW_PROJECT.flags].map((f) => (
             <tr key={f.flag}>
               <th scope="row" className="border-b border-[var(--border)] p-2">
                 <code>{f.flag}</code>
               </th>
-              <td className="border-b border-[var(--border)] p-2">{f.desc}</td>
+              <td className="border-b border-[var(--border)] p-2">
+                <Inline text={f.desc} />
+              </td>
             </tr>
           ))}
         </tbody>
