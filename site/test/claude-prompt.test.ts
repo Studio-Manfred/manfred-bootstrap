@@ -28,17 +28,28 @@ describe('buildClaudePrompt', () => {
     expect(prompt).not.toMatch(/Ställ bara en fråga|Du är en vänlig/)
   })
 
-  test('opens by explaining the purpose, then offers options with short descriptions, not an open question', () => {
-    expect(prompt).toMatch(/purpose of Manfred Bootstrap/)
+  test('opens by explaining the purpose, then asks the experience question first', () => {
+    const start = prompt.slice(prompt.indexOf('\nSTART\n'), prompt.indexOf('MARKDOWN SNAPSHOT'))
+    expect(start).toMatch(/purpose of Manfred Bootstrap/)
+    expect(start).toMatch(/experience question/)
+    expect(prompt).toMatch(/How comfortable are you setting up a repo/)
+    expect(start).not.toMatch(/Understand Bootstrap: /)
+    expect(prompt.indexOf('Experience.')).toBeLessThan(prompt.indexOf('Goal ('))
+  })
+
+  test('asks the goal second, with options and short descriptions, not an open question', () => {
     expect(prompt).toMatch(/Understand Bootstrap: /)
     expect(prompt).toMatch(/Start a new project: /)
     expect(prompt).toMatch(/Add it to an existing repo: /)
     expect(prompt).not.toMatch(/What do you want to do\?/)
   })
 
-  test('asks for experience in concrete terms and always establishes goal and level', () => {
-    expect(prompt).toMatch(/How comfortable are you setting up a repo/)
-    expect(prompt).toMatch(/Always establish the goal and the experience level/)
+  test('adapts the language of the guidance to the experience level from then on', () => {
+    expect(prompt).toMatch(/adapt your language to the experience level/i)
+  })
+
+  test('always establishes the experience level and the goal', () => {
+    expect(prompt).toMatch(/Always establish the experience level and the goal/)
   })
 
   test('offers numbered options that also work in a plain chat', () => {
