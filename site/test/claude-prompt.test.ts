@@ -22,6 +22,17 @@ describe('buildClaudePrompt', () => {
     expect(prompt).toMatch(/Ställ bara en fråga åt gången/)
   })
 
+  test('tells the chat to be a friendly guide', () => {
+    expect(prompt).toMatch(/vänlig/)
+    expect(prompt).toMatch(/INSTRUKTION TILL AI-ASSISTENTEN/)
+  })
+
+  test('asks about goal, experience level and the kind of guidance wanted, one at a time', () => {
+    expect(prompt).toMatch(/Vad vill personen uppnå\?/)
+    expect(prompt).toMatch(/Hur erfaren är personen\?/)
+    expect(prompt).toMatch(/Hur vill personen bli guidad\?/)
+  })
+
   test('has no unreplaced placeholder', () => {
     expect(prompt).not.toContain('{{GUIDE_CONTEXT}}')
   })

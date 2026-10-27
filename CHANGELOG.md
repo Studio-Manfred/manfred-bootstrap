@@ -7,7 +7,7 @@ versioned like a product.
 ## [Unreleased]
 
 ### Added (STU-1188)
-- Site banner "Let AI guide you" under the hero. "Copy the prompt" copies a full onboarding prompt (the guide snapshot included) for any chat assistant, such as Claude or ChatGPT, and the status line says where to paste it. The banner opens no app. "Download Markdown version" serves `bootstrap-guide-context.md`.
+- Site banner "Let AI guide you" under the hero. "Copy the prompt" copies a full onboarding prompt (the guide snapshot included) for any chat assistant, such as Claude or ChatGPT, and the status line says where to paste it. The banner opens no app. "Download Markdown version" serves `bootstrap-guide-context.md`, the same text as the copy button (instruction + guide snapshot), so it works when uploaded to a chat.
 - `site/src/content/guide.ts`: guide text moved out of the sections into one module. The sections, the Markdown snapshot (`lib/guide-context.ts`, emitted at build by `vite-plugin-guide-context.ts`) and the prompt (`lib/claude-prompt.ts`) all read from it.
 
 ### Changed
