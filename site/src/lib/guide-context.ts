@@ -1,5 +1,6 @@
 import {
   CLAUDE_SETUP,
+  COMMAND_OPTIONS,
   EXAMPLES,
   EXISTING_PROJECT,
   INTRO,
@@ -58,7 +59,7 @@ export function buildGuideContext({ pluginDetail = 'full' }: { pluginDetail?: Pl
       'Path B — Existing project',
       [code(EXISTING_PROJECT.command), bullets(EXISTING_PROJECT.bullets), 'Prefer a local clone?', code(EXISTING_PROJECT.cloneCommand)].join('\n\n'),
     ],
-    ['Flags', NEW_PROJECT.flags.map((f) => `- \`${f.flag}\`: ${f.desc}`).join('\n')],
+    ['Flags', [...COMMAND_OPTIONS, ...NEW_PROJECT.flags].map((f) => `- \`${f.flag}\`: ${f.desc}`).join('\n')],
     ['What gets installed or created', bullets(NEW_PROJECT.ships)],
     ['Claude plugins', pluginSection(pluginDetail)],
     ['Next steps', bullets(NEXT_STEPS)],

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { buildGuideContext } from '../src/lib/guide-context'
-import { PLUGINS_URL, REPO_URL, SITE_URL, EXAMPLES, NEW_PROJECT } from '../src/content/guide'
+import { PLUGINS_URL, REPO_URL, SITE_URL, EXAMPLES, NEW_PROJECT, COMMAND_OPTIONS } from '../src/content/guide'
 import { PLUGINS } from '../src/content/plugins'
 
 describe('buildGuideContext', () => {
@@ -34,6 +34,14 @@ describe('buildGuideContext', () => {
     for (const e of EXAMPLES) expect(md).toContain(e.command)
     for (const f of NEW_PROJECT.flags) expect(md).toContain(f.flag)
     for (const p of PLUGINS) expect(md).toContain(p.slug)
+  })
+
+  test('explains every option the example commands use', () => {
+    const flags = md.slice(md.indexOf('## Flags'), md.indexOf('## What gets installed'))
+    for (const opt of ['--name', '--prefix', '--dir', '--linear-team']) {
+      expect(COMMAND_OPTIONS.map((o) => o.flag)).toContain(opt)
+      expect(flags).toContain(`\`${opt}\``)
+    }
   })
 
   test('full plugin detail lists skills, compact keeps name and purpose and the link', () => {

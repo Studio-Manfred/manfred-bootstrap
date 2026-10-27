@@ -74,6 +74,15 @@ export const NEW_PROJECT = {
   cloneCommand: `${CLONE_PREFIX} new --name <project> --prefix STU --dir ../<project>`,
 }
 
+// Options the example commands use besides the provisioning flags. Only the Markdown snapshot
+// shows these; the page table keeps NEW_PROJECT.flags. Wording follows docs/using-this-repo.md.
+export const COMMAND_OPTIONS = [
+  { flag: '--name', desc: 'Project name. Required for `new`; in `overlay` it defaults to the target directory name.' },
+  { flag: '--prefix', desc: 'Linear team prefix, for example `STU`.' },
+  { flag: '--dir', desc: 'Target directory path.' },
+  { flag: '--linear-team', desc: 'Linear team key to create the project under. Defaults to `--prefix`.' },
+]
+
 export const EXISTING_PROJECT = {
   command: `${INSTALL_URL} | bash -s -- overlay --dir ./existing-repo --prefix STU`,
   bullets: [
