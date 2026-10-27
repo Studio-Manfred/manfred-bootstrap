@@ -7,8 +7,9 @@ versioned like a product.
 ## [Unreleased]
 
 ### Added (STU-1188)
-- Site banner "Let AI guide you" under the hero. "Copy the prompt" copies a full onboarding prompt (the guide snapshot included) for any chat assistant, such as Claude or ChatGPT, and the status line says where to paste it. The banner opens no app. "Download Markdown version" serves `bootstrap-guide-context.md`, the same text as the copy button (instruction + guide snapshot), so it works when uploaded to a chat.
-- `site/src/content/guide.ts`: guide text moved out of the sections into one module. The sections, the Markdown snapshot (`lib/guide-context.ts`, emitted at build by `vite-plugin-guide-context.ts`) and the prompt (`lib/claude-prompt.ts`) all read from it.
+- Hero button "Let AI guide you" (third, outline) opens a modal (design-system `Dialog`): a real excerpt of the prompt, "Copy the prompt" (the button says "Copied", a status line inside the dialog says where to paste), and "Download Markdown version". A one-line "Prefer a chat? Open the AI guide" link at `#claude-guide` opens the same dialog. The site opens no app and has no `claude://` link.
+- `bootstrap-guide-context.md` is the same text as the copy button (instruction + guide snapshot), emitted at build by `vite-plugin-guide-context.ts`.
+- `site/src/content/guide.ts`: guide text moved out of the sections into one module. The sections, the snapshot (`lib/guide-context.ts`) and the prompt (`lib/claude-prompt.ts`) all read from it.
 
 ### Changed
 - Onboarding site now uses design-system components (PageShell/Header/Body/Footer, Typography, Button, Icon, Tabs, Card, Badge, Container, Stack, Logo, NavItem); removed custom SkipToContent. (STU-1037)

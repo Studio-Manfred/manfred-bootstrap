@@ -111,3 +111,13 @@ export function buildClaudePrompt({ maxChars = MAX_PROMPT_CHARS }: { maxChars?: 
   }
   throw new Error(`Guide prompt does not fit in ${maxChars} characters`)
 }
+
+const EXCERPT_CHARS = 240
+
+/** The real start of the prompt, cut at a word, for the preview box. */
+export function buildPromptExcerpt(prompt: string, maxChars = EXCERPT_CHARS): string {
+  if (prompt.length <= maxChars) return prompt
+  const cut = prompt.slice(0, maxChars)
+  const lastSpace = cut.search(/\s\S*$/)
+  return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).trimEnd()}...`
+}

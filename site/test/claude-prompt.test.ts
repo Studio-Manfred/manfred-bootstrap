@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   MAX_PROMPT_CHARS,
   buildClaudePrompt,
+  buildPromptExcerpt,
 } from '../src/lib/claude-prompt'
 import { buildGuideContext } from '../src/lib/guide-context'
 import { PLUGINS_URL, SITE_URL } from '../src/content/guide'
@@ -98,5 +99,24 @@ describe('buildClaudePrompt', () => {
 
   test('throws if even the smallest context does not fit', () => {
     expect(() => buildClaudePrompt({ maxChars: 500 })).toThrow()
+  })
+})
+
+describe('buildPromptExcerpt', () => {
+  const prompt = buildClaudePrompt()
+  const excerpt = buildPromptExcerpt(prompt)
+
+  test('is the real start of the prompt, cut at a word, ending in an ellipsis', () => {
+    expect(excerpt.endsWith('...')).toBe(true)
+    expect(prompt.startsWith(excerpt.slice(0, -3))).toBe(true)
+    expect(excerpt.length).toBeLessThan(prompt.length)
+  })
+
+  test('stays short enough for a preview box', () => {
+    expect(excerpt.length).toBeLessThanOrEqual(260)
+  })
+
+  test('returns a short prompt unchanged', () => {
+    expect(buildPromptExcerpt('short text')).toBe('short text')
   })
 })
