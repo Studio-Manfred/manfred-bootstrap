@@ -18,27 +18,43 @@ describe('buildClaudePrompt', () => {
     expect(prompt).toContain(buildGuideContext())
   })
 
-  test('tells Claude to ask one question at a time', () => {
-    expect(prompt).toMatch(/Ställ bara en fråga åt gången/)
+  test('tells the chat to ask one question at a time', () => {
+    expect(prompt).toMatch(/one question at a time/i)
   })
 
-  test('tells the chat to be a friendly guide', () => {
-    expect(prompt).toMatch(/vänlig/)
-    expect(prompt).toMatch(/INSTRUKTION TILL AI-ASSISTENTEN/)
+  test('is written in English and tells the chat to be a friendly guide', () => {
+    expect(prompt).toMatch(/INSTRUCTIONS FOR THE AI ASSISTANT/)
+    expect(prompt).toMatch(/friendly/i)
+    expect(prompt).not.toMatch(/Ställ bara en fråga|Du är en vänlig/)
   })
 
   test('opens by explaining the purpose, then offers options with short descriptions, not an open question', () => {
-    expect(prompt).toMatch(/syftet med Manfred Bootstrap/)
-    expect(prompt).toMatch(/Förstå Bootstrap: /)
-    expect(prompt).toMatch(/Starta ett nytt projekt: /)
-    expect(prompt).toMatch(/Lägga till i ett befintligt repo: /)
-    expect(prompt).not.toMatch(/Vad vill du få hjälp med:/)
-    expect(prompt).not.toMatch(/Vad vill du göra\?/)
+    expect(prompt).toMatch(/purpose of Manfred Bootstrap/)
+    expect(prompt).toMatch(/Understand Bootstrap: /)
+    expect(prompt).toMatch(/Start a new project: /)
+    expect(prompt).toMatch(/Add it to an existing repo: /)
+    expect(prompt).not.toMatch(/What do you want to do\?/)
   })
 
-  test('asks for experience in concrete terms and for the kind of guidance wanted', () => {
-    expect(prompt).toMatch(/Hur van är du att sätta upp ett repo/)
-    expect(prompt).toMatch(/Hur vill personen bli guidad\?/)
+  test('asks for experience in concrete terms and always establishes goal and level', () => {
+    expect(prompt).toMatch(/How comfortable are you setting up a repo/)
+    expect(prompt).toMatch(/Always establish the goal and the experience level/)
+  })
+
+  test('offers numbered options that also work in a plain chat', () => {
+    expect(prompt).toMatch(/numbered/i)
+  })
+
+  test('warns about the three known errors in the guide, without changing commands', () => {
+    const section = prompt.slice(prompt.indexOf('KNOWN ISSUES'), prompt.indexOf('FORMAT'))
+    expect(section).toMatch(/--yes/)
+    expect(section).toMatch(/docs\/ways-of-working-overview\.md/)
+    expect(section).toMatch(/package\.json/)
+  })
+
+  test('requires confirmation before changes and does not point to a Slack channel at the end', () => {
+    expect(prompt).toMatch(/Ask the user to confirm before/)
+    expect(prompt).toMatch(/Do not end by pointing the user to a Slack channel/)
   })
 
   test('has no unreplaced placeholder', () => {

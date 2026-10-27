@@ -10,5 +10,5 @@ test('the build emits the same text the copy button copies, instruction included
   expect(emitted).toEqual([
     { type: 'asset', fileName: 'bootstrap-guide-context.md', source: buildClaudePrompt() },
   ])
-  expect(emitted[0].source).toContain('INSTRUKTION TILL AI-ASSISTENTEN')
+  expect(emitted[0].source).toContain('INSTRUCTIONS FOR THE AI ASSISTANT')
 })
