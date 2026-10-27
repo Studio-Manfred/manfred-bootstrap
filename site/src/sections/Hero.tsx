@@ -24,11 +24,11 @@ export default function Hero({ onOpenGuide }: HeroProps) {
             <Icon name="arrow-right" size="sm" />
           </a>
         </Button>
-        <Button asChild variant="outline" size="lg">
+        <Button asChild variant="outline" size="lg" className="border-[var(--color-border-brand)] text-[var(--color-text-brand)]">
           <a href="#existing">Add to an existing repo</a>
         </Button>
         {onOpenGuide && (
-          <Button type="button" variant="outline" size="lg" onClick={onOpenGuide} className="border-[var(--color-border-brand)] text-[var(--color-text-brand)]">
+          <Button type="button" variant="outline" size="lg" onClick={onOpenGuide}>
             <AiIcon />
             Let AI guide you
           </Button>

@@ -69,21 +69,56 @@ test('the dialog explains the idea, shows a real excerpt and offers copy and dow
   expect(within(dialog).getByRole('status')).toBeEmptyDOMElement()
 })
 
-test('copy copies the exact prompt, the button says Copied and the status is announced inside the dialog', async () => {
+test('copy copies the exact prompt and moves to the "Prompt copied!" state', async () => {
   const { user, dialog } = await openDialog()
   const writeText = vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue()
   await user.click(within(dialog).getByRole('button', { name: /copy the prompt/i }))
   expect(writeText).toHaveBeenCalledWith(buildClaudePrompt())
-  await waitFor(() => expect(within(dialog).getByRole('status')).toHaveTextContent(/paste it into any ai chat/i))
-  expect(within(dialog).getByRole('button', { name: /copied/i })).toBeInTheDocument()
-  expect(screen.getByRole('dialog')).toBeInTheDocument()
+  expect(await screen.findByRole('heading', { name: 'Prompt copied!' })).toBeInTheDocument()
+  expect(screen.getByRole('status')).toHaveTextContent(/cmd\+v or ctrl\+v/i)
+  expect(screen.queryByRole('button', { name: /copy the prompt/i })).toBeNull()
+  expect(screen.queryByRole('link', { name: /download markdown version/i })).toBeNull()
 })
 
-test('copy failure shows an understandable error inside the dialog', async () => {
+test('the copied state offers Claude, ChatGPT and Gemini as plain links without a prompt in the URL', async () => {
+  const { user, dialog } = await openDialog()
+  vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue()
+  await user.click(within(dialog).getByRole('button', { name: /copy the prompt/i }))
+  await screen.findByRole('heading', { name: 'Prompt copied!' })
+  const expected: Record<string, string> = {
+    claude: 'https://claude.ai/new',
+    chatgpt: 'https://chatgpt.com/',
+    gemini: 'https://gemini.google.com/app',
+  }
+  for (const [name, href] of Object.entries(expected)) {
+    const link = screen.getByRole('link', { name: new RegExp(`^${name}.*opens in a new tab`, 'i') })
+    expect(link).toHaveAttribute('href', href)
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+  }
+  expect(document.querySelector('a[href^="claude:"], a[href*="?q="]')).toBeNull()
+})
+
+test('Back returns to the first state and puts focus on the copy button', async () => {
+  const { user, dialog } = await openDialog()
+  vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue()
+  await user.click(within(dialog).getByRole('button', { name: /copy the prompt/i }))
+  await screen.findByRole('heading', { name: 'Prompt copied!' })
+  await user.click(screen.getByRole('button', { name: 'Back' }))
+  const copy = await screen.findByRole('button', { name: /copy the prompt/i })
+  expect(copy).toHaveFocus()
+  expect(screen.getByRole('link', { name: /download markdown version/i })).toBeInTheDocument()
+  expect(screen.queryByRole('link', { name: /opens in a new tab/i })).toBeNull()
+})
+
+test('copy failure stays in the first state: no "copied", no tool links, and an understandable error', async () => {
   const { user, dialog } = await openDialog()
   vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValue(new Error('denied'))
   await user.click(within(dialog).getByRole('button', { name: /copy the prompt/i }))
   await waitFor(() => expect(within(dialog).getByRole('status')).toHaveTextContent(/could not copy/i))
+  expect(screen.queryByRole('heading', { name: 'Prompt copied!' })).toBeNull()
+  expect(screen.queryByRole('link', { name: /opens in a new tab/i })).toBeNull()
+  expect(within(dialog).getByRole('link', { name: /download markdown version/i })).toBeInTheDocument()
 })
 
 test('Escape closes the dialog and returns focus to the hero button', async () => {
@@ -93,15 +128,26 @@ test('Escape closes the dialog and returns focus to the hero button', async () =
   expect(trigger).toHaveFocus()
 })
 
-test('the close button closes the dialog and reopening resets the status', async () => {
+test('the close button closes the dialog and reopening starts in the first state', async () => {
   const { user, dialog } = await openDialog()
   vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue()
   await user.click(within(dialog).getByRole('button', { name: /copy the prompt/i }))
-  await user.click(within(dialog).getByRole('button', { name: /close/i }))
+  await screen.findByRole('heading', { name: 'Prompt copied!' })
+  await user.click(screen.getByRole('button', { name: /close/i }))
   await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
   await user.click(screen.getByRole('button', { name: 'Let AI guide you' }))
   const again = await screen.findByRole('dialog', { name: /let ai guide you/i })
+  expect(within(again).getByRole('button', { name: /copy the prompt/i })).toBeInTheDocument()
   expect(within(again).getByRole('status')).toBeEmptyDOMElement()
+})
+
+test('the hero buttons use the agreed colours: existing repo blue outline, AI guide black outline', () => {
+  renderHome()
+  const existing = screen.getByRole('link', { name: /add to an existing repo/i })
+  const guide = screen.getByRole('button', { name: 'Let AI guide you' })
+  expect(existing.className).toMatch(/border-\[var\(--color-border-brand\)\]/)
+  expect(existing.className).toMatch(/text-\[var\(--color-text-brand\)\]/)
+  expect(guide.className).not.toMatch(/--color-border-brand|--color-text-brand/)
 })
 
 test('existing hero links and sections are unchanged', () => {

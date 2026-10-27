@@ -6,6 +6,10 @@ versioned like a product.
 
 ## [Unreleased]
 
+### Changed (STU-1190)
+- Hero: "Add to an existing repo" is a blue outline, "Let AI guide you" a black outline.
+- The "Let AI guide you" dialog shows a second state after a successful copy: "Prompt copied!", the paste hint (Cmd+V or Ctrl+V) and three links that open Claude, ChatGPT and Gemini in a new tab. The links are plain start pages with no prompt in the URL. A back chevron returns to the first state (copy and download). No desktop-app links.
+
 ### Added (STU-1188)
 - Hero button "Let AI guide you" (third, outline) opens a modal (design-system `Dialog`): a real excerpt of the prompt, "Copy the prompt" (the button says "Copied", a status line inside the dialog says where to paste), and "Download Markdown version". The button has a local AI icon (`AiIcon`, a stub for the design-system icon `sparkles`, STU-1189). The site opens no app and has no `claude://` link.
 - `bootstrap-guide-context.md` is the same text as the copy button (instruction + guide snapshot), emitted at build by `vite-plugin-guide-context.ts`.

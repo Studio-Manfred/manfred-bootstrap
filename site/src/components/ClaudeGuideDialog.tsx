@@ -14,37 +14,81 @@ import { AiIcon } from './AiIcon'
 import { GUIDE_CONTEXT_PATH } from '../content/guide'
 import { buildClaudePrompt, buildPromptExcerpt } from '../lib/claude-prompt'
 
-type Status = 'idle' | 'copied' | 'copy-failed'
+type View = 'copy' | 'copied'
 
-const STATUS_TEXT: Record<Exclude<Status, 'idle'>, string> = {
-  copied: 'Prompt copied. Paste it into any AI chat and send it.',
-  'copy-failed': 'Could not copy. Download the Markdown version and upload it to your chat instead.',
-}
+const COPY_FAILED_TEXT = 'Could not copy. Download the Markdown version and upload it to your chat instead.'
+const PASTE_HINT = 'Paste it into the chat with Cmd+V or Ctrl+V.'
 
-const COPIED_MS = 3000
+// Plain start pages. No prompt in the URL: the prompt is on the clipboard.
+const TOOLS = [
+  { name: 'Claude', href: 'https://claude.ai/new' },
+  { name: 'ChatGPT', href: 'https://chatgpt.com/' },
+  { name: 'Gemini', href: 'https://gemini.google.com/app' },
+]
 
 // Own component so its state resets each time the dialog closes and reopens.
 function GuideDialogBody() {
   const prompt = useMemo(() => buildClaudePrompt(), [])
   const excerpt = useMemo(() => buildPromptExcerpt(prompt), [prompt])
-  const [status, setStatus] = useState<Status>('idle')
-  const [copied, setCopied] = useState(false)
-  const timer = useRef<number | undefined>(undefined)
+  const [view, setView] = useState<View>('copy')
+  const [error, setError] = useState(false)
+  const copyRef = useRef<HTMLButtonElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const focusCopyOnReturn = useRef(false)
 
-  useEffect(() => () => window.clearTimeout(timer.current), [])
+  useEffect(() => {
+    if (view === 'copied') titleRef.current?.focus()
+    else if (focusCopyOnReturn.current) copyRef.current?.focus()
+  }, [view])
 
   async function handleCopy() {
-    window.clearTimeout(timer.current)
     try {
       if (!navigator.clipboard) throw new Error('Clipboard API unavailable')
       await navigator.clipboard.writeText(prompt)
-      setStatus('copied')
-      setCopied(true)
-      timer.current = window.setTimeout(() => setCopied(false), COPIED_MS)
+      setError(false)
+      setView('copied')
     } catch {
-      setStatus('copy-failed')
-      setCopied(false)
+      setError(true)
     }
+  }
+
+  function handleBack() {
+    focusCopyOnReturn.current = true
+    setView('copy')
+  }
+
+  if (view === 'copied') {
+    return (
+      <VStack gap={4}>
+        <div>
+          <Button type="button" variant="ghost" size="sm" aria-label="Back" onClick={handleBack} className="-ml-2 min-h-11 min-w-11">
+            <Icon name="chevron-left" size="sm" />
+          </Button>
+        </div>
+        <DialogHeader>
+          <DialogTitle ref={titleRef} tabIndex={-1}>
+            Prompt copied!
+          </DialogTitle>
+          <DialogDescription>Choose which service to open it in.</DialogDescription>
+        </DialogHeader>
+        <VStack gap={3} className="items-stretch">
+          {TOOLS.map((tool) => (
+            <Button key={tool.name} asChild variant="outline" size="lg" className="w-full">
+              <a href={tool.href} target="_blank" rel="noopener noreferrer">
+                {tool.name}
+                <span className="sr-only"> (opens in a new tab)</span>
+                <Icon name="external-link" size="sm" />
+              </a>
+            </Button>
+          ))}
+        </VStack>
+        <div role="status" aria-live="polite" aria-atomic="true">
+          <Typography variant="bodySmall" className="text-center text-[var(--color-text-secondary)]">
+            {PASTE_HINT}
+          </Typography>
+        </div>
+      </VStack>
+    )
   }
 
   return (
@@ -70,12 +114,12 @@ function GuideDialogBody() {
           {excerpt}
         </Typography>
       </div>
-      <Button type="button" variant="brand" size="lg" onClick={handleCopy} className="w-full">
-        {copied ? 'Copied' : 'Copy the prompt'}
-        <Icon name={copied ? 'check' : 'arrow-right'} size="sm" />
+      <Button ref={copyRef} type="button" variant="brand" size="lg" onClick={handleCopy} className="w-full">
+        Copy the prompt
+        <Icon name="arrow-right" size="sm" />
       </Button>
       <div role="status" aria-live="polite" aria-atomic="true" className="empty:hidden">
-        {status !== 'idle' && <Typography variant="bodySmall">{STATUS_TEXT[status]}</Typography>}
+        {error && <Typography variant="bodySmall">{COPY_FAILED_TEXT}</Typography>}
       </div>
       <Typography variant="bodySmall" className="text-center">
         <a
