@@ -75,6 +75,7 @@ test('every overlay.manifest.json path exists in starter/', () => {
 })
 
 import { buildGithubCmd, buildVercelCmds, buildLinearMutation, shouldProvision } from './bootstrap.mjs'
+import { missingVercelEnvTargets, buildVercelEnvAddCmds } from './bootstrap.mjs'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
@@ -306,4 +307,28 @@ test('every starter placeholder is substituted by the new-mode vars', () => {
     for (const hit of findLeftoverPlaceholders(out)) leftovers.push(`${rel}:${hit.line} ${hit.token}`)
   }
   assert.deepEqual(leftovers, [])
+})
+test('missingVercelEnvTargets lists every target when the var is absent', () => {
+  assert.deepEqual(missingVercelEnvTargets({ envs: [] }, 'GITHUB_TOKEN'),
+    ['production', 'preview', 'development'])
+  assert.deepEqual(missingVercelEnvTargets({}, 'GITHUB_TOKEN'),
+    ['production', 'preview', 'development'])
+})
+
+test('missingVercelEnvTargets subtracts targets that already have the var', () => {
+  const envs = { envs: [
+    { key: 'GITHUB_TOKEN', target: ['development'] },
+    { key: 'OTHER', target: ['production'] },
+    { key: 'GITHUB_TOKEN', target: ['preview'] },
+  ] }
+  assert.deepEqual(missingVercelEnvTargets(envs, 'GITHUB_TOKEN'), ['production'])
+  envs.envs.push({ key: 'GITHUB_TOKEN', target: ['production'] })
+  assert.deepEqual(missingVercelEnvTargets(envs, 'GITHUB_TOKEN'), [])
+})
+
+test('buildVercelEnvAddCmds adds the var once per missing target', () => {
+  assert.deepEqual(buildVercelEnvAddCmds('GITHUB_TOKEN', ['production', 'preview']), [
+    ['vercel', ['env', 'add', 'GITHUB_TOKEN', 'production']],
+    ['vercel', ['env', 'add', 'GITHUB_TOKEN', 'preview']],
+  ])
 })

@@ -79,6 +79,18 @@ export function buildVercelCmds(vars) {
   ]
 }
 
+export const VERCEL_ENV_TARGETS = ['production', 'preview', 'development']
+
+// envsJson is the parsed output of `vercel env ls --format json`.
+export function missingVercelEnvTargets(envsJson, name) {
+  const have = new Set((envsJson?.envs ?? []).filter((e) => e.key === name).flatMap((e) => e.target ?? []))
+  return VERCEL_ENV_TARGETS.filter((t) => !have.has(t))
+}
+
+export function buildVercelEnvAddCmds(name, targets) {
+  return targets.map((t) => ['vercel', ['env', 'add', name, t]])
+}
+
 export function buildLinearMutation(vars, teamId) {
   return {
     query: `mutation ProjectCreate($name: String!, $teamIds: [String!]!) {
@@ -160,6 +172,25 @@ async function createLinearProject(key, teamKey, vars, args) {
   }
 }
 
+// Vercel builds have no GitHub token, so installing the private design-system
+// package fails with 401 until GITHUB_TOKEN is set in every environment.
+async function ensureVercelGithubToken(args, askFn, targetDir) {
+  const ls = spawnSync('vercel', ['env', 'ls', '--format', 'json'], { cwd: targetDir, encoding: 'utf8' })
+  let missing
+  try { missing = missingVercelEnvTargets(JSON.parse(ls.stdout), 'GITHUB_TOKEN') }
+  catch { missing = VERCEL_ENV_TARGETS }
+  if (!missing.length) { console.log('Vercel: GITHUB_TOKEN is set for every environment.'); return }
+  const cmds = buildVercelEnvAddCmds('GITHUB_TOKEN', missing)
+  const ans = args.yes ? '' : await askFn(`Vercel: GITHUB_TOKEN is missing for ${missing.join(', ')}. Add it now with a PAT scoped to read:packages only? [y/N] `)
+  if (/^y(es)?$/i.test((ans || '').trim())) {
+    for (const [b, a] of cmds) run(b, a, { cwd: targetDir })
+    return
+  }
+  console.warn(`\n!! Vercel: GITHUB_TOKEN is missing for ${missing.join(', ')}. Every Vercel build will fail \`npm install\` with 401 until you run:`)
+  for (const [b, a] of cmds) console.warn(`   ${b} ${a.join(' ')}`)
+  console.warn('   (value: a PAT scoped to read:packages only)\n')
+}
+
 async function provision(name, args, askFn, dry, vars, targetDir) {
   if (!(await shouldProvision(name, args, askFn))) return
   try {
@@ -173,8 +204,9 @@ async function provision(name, args, askFn, dry, vars, targetDir) {
     } else if (name === 'vercel') {
       if (!hasTool('vercel')) { console.log('Vercel: CLI not found — run `vercel link` then `vercel git connect` manually.'); return }
       const cmds = buildVercelCmds(vars)
-      if (dry) { cmds.forEach(([b, a]) => console.log('DRY vercel:', b, a.join(' '))); return }
+      if (dry) { cmds.forEach(([b, a]) => console.log('DRY vercel:', b, a.join(' '))); console.log('DRY vercel: check GITHUB_TOKEN in', VERCEL_ENV_TARGETS.join(', ')); return }
       for (const [b, a] of cmds) run(b, a, { cwd: targetDir })
+      await ensureVercelGithubToken(args, askFn, targetDir)
     } else if (name === 'linear') {
       const key = process.env.LINEAR_API_KEY
       if (!key) { console.log(`Linear: LINEAR_API_KEY not set — create a project "${vars.PROJECT_NAME}" in Linear manually.`); return }
@@ -197,7 +229,7 @@ function printNextSteps(mode, vars, targetDir) {
   if (mode === 'new') step('Push to GitHub, set up Vercel, and create the Linear project if not auto-provisioned.')
   console.log('\n--- Design-system access (skipping these fails the first CI run and every Vercel build) ---')
   step('Grant CI read access to the private package (GitHub UI, no API): Studio-Manfred org -> Packages -> manfred-design-system -> Package settings -> Manage Actions access -> add this repo (read). Without it, `npm ci` in Actions fails with `403 permission_denied: read_package`.')
-  step('Give Vercel a token for the private registry: `vercel env add GITHUB_TOKEN production` (repeat for preview + development) with a PAT scoped to read:packages only. Without it, every Vercel build fails `npm install` with `401 Unauthorized`.')
+  step('Give Vercel a token for the private registry: `vercel env add GITHUB_TOKEN production` (repeat for preview + development) with a PAT scoped to read:packages only. Without it, every Vercel build fails `npm install` with `401 Unauthorized`. (`--vercel` provisioning checks this and offers to add it.)')
   console.log('\n--- Role-based agents ---')
   step('Eight named roles ship at `.claude/agents/<role>.md`, each bound to a specific Claude model (Fable / Opus / Sonnet / Haiku). Claude Code enforces the binding when you dispatch by `subagent_type`. See `knowledge/roles.md` and `AGENTS.md` for the router.')
   console.log('')

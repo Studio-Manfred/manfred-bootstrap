@@ -23,6 +23,7 @@ versioned like a product.
 
 ### Added
 - `bootstrap.mjs new` checks the stamped files for leftover `{{PLACEHOLDER}}` tokens, lists each as `file:line`, and exits 1. GitHub Actions `${{ }}` expressions are ignored. (STU-1198)
+- `--vercel` provisioning checks `GITHUB_TOKEN` in production, preview and development after `vercel link`. Interactive runs offer to run `vercel env add` for each missing environment. `--yes` runs print a loud warning with the exact commands. (STU-1201)
 - Starter ships a `CHANGELOG.md` with an `[Unreleased]` section, and overlay copies it. (STU-1197)
 - `install.sh` (also `scripts/install.sh`): curl-pipeable one-click installer that clones to a temp dir, runs `bootstrap.mjs`, and cleans up. Onboarding site gains an Examples section. (STU-1038)
 
