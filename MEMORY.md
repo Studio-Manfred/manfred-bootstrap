@@ -1,6 +1,6 @@
-# MEMORY — my-process
+# MEMORY — manfred-bootstrap
 
-Session log for the `my-process` template repo itself (meta — the starter ships its
+Session log for the `manfred-bootstrap` template repo itself (meta — the starter ships its
 own `starter/MEMORY.md` template). Newest first.
 
 ## 2026-10-05 — Onboarding site (STU-1035) landed on branch
@@ -132,7 +132,7 @@ STU-922 (bootstrap test hardening, due 2026-10-08), STU-923
 ## 2026-06-06 — Initial build · shipped
 
 - **Shipped:** Full template built and pushed to
-  <https://github.com/Studio-Manfred/my-process> (private, org-owned, marked as a
+  <https://github.com/Studio-Manfred/manfred-bootstrap> (private, org-owned, marked as a
   **template repository**). Built directly on `main`.
   - `docs/` — `ways-of-working.md` (16 sections), `ways-of-working-overview.md`
     (mirrors the deck spine), `superpowers-workflow.md`, `stack-and-conventions.md`,

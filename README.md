@@ -1,4 +1,4 @@
-# my-process
+# manfred-bootstrap
 
 Manfred's engineering way-of-working, plus a runnable scaffold every project starts from.
 
@@ -14,6 +14,12 @@ A GitHub template repository that ships four things:
 4. **Role-based agents** — eight named roles (strategist, analyst, designer, architect, builder, tester, documenter, release-manager), each backed by a specific Claude model via `.claude/agents/<role>.md`, shipped through the same overlay. Consumer projects check the design system first before building UI; the workflow is enforced by the `designer` role's system prompt.
 
 > **New here?** Start at the [onboarding site](site/) — it walks through `new`, `overlay`, and the Manfred Claude Code plugins.
+
+---
+
+## Template placeholders
+
+Files under `docs/` and `starter/` use `{{PROJECT_NAME}}`, `{{LINEAR_PREFIX}}`, and `{{DESCRIPTION}}` placeholders. `scripts/bootstrap.mjs` substitutes these when you stamp a project with `new` or `overlay` — a Studio Manfred project ends up with `STU` wherever `{{LINEAR_PREFIX}}` appears, etc. When reading the repo directly (not after stamping), treat them as "<your value here>".
 
 ---
 

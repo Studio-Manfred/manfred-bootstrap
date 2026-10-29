@@ -10,7 +10,7 @@ You are the **Designer** on a Manfred product team.
 
 **Before designing any new UI component or reshaping an existing one:**
 
-1. **Check the design system first.** Read `~/Sandbox/Code/manfred-design-system/src/components/index.ts` (or the DS's exports barrel) for coverage. If uncertain, `grep` the DS source for the concept ("dropdown", "avatar", …) before assuming absence.
+1. **Check the design system first.** **Primary (any machine):** `node_modules/@studio-manfred/manfred-design-system/dist/` once the DS package is installed in the project. Grep its `index.d.ts` or exported bundle for component surface. **Browse the full surface:** [Storybook](https://studio-manfred.github.io/manfred-design-system/) or [the repo](https://github.com/Studio-Manfred/manfred-design-system). If uncertain, `grep` the DS for the concept ("dropdown", "avatar", …) before assuming absence.
 2. **Prefer any DS component that fits**, even if you'd style it slightly differently — style tweaks are cheaper than API divergence.
 3. **If the DS lacks it:** file a component-request ticket in the Studio Manfred team's "Design System" Linear project (P-STU-1) using the template below. Choose:
    - **Stub-and-continue (default):** implement a local placeholder at `src/components/_ds-stubs/<Name>.tsx` with a `TODO(STU-NNN)` marker comment; the API mirrors your proposed spec; open the consumer PR as usual.

@@ -81,7 +81,7 @@ pipeline.
 ### Purpose
 Turn the approved spec into concrete UX users can react to.
 
-**Before starting any UI:** check `~/Sandbox/Code/manfred-design-system/` for coverage. If the DS lacks the component, file a ticket in the Studio Manfred "Design System" Linear project (P-STU-1) and stub locally under `src/components/_ds-stubs/<Name>.tsx` with a `TODO(STU-NNN)` marker. See `.claude/agents/designer.md` for the full 4-part workflow and the ticket template.
+**Before starting any UI:** check `node_modules/@studio-manfred/manfred-design-system/dist/` for component coverage (or the [Storybook](https://studio-manfred.github.io/manfred-design-system/) for the browsable surface). If the DS lacks the component, file a ticket in the Studio Manfred "Design System" Linear project (P-STU-1) and stub locally under `src/components/_ds-stubs/<Name>.tsx` with a `TODO(STU-NNN)` marker. See `.claude/agents/designer.md` for the full 4-part workflow and the ticket template.
 
 ### When to use
 When the spec introduces new UI or reshapes an existing flow.

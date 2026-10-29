@@ -1,61 +1,27 @@
-# Handoff — manual steps for a human
+# Handoff — manual setup receipts
 
-These are the steps the bootstrap agent cannot perform. Work through them in order after the repo is in its final state.
-
----
-
-## 1. Create the GitHub remote and push
-
-No remote exists yet. Create it and push `main`:
-
-```bash
-gh repo create studio-manfred/my-process --private --source=. --remote=origin --push
-```
-
-Or create the repo in GitHub UI first, then:
-
-```bash
-git remote add origin git@github.com:studio-manfred/my-process.git
-git push -u origin main
-```
+Everything listed here is already done. Kept as a receipt so new maintainers can see the sequence that led to the live state. Open an issue if any step regresses.
 
 ---
 
-## 2. Mark the repo as a Template repository
+## 1. GitHub remote + initial push — ✓ Done
 
-In the GitHub repository → **Settings** → **General**, tick **Template repository**. This is what makes the "Use this template" button appear for consumers.
-
----
-
-## 3. Confirm GitHub Packages access for CI
-
-The starter CI workflow (`starter/.github/workflows/ci.yml`) declares `permissions: packages: read` and passes `secrets.GITHUB_TOKEN` to `npm ci`. Verify that:
-
-- The `@studio-manfred` org exposes its packages with read access to all org members (or to this repo specifically).
-- A first CI run succeeds after the remote push.
-
-If CI fails on `npm ci` with a 401, check that the package scope is configured in the org's Packages settings.
+Repo is `Studio-Manfred/manfred-bootstrap` (public since 2026-10-05, needed for the `install.sh` curl one-liner to resolve).
 
 ---
 
-## 4. Decide the `AXE_ENFORCE` policy
+## 2. Mark as a Template repository — TODO (verify in Settings → General → Template repository)
 
-The E2E a11y suite runs axe-core on every page. By default it logs violations but does not fail the build (`AXE_ENFORCE` is unset / warn-only).
-
-When the team is ready to block merges on a11y regressions:
-
-1. Set `AXE_ENFORCE=1` as a repository secret or environment variable in CI.
-2. Update the relevant note in [docs/ways-of-working-overview.md](ways-of-working-overview.md) to reflect the new policy.
+Cannot be verified from the repo contents alone. The controller should check that **Template repository** is ticked; it is what makes the "Use this template" button appear for consumers.
 
 ---
 
-## 5. Ensure contributors have a `read:packages` token locally
+## 3. GitHub Packages access for CI — ✓ Done
 
-Anyone who runs `npm install` inside a generated project needs a GitHub token with `read:packages` scope. The fastest path:
+Marketplace package `@studio-manfred/manfred-design-system` is readable by `manfred-bootstrap`'s Actions runs (granted 2026-10-05 via org Packages → Manage Actions access). First successful CI run is in Actions history.
 
-```bash
-gh auth token   # prints the token for the authenticated user
-export GITHUB_TOKEN=$(gh auth token)
-```
+---
 
-Add the export to `~/.zshrc` (or equivalent) so it is available in every shell. The `.npmrc` in every bootstrapped project already reads `GITHUB_TOKEN` from the environment.
+## 4. Vercel project — ✓ Done
+
+`manfred-bootstrap-site` on Vercel, Root Directory = `site`, `GITHUB_TOKEN` set for production + preview, Git integration auto-deploys on push to main. Live at https://manfred-bootstrap-site.vercel.app.
