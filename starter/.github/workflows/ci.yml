@@ -48,7 +48,9 @@ jobs:
     needs: verify
     timeout-minutes: 15
     env:
-      AXE_ENFORCE: "0"
+      # axe violations fail the build. A repo with existing a11y debt can opt out with "0"
+      # while it burns the debt down; flip it back once the sweep is clean.
+      AXE_ENFORCE: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

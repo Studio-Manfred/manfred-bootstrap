@@ -4,6 +4,8 @@ coverage/
 playwright-report/
 test-results/
 *.local
+.vercel
+.superpowers/
 .env
 .env.*
 !.env.example

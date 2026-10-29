@@ -45,3 +45,16 @@ emoji or an off-system icon library. Ship a local SVG drawn to the DS Icon conve
   `manfred-design-system` (`iconPaths.ts`).
 
 Swap to the DS icon and delete the local SVG once the upstream icon ships.
+
+---
+
+## Testing: userEvent + Vitest fake timers hang without a `jest` shim
+
+- **Symptom:** every `await user.click(...)` times out (5 s) when `vi.useFakeTimers()` is on,
+  even for a plain `<button>`.
+- **Cause:** `@testing-library/dom`'s `asyncWrapper` drains with a real `setTimeout(0)` and only
+  advances fake timers through a global `jest`; under Vitest that global is missing, so the
+  drain never resolves.
+- **Fix:** `test/setup.ts` defines `globalThis.jest = { advanceTimersByTime }` delegating to
+  `vi.advanceTimersByTime`. Keep it; create `userEvent.setup({ advanceTimers: vi.advanceTimersByTime })`
+  in tests that use fake timers.

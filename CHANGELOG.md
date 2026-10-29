@@ -17,12 +17,19 @@ versioned like a product.
 
 ### Changed
 - Onboarding site now uses design-system components (PageShell/Header/Body/Footer, Typography, Button, Icon, Tabs, Card, Badge, Container, Stack, Logo, NavItem); removed custom SkipToContent. (STU-1037)
+- Starter pins `@studio-manfred/manfred-design-system` at `^0.40.0` (was `^0.22.0`, which on a 0.x package never leaves 0.22.x). The starter AGENTS.md says to bump the range for each DS minor. (STU-1197)
+- Starter CI runs the axe sweep with `AXE_ENFORCE: "1"` by default. A repo with existing a11y debt opts out with `"0"`. (STU-1197)
 
 ### Added
+- Starter ships a `CHANGELOG.md` with an `[Unreleased]` section, and overlay copies it. (STU-1197)
 - `install.sh` (also `scripts/install.sh`): curl-pipeable one-click installer that clones to a temp dir, runs `bootstrap.mjs`, and cleans up. Onboarding site gains an Examples section. (STU-1038)
 
 ### Fixed
 - `bootstrap.mjs` now runs when invoked via a symlinked path (macOS `/var` -> `/private/var`).
+- Starter `index.html` title is `{{PROJECT_NAME}}`, not "Manfred Starter". (STU-1197)
+- Starter `.gitignore` covers `.vercel` and `.superpowers/`; `.env.example` stays tracked. (STU-1197)
+- Starter AGENTS.md points learnings to `Studio-Manfred/manfred-bootstrap` → `docs/knowledge/`, not `my-process/`. (STU-1197)
+- Starter `test/setup.ts` has the `globalThis.jest` fake-timer shim, so `userEvent` no longer hangs under `vi.useFakeTimers()`. The pattern is in `knowledge/ui-patterns.md`. (STU-1197)
 
 ### Added (earlier)
 - Onboarding site at `/site/` — Vite + React + TS SPA with home + `/plugins` routes. See `docs/superpowers/specs/2026-10-04-onboarding-site-design.md`. (STU-1035)
