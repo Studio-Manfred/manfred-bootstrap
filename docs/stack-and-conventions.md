@@ -69,7 +69,7 @@ The design system is a private GitHub Packages package. It requires a GitHub tok
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-The `GITHUB_TOKEN` variable is resolved at install time from the environment. For local development, set it in your shell profile or a `.env` file (never commit the token). For CI, add it as a repository secret and pass it in the `env:` block of your install step.
+The `GITHUB_TOKEN` variable is resolved at install time from the environment. For local development, set it in your shell profile or a `.env` file (never commit the token). For CI, the workflow passes the built-in `secrets.GITHUB_TOKEN` in the `env:` block of the install step. No repository secret is needed, but the package must grant the repo access first (checklist below).
 
 ### One-time local token setup
 
