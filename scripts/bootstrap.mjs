@@ -40,6 +40,16 @@ export function swapPlaceholders(text, vars) {
   return text.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m))
 }
 
+// `{{TOKEN}}` left behind after swapPlaceholders. The lookbehind skips GitHub
+// Actions expressions (`${{ secrets.X }}`, `${{ENV}}`), which are not ours.
+export function findLeftoverPlaceholders(text) {
+  const hits = []
+  text.split('\n').forEach((line, i) => {
+    for (const m of line.matchAll(/(?<!\$)\{\{\w+\}\}/g)) hits.push({ line: i + 1, token: m[0] })
+  })
+  return hits
+}
+
 export function resolveFileList(mode, manifest, walkFn) {
   if (mode === 'overlay') return [...manifest.files]
   if (mode === 'new') return walkFn()
@@ -244,14 +254,22 @@ async function main() {
       console.log('skip :', plan.skip.join(', ') || '(none)')
       console.log('package.json:', plan.mergeHint.length ? 'merge hint (never overwritten)' : '(n/a)')
     } else {
+      const leftovers = []
       for (const rel of plan.write) {
         const raw = readFileSync(join(STARTER, rel))
         const destAbs = join(targetDir, rel)
         mkdirSync(dirname(destAbs), { recursive: true })
-        if (BINARY_RE.test(rel)) writeFileSync(destAbs, raw)
-        else writeFileSync(destAbs, swapPlaceholders(raw.toString('utf8'), vars))
+        if (BINARY_RE.test(rel)) { writeFileSync(destAbs, raw); continue }
+        const text = swapPlaceholders(raw.toString('utf8'), vars)
+        writeFileSync(destAbs, text)
+        for (const hit of findLeftoverPlaceholders(text)) leftovers.push(`${rel}:${hit.line} ${hit.token}`)
       }
       console.log(`Wrote ${plan.write.length} files to ${targetDir}`)
+      if (leftovers.length) {
+        console.error(`\nUnsubstituted placeholders (${leftovers.length}) — fix these by hand:`)
+        for (const l of leftovers) console.error(`  ${l}`)
+        process.exitCode = 1
+      }
       if (plan.skip.length) console.log(`Skipped existing: ${plan.skip.join(', ')}`)
     }
 

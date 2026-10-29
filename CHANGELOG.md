@@ -21,6 +21,7 @@ versioned like a product.
 - Starter CI runs the axe sweep with `AXE_ENFORCE: "1"` by default. A repo with existing a11y debt opts out with `"0"`. (STU-1197)
 
 ### Added
+- `bootstrap.mjs new` checks the stamped files for leftover `{{PLACEHOLDER}}` tokens, lists each as `file:line`, and exits 1. GitHub Actions `${{ }}` expressions are ignored. (STU-1198)
 - Starter ships a `CHANGELOG.md` with an `[Unreleased]` section, and overlay copies it. (STU-1197)
 - `install.sh` (also `scripts/install.sh`): curl-pipeable one-click installer that clones to a temp dir, runs `bootstrap.mjs`, and cleans up. Onboarding site gains an Examples section. (STU-1038)
 

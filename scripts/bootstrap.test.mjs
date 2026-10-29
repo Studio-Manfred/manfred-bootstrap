@@ -4,6 +4,7 @@ import { parseArgs } from './bootstrap.mjs'
 import { swapPlaceholders } from './bootstrap.mjs'
 import { resolveFileList } from './bootstrap.mjs'
 import { planCopy } from './bootstrap.mjs'
+import { findLeftoverPlaceholders, walkStarter } from './bootstrap.mjs'
 import { readFileSync, existsSync } from 'node:fs'
 
 test('parseArgs reads mode and flags', () => {
@@ -275,4 +276,34 @@ test('release-manager.md prompts the DS-stub pickup step', () => {
     'release-manager.md missing the npm-update trigger for the pickup step')
   assert.match(body, /_ds-stubs\//,
     'release-manager.md missing the stub-directory naming (spec §6.3) — pickup step must name the exact dir it grep-scans')
+})
+
+test('findLeftoverPlaceholders flags unsubstituted {{TOKENS}} with line numbers', () => {
+  const text = 'name: {{PROJECT_NAME}}\nok\nprefix {{LINEAR_PREFIX}} and {{DESCRIPTION}}'
+  assert.deepEqual(findLeftoverPlaceholders(text), [
+    { line: 1, token: '{{PROJECT_NAME}}' },
+    { line: 3, token: '{{LINEAR_PREFIX}}' },
+    { line: 3, token: '{{DESCRIPTION}}' },
+  ])
+})
+
+test('findLeftoverPlaceholders ignores GitHub Actions ${{ }} expressions', () => {
+  const yml = [
+    'token: ${{ secrets.GITHUB_TOKEN }}',
+    'ref: ${{github.ref}}',
+    'env: ${{ENV_NAME}}',
+    'enforce: ${{ env.AXE_ENFORCE }}',
+  ].join('\n')
+  assert.deepEqual(findLeftoverPlaceholders(yml), [])
+})
+
+test('every starter placeholder is substituted by the new-mode vars', () => {
+  const vars = { PROJECT_NAME: 'acme', LINEAR_PREFIX: 'ACM', DESCRIPTION: 'Acme app' }
+  const leftovers = []
+  for (const rel of walkStarter()) {
+    if (/\.(png|jpg|jpeg|gif|webp|ico|woff2?|ttf|otf|eot|pdf|zip)$/i.test(rel)) continue
+    const out = swapPlaceholders(readFileSync(new URL(`../starter/${rel}`, import.meta.url), 'utf8'), vars)
+    for (const hit of findLeftoverPlaceholders(out)) leftovers.push(`${rel}:${hit.line} ${hit.token}`)
+  }
+  assert.deepEqual(leftovers, [])
 })
