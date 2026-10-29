@@ -16,6 +16,7 @@ versioned like a product.
 - `site/src/content/guide.ts`: guide text moved out of the sections into one module. The sections, the snapshot (`lib/guide-context.ts`) and the prompt (`lib/claude-prompt.ts`) all read from it.
 
 ### Changed
+- Starter dev dependencies upgraded so a fresh install audits clean. 13 advisories (2 critical) were all in dev tooling; `npm audit --omit=dev` was already 0. `npm audit fix` cleared 9 (vite, postcss, browserslist and others). `vitest` and `@vitest/coverage-v8` move from `^3.2.6` to `^4.1.12` for the other 4 (tinypool RCE, @vitest/mocker path traversal). Starter CI gains an `npm audit --omit=dev --audit-level=high` step. (STU-1200)
 - Onboarding site now uses design-system components (PageShell/Header/Body/Footer, Typography, Button, Icon, Tabs, Card, Badge, Container, Stack, Logo, NavItem); removed custom SkipToContent. (STU-1037)
 - Starter pins `@studio-manfred/manfred-design-system` at `^0.40.0` (was `^0.22.0`, which on a 0.x package never leaves 0.22.x). The starter AGENTS.md says to bump the range for each DS minor. (STU-1197)
 - Starter CI runs the axe sweep with `AXE_ENFORCE: "1"` by default. A repo with existing a11y debt opts out with `"0"`. (STU-1197)
