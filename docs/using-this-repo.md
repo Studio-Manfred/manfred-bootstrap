@@ -123,7 +123,7 @@ export GITHUB_TOKEN=ghp_your_token_here
 
 Then run `npm install`. Add the export to your `~/.zshrc` or `~/.bashrc` to avoid repeating it.
 
-For CI, add `GITHUB_TOKEN` as a repository secret. The default `GITHUB_TOKEN` provided by Actions has `read:packages` permission for packages in the same organisation — no extra secret needed in most cases.
+For CI, no extra secret is needed: the starter workflow passes the built-in `secrets.GITHUB_TOKEN` to `npm ci`. But that token **returns `403 permission_denied: read_package` until the design-system package grants your repo access**. That grant is a one-time UI step per repo. Vercel needs its own token too. See [New-repo access checklist (CI + Vercel)](stack-and-conventions.md#new-repo-access-checklist-ci--vercel).
 
 ---
 

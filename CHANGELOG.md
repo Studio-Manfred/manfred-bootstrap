@@ -25,6 +25,7 @@ versioned like a product.
 - `install.sh` (also `scripts/install.sh`): curl-pipeable one-click installer that clones to a temp dir, runs `bootstrap.mjs`, and cleans up. Onboarding site gains an Examples section. (STU-1038)
 
 ### Fixed
+- Docs no longer say the built-in Actions `GITHUB_TOKEN` reads the design system "in most cases". `using-this-repo.md` and `stack-and-conventions.md` now say it returns 403 until the package grants the repo access, and link the one-time grant step. (STU-1199)
 - `bootstrap.mjs` now runs when invoked via a symlinked path (macOS `/var` -> `/private/var`).
 - Starter `index.html` title is `{{PROJECT_NAME}}`, not "Manfred Starter". (STU-1197)
 - Starter `.gitignore` covers `.vercel` and `.superpowers/`; `.env.example` stays tracked. (STU-1197)
