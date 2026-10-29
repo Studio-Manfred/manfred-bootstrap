@@ -11,6 +11,9 @@ React 19 + Vite + Tailwind v4 + shadcn/Radix + `@studio-manfred/manfred-design-s
 Vitest + Testing Library (unit/component), Playwright + axe-core (E2E + a11y), ESLint
 flat config with `jsx-a11y`. Hosted on Vercel.
 
+The design system is 0.x, so `^0.40.0` only takes 0.40.x patches, never 0.41. Bump the range
+by hand for each DS minor you want (see manfred-bootstrap `docs/knowledge/gotchas.md`).
+
 ## Commands
 | Command | What it does |
 | --- | --- |
@@ -101,5 +104,5 @@ When in doubt, surface it and wait.
 ## Knowledge & memory
 - At session close, append a dated entry to `MEMORY.md` (what shipped, decisions, next pickup).
 - Log errors to `knowledge/ERRORS.md`; graduate recurring, cross-project truths **up** to
-  the team base at `my-process/docs/knowledge/`.
+  the team base at `Studio-Manfred/manfred-bootstrap` → `docs/knowledge/`.
 - Review `knowledge/INDEX.md` at session start.

@@ -190,8 +190,20 @@ test('manifest lists every role agent file and knowledge/roles.md', () => {
   }
   assert.ok(manifest.files.includes('knowledge/roles.md'),
     'manifest missing knowledge/roles.md')
-  assert.equal(manifest.files.length, 25,
-    `manifest expected 25 files, got ${manifest.files.length}`)
+  assert.equal(manifest.files.length, 26,
+    `manifest expected 26 files, got ${manifest.files.length}`)
+})
+
+test('starter ships a Keep a Changelog CHANGELOG.md and overlay copies it', () => {
+  const manifest = JSON.parse(readFileSync(new URL('../overlay.manifest.json', import.meta.url)))
+  assert.ok(manifest.files.includes('CHANGELOG.md'), 'manifest missing CHANGELOG.md')
+  const changelog = readFileSync(new URL('../starter/CHANGELOG.md', import.meta.url), 'utf8')
+  assert.match(changelog, /^## \[Unreleased\]$/m)
+})
+
+test('starter index.html title is the PROJECT_NAME placeholder', () => {
+  const html = readFileSync(new URL('../starter/index.html', import.meta.url), 'utf8')
+  assert.match(html, /<title>\{\{PROJECT_NAME\}\}<\/title>/)
 })
 
 test('planCopy(overlay) skips a pre-existing agent file by default', () => {

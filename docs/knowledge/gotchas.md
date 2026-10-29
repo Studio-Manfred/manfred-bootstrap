@@ -16,7 +16,7 @@ from a per-project `knowledge/ERRORS.md` after appearing in at least two repos.
 - `>=0.22.0 <1.0.0` — permissive but drops semver's implicit "0-major isn't stable" signal
 - **Best practice:** keep the `^0.x.y` pin AND bump explicitly per DS release. The `release-manager` role's stub-pickup step (STU-977) is the natural moment to do it — you're already touching the dep to unblock a stub swap.
 
-**Sightings:** STU-980 (whiteboard) needed `^0.22.0` → `^0.37.1` to pick up ColorPicker in DS 0.37.1. Graduate on the next sighting.
+**Sightings:** STU-980 (whiteboard) needed `^0.22.0` → `^0.37.1` to pick up ColorPicker in DS 0.37.1. The starter itself shipped `^0.22.0` while latest was 0.40.0 (Pomodoro test, 2026-10-29); now `^0.40.0` (STU-1197).
 
 ---
 
