@@ -31,6 +31,12 @@ jobs:
         run: npm ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Runtime dependencies only: dev-tool advisories (vitest, vite) don't ship to users,
+      # so they are fixed in the starter rather than gating every PR.
+      - name: Audit runtime dependencies
+        run: npm audit --omit=dev --audit-level=high
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Lint
         run: npm run lint
       - name: Typecheck
